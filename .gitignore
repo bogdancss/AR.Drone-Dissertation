@@ -14,3 +14,4 @@ obj
 
 
 *.exe
+bin/vs2012/test.exe
