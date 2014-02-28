@@ -46,10 +46,25 @@
     <ClCompile Include="..\..\src\ardrone\version.cpp">
       <Filter>Source Files\ardrone</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\patterndetector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\pattern.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\ardrone\ardrone.h">
       <Filter>Header Files\ardrone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\patterndetector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\cameraparams.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pattern.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

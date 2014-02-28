@@ -111,9 +111,14 @@
     <ClCompile Include="..\..\src\ardrone\version.cpp" />
     <ClCompile Include="..\..\src\ardrone\video.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\pattern.cpp" />
+    <ClCompile Include="..\..\src\patterndetector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\ardrone\ardrone.h" />
+    <ClInclude Include="..\..\src\cameraparams.h" />
+    <ClInclude Include="..\..\src\pattern.h" />
+    <ClInclude Include="..\..\src\patterndetector.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\src\resource\resource.rc" />
