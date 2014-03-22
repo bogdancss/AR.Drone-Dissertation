@@ -16,6 +16,7 @@ typedef std::vector <std::vector<int>> colorsMatrix;
 // AR.Drone class
 ARDrone ardrone;
 
+static void Stop();
 static int loadPattern(const char*, std::vector<cv::Mat>&, int&);
 static void DoIfSees(int patterID);
 
@@ -42,7 +43,7 @@ std::vector<cv::Mat> patternLibrary;
 std::vector<Pattern> detectedPattern;
 
 bool quitProgram;
-
+CvCapture* webcamCapture;
 
 
 

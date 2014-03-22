@@ -119,7 +119,8 @@ int main(int argc, char **argv)
 
 	PatternDetector myDetector(fixed_thresh, adapt_thresh, adapt_block_size, confidenceThreshold, norm_pattern_size, mode);
 
-	CvCapture* capture = cvCaptureFromCAM(0);
+	// capture webcam feed
+	webcamCapture = cvCaptureFromCAM(0);
 
 #if (SAVE_VIDEO)
 	CvVideoWriter *video_writer = cvCreateVideoWriter("output.avi", -1, 25, cvSize(640, 480));
@@ -130,15 +131,14 @@ int main(int argc, char **argv)
 	while (1){ //modify it for longer/shorter videos
 
 		// check to terminate program
-		if (quitProgram) break;
+		if (quitProgram) {
+			Stop();
+			break;
+		}
 
-		//mycapture >> imgMat; 
-		//IplImage* img = cvQueryFrame(capture);
+		//IplImage* img = cvQueryFrame(webcamCapture);
 
-		// Update
-		if (!ardrone.update()) break;
-
-		// Get an image
+		// Get drone image
 		IplImage *img = ardrone.getImage();
 
 		Mat imgMat = Mat(img);
@@ -188,11 +188,7 @@ int main(int argc, char **argv)
 
 
 
-	cvReleaseCapture(&capture);
-
-	// See you
-	ardrone.close();
-
+	Stop();
 	return 0;
 }
 
@@ -411,4 +407,10 @@ void KeepGoodAltitude() {
 
 bool IsWithinBounds() {
 	return true;
+}
+
+void Stop() {
+	cvReleaseCapture(&webcamCapture);
+	// See you
+	ardrone.close();
 }
