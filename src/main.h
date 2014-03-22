@@ -31,8 +31,8 @@ static void LooseAltitude();
 
 static void KeyControlls();
 
-bool TooLow();
-bool TooHigh();
+bool IsTooLow();
+bool IsTooHigh();
 static void KeepGoodAltitude();
 
 

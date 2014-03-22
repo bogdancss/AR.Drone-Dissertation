@@ -165,8 +165,7 @@ int main(int argc, char **argv)
 
 
 		KeyControlls();
-
-
+		KeepGoodAltitude();
 
 
 
@@ -288,10 +287,10 @@ void KeyControlls() {
 	// Movement
 	// up arrow
 	// gain altitude
-	if (key == 0x260000) GainAltitude();
+	if (key == 0x260000 && !IsTooHigh()) GainAltitude();
 	// down arrow
 	// loose altitude
-	if (key == 0x280000) LooseAltitude();
+	if (key == 0x280000 && !IsTooLow()) LooseAltitude();
 	// left arrow
 	// roll left
 	if (key == 0x250000) RollLeft();
@@ -313,9 +312,9 @@ void KeyControlls() {
 	// yaw clockwise
 	if (key == 'e')      YawClockwise();
 	// gain altitude
-	if (key == 'r')      GainAltitude();
+	if (key == 'r' && !IsTooHigh())      GainAltitude();
 	// loose altitude
-	if (key == 'f')      LooseAltitude();
+	if (key == 'f' && !IsTooLow())      LooseAltitude();
 }
 
 void DoIfSees(int patterID) {
@@ -391,14 +390,14 @@ void DoIfSees(int patterID) {
 	}
 }
 
-bool TooLow() {
+bool IsTooLow() {
 	double altitude = ardrone.getAltitude();
 
 	if (altitude < 0.5) return true;
 	else return false;
 }
 
-bool TooHight() {
+bool IsTooHigh() {
 	double altitude = ardrone.getAltitude();
 
 	if (altitude > 1.5) return true;
@@ -406,13 +405,9 @@ bool TooHight() {
 }
 
 void KeepGoodAltitude() {
-	if (TooHigh) {
-		// lower the drone
+	// lower the drone
+	if (IsTooHigh) LooseAltitude();
 
-	}
-
-	if (TooLow) {
-		// raise the drone
-
-	}
+	// raise the drone
+	if (IsTooLow) GainAltitude();
 }
