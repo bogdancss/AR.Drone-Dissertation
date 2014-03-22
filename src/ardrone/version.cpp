@@ -34,7 +34,7 @@ int ARDrone::getVersionInfo(void)
 
     // Open the IP address and port
     if (!socket1.open(ip, ARDRONE_FTP_PORT)) {
-        CVDRONE_ERROR("TCPSocket::open(port=%d) failed. (%s, %d)\n", ARDRONE_FTP_PORT, __FILE__, __LINE__);
+        //CVDRONE_ERROR("TCPSocket::open(port=%d) failed. (%s, %d)\n", ARDRONE_FTP_PORT, __FILE__, __LINE__);
         return 0;
     }
 

@@ -43,6 +43,7 @@ std::vector<cv::Mat> patternLibrary;
 std::vector<Pattern> detectedPattern;
 
 bool quitProgram;
+bool isDroneConnected;
 CvCapture* webcamCapture;
 
 

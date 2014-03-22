@@ -100,6 +100,19 @@ int ARDrone::open(const char *ardrone_addr)
     if (!getVersionInfo()) return 0;
     printf("AR.Drone Ver. %d.%d.%d\n", version.major, version.minor, version.revision);
 
+	//// getVersionInfo() takes too long before realising the drone is not connected
+	//// it call tcp open, which makes a socket and tries to connect to it
+	//// using the connect method, which has too big of a timeout.
+	//// making a smaller, 5 sec timeout before checking the verison to see if drone connected.
+	//// if not, return 0
+	//if (!version.major) {
+	//	// create timeout and wait 5 sec
+	//	printf("Waiting for drone to connect...\n");
+	//	msleep(5000);
+	//	// check again
+	//	if (!version.major) return 0;
+	//}
+
     // Initialize AT command
     if (!initCommand()) return 0;
 

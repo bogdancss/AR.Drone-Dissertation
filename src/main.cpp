@@ -22,15 +22,16 @@ char* filename9 = "..\\..\\src\\resource\\9.png";//id=9
 // --------------------------------------------------------------------------
 int main(int argc, char **argv)
 {
+
 	// Initialize
 	if (!ardrone.open()) {
-		printf("Failed to initialize.\n");
-		return -1;
-	}
+		printf("Drone failed to connect.\n");
+		isDroneConnected = false;
+		//return -1;
+	} else isDroneConnected = true;
+
 
 	quitProgram = false;
-
-
 	int patternCount = 0;
 
 	/*create patterns' library using rotated versions of patterns
@@ -136,10 +137,18 @@ int main(int argc, char **argv)
 			break;
 		}
 
-		//IplImage* img = cvQueryFrame(webcamCapture);
+		IplImage *img;
 
-		// Get drone image
-		IplImage *img = ardrone.getImage();
+		if (isDroneConnected) {
+			// Get drone image
+			printf("Initialising drone\n");
+			img = ardrone.getImage();
+		} else {
+			// Get webcam image
+			printf("Initialising webcam\n");
+			img = cvQueryFrame(webcamCapture);
+		}
+
 
 		Mat imgMat = Mat(img);
 		double tic = (double)cvGetTickCount();
