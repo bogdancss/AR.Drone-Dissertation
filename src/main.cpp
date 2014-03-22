@@ -287,34 +287,31 @@ void KeyControlls() {
 	// Movement
 	// up arrow
 	// gain altitude
-	if (key == 0x260000 && !IsTooHigh()) GainAltitude();
+	if (key == 0x260000 || key == 'r' && !IsTooHigh()) GainAltitude();
 	// down arrow
 	// loose altitude
-	if (key == 0x280000 && !IsTooLow()) LooseAltitude();
-	// left arrow
-	// roll left
-	if (key == 0x250000) RollLeft();
-	// right arrow
-	// roll right
-	if (key == 0x270000) RollRight();
+	if (key == 0x280000 || key == 'f' && !IsTooLow()) LooseAltitude();
 
-
-	// pitch forwards
-	if (key == 'w')      PitchForwards();
-	// pitch backwards
-	if (key == 's')      PitchBackwards();
-	// roll left
-	if (key == 'a')      RollLeft();
-	// roll right
-	if (key == 'd')      RollRight();
-	// yaw c-clockwise
-	if (key == 'q')      YawCClockwise();
-	// yaw clockwise
-	if (key == 'e')      YawClockwise();
-	// gain altitude
-	if (key == 'r' && !IsTooHigh())      GainAltitude();
-	// loose altitude
-	if (key == 'f' && !IsTooLow())      LooseAltitude();
+	if (IsWithinBounds()) {
+		// left arrow | a key
+		// roll left
+		if (key == 0x250000 || key == 'a') RollLeft();
+		// right arrow | d key
+		// roll right
+		if (key == 0x270000 || key == 'd') RollRight();
+		// w key
+		// pitch forwards
+		if (key == 'w')      PitchForwards();
+		// s key
+		// pitch backwards
+		if (key == 's')      PitchBackwards();
+		// q key
+		// yaw c-clockwise
+		if (key == 'q')      YawCClockwise();
+		// e key
+		// yaw clockwise
+		if (key == 'e')      YawClockwise();
+	}
 }
 
 void DoIfSees(int patterID) {
@@ -406,8 +403,12 @@ bool IsTooHigh() {
 
 void KeepGoodAltitude() {
 	// lower the drone
-	if (IsTooHigh) LooseAltitude();
+	if (IsTooHigh()) LooseAltitude();
 
 	// raise the drone
-	if (IsTooLow) GainAltitude();
+	if (IsTooLow()) GainAltitude();
+}
+
+bool IsWithinBounds() {
+	return true;
 }

@@ -33,6 +33,8 @@ static void KeyControlls();
 
 bool IsTooLow();
 bool IsTooHigh();
+bool IsWithinBounds();
+
 static void KeepGoodAltitude();
 
 
