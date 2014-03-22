@@ -118,6 +118,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\ardrone\ardrone.h" />
     <ClInclude Include="..\..\src\cameraparams.h" />
+    <ClInclude Include="..\..\src\main.h" />
     <ClInclude Include="..\..\src\pattern.h" />
     <ClInclude Include="..\..\src\patterndetector.h" />
   </ItemGroup>
