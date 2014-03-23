@@ -33,6 +33,7 @@ int main(int argc, char **argv)
 
 	quitProgram = false;
 	int patternCount = 0;
+	controlling = false;
 
 	/*create patterns' library using rotated versions of patterns
 	*/
@@ -163,12 +164,15 @@ int main(int argc, char **argv)
 		cout << "Detection time: " << detectionTime << endl;
 
 		printf("Battery = %d%%\n", ardrone.getBatteryPercentage());
+		printf("Altitude = %d%%\n", ardrone.getAltitude());
+		printf("Position = %d%%\n", ardrone.getPosition());
 
 
 		//augment the input frame (and print out the properties of pattern if you want)
 		for (unsigned int i = 0; i<detectedPattern.size(); i++){
 			detectedPattern.at(i).showPattern();
 			detectedPattern.at(i).draw(imgMat, cameraMatrix, distortions);
+			printf("pattern info: %d", detectedPattern[i]);
 			DoIfSees(detectedPattern[i].id);
 		}
 
@@ -297,98 +301,140 @@ void KeyControlls() {
 	// loose altitude
 	if (key == 0x280000 || key == 'f' && !IsTooLow()) LooseAltitude();
 
+	// game controlls - need to be within bounds to opperate
+	// left/right controlls
 	if (IsWithinBounds()) {
-		// left arrow | a key
+		// left arrow
 		// roll left
-		if (key == 0x250000 || key == 'a') RollLeft();
-		// right arrow | d key
+		if (key == 0x250000) {
+			RollLeft();
+			controlling = true;
+		} else controlling = false;
+		// right arrow
 		// roll right
-		if (key == 0x270000 || key == 'd') RollRight();
-		// w key
-		// pitch forwards
-		if (key == 'w')      PitchForwards();
-		// s key
-		// pitch backwards
-		if (key == 's')      PitchBackwards();
-		// q key
-		// yaw c-clockwise
-		if (key == 'q')      YawCClockwise();
-		// e key
-		// yaw clockwise
-		if (key == 'e')      YawClockwise();
+		if (key == 0x270000) {
+			RollRight();
+			controlling = true;
+		} else controlling = false;
 	}
+
+	// emergency controlls - always available
+	// left arrow | a key
+	// roll left
+	if (key == 'a') {
+		RollLeft();
+		controlling = true;
+	} else controlling = false;
+	// right arrow | d key
+	// roll right
+	if (key == 'd') {
+		RollRight();
+		controlling = true;
+	} else controlling = false;
+	// w key
+	// pitch forwards
+	if (key == 'w') {
+		PitchForwards();
+		controlling = true;
+	} else controlling = false;
+	// s key
+	// pitch backwards
+	if (key == 's') {
+		PitchBackwards();
+		controlling = true;
+	} else controlling = false;
+	// q key
+	// yaw c-clockwise
+	if (key == 'q') {
+		YawCClockwise();
+		controlling = true;
+	} else controlling = false;
+	// e key
+	// yaw clockwise
+	if (key == 'e') {
+		YawClockwise();
+		controlling = true;
+	} else controlling = false;
 }
 
 void DoIfSees(int patterID) {
 	std::stringstream s;
 	detectedPattern[patterID];
-	switch (patterID) {
-	case 1:
-		// if sees pattern 1 do
-		s << "seeing 1 " << '\n';
-		OutputDebugString(s.str().c_str());
-		// go diagonally forward right
-		ardrone.move3D(0.1, 0.0, 0.0, 0.0);
-		break;
-	case 2:
-		// if sees pattern 2 do
-		s << "seeing 2" << '\n';
-		OutputDebugString(s.str().c_str());
-		// go straight right
 
-		break;
-	case 3:
-		// if sees pattern 3 do
-		s << "seeing 3" << '\n';
-		OutputDebugString(s.str().c_str());
-		// go diagonally backward right
-
-		break;
-	case 4:
-		// if sees pattern 4 do
-		s << "seeing 4" << '\n';
-		OutputDebugString(s.str().c_str());
-		// go straight forward
-
-		break;
-	case 5:
-		// if sees pattern 5 do
-		// do nothig > hover
-		s << "seeing 5" << '\n';
-		OutputDebugString(s.str().c_str());
-		// hover
-
-		break;
-	case 6:
-		// if sees pattern 6 do
-		s << "seeing 6" << '\n';
-		OutputDebugString(s.str().c_str());
-		// go straight backward
-
-		break;
-	case 7:
-		// if sees pattern 7 do
-		s << "seeing 7" << '\n';
-		OutputDebugString(s.str().c_str());
-		// go diagonally forward left
-
-		break;
-	case 8:
-		// if sees pattern 8 do
-		s << "seeing 8" << '\n';
-		OutputDebugString(s.str().c_str());
-		// go straight left
-
-		break;
-	case 9:
-		// if sees pattern 9 do
-		s << "seeing 9" << '\n';
-		OutputDebugString(s.str().c_str());
-		// go diagonally backward left
-
-		break;
-	default:
-		break;
+	// only auto-correct if user is not controlling drone
+	if (!controlling) {
+		switch (patterID) {
+		case 1:
+			// if sees pattern 1 do
+			s << "seeing 1 " << '\n';
+			OutputDebugString(s.str().c_str());
+			// go diagonally forward right
+			PitchForwards();
+			RollRight();
+			break;
+		case 2:
+			// if sees pattern 2 do
+			s << "seeing 2" << '\n';
+			OutputDebugString(s.str().c_str());
+			// go straight right
+			RollRight();
+			break;
+		case 3:
+			// if sees pattern 3 do
+			s << "seeing 3" << '\n';
+			OutputDebugString(s.str().c_str());
+			// go diagonally backward right
+			PitchBackwards();
+			RollRight();
+			break;
+		case 4:
+			// if sees pattern 4 do
+			s << "seeing 4" << '\n';
+			OutputDebugString(s.str().c_str());
+			// go straight forward
+			PitchForwards();
+			break;
+		case 5:
+			// if sees pattern 5 do
+			// do nothig > hover
+			s << "seeing 5" << '\n';
+			OutputDebugString(s.str().c_str());
+			// hover
+			// do nothig
+			break;
+		case 6:
+			// if sees pattern 6 do
+			s << "seeing 6" << '\n';
+			OutputDebugString(s.str().c_str());
+			// go straight backward
+			PitchBackwards();
+			break;
+		case 7:
+			// if sees pattern 7 do
+			s << "seeing 7" << '\n';
+			OutputDebugString(s.str().c_str());
+			// go diagonally forward left
+			PitchForwards();
+			RollLeft();
+			break;
+		case 8:
+			// if sees pattern 8 do
+			s << "seeing 8" << '\n';
+			OutputDebugString(s.str().c_str());
+			// go straight left
+			RollLeft();
+			break;
+		case 9:
+			// if sees pattern 9 do
+			s << "seeing 9" << '\n';
+			OutputDebugString(s.str().c_str());
+			// go diagonally backward left
+			PitchBackwards();
+			RollLeft();
+			break;
+		default:
+			break;
+		}
 	}
 }
 

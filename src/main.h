@@ -44,6 +44,7 @@ std::vector<Pattern> detectedPattern;
 
 bool quitProgram;
 bool isDroneConnected;
+bool controlling;
 CvCapture* webcamCapture;
 
 
