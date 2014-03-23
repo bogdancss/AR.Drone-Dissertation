@@ -511,9 +511,52 @@ void KeepGoodAltitude() {
 	if (IsTooLow()) GainAltitude();
 }
 
+// check if coords of the pattern is within bounds
 bool IsWithinBounds() {
-	int x, y;
+	int x = 50;
+	int y = 50;
 
+	switch (visiblePattern)
+	{
+	case 1:
+		if (x > 75 || y > 75) return false;
+		else return true;
+		break;
+	case 2:
+		if (x > 75) return false;
+		else return true;
+		break;
+	case 3:
+		if (x > 75 || y < 25) return false;
+		else return true;
+		break;
+	case 4:
+		if (y > 75) return false;
+		else return true;
+		break;
+	case 5:
+		// don't care about 5
+		break;
+	case 6:
+		if (y < 25) return false;
+		else return true;
+	case 7:
+		if (x < 25 || y > 75) return false;
+		else return true;
+		break;
+	case 8:
+		if (x < 25) return false;
+		else return true;
+		break;
+	case 9:
+		if (x < 25 || y < 25) return false;
+		else return true;
+		break;
+	default:
+		break;
+	}
+
+	// if not patterns are detected, consider drone is within bounds.
 	return true;
 }
 
