@@ -18,7 +18,7 @@ ARDrone ardrone;
 
 static void Stop();
 static int loadPattern(const char*, std::vector<cv::Mat>&, int&);
-static void DoIfSees(int patterID);
+static void SetVisiblePattern(int patterID);
 
 // movement
 static void PitchForwards();
@@ -31,12 +31,15 @@ static void GainAltitude();
 static void LooseAltitude();
 
 static void KeyControlls();
+static void AutoAdjustPosition();
 
 bool IsTooLow();
 bool IsTooHigh();
 bool IsWithinBounds();
 
 static void KeepGoodAltitude();
+
+int visiblePattern;
 
 
 std::vector<cv::Mat> patternLibrary;

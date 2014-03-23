@@ -33,6 +33,7 @@ int main(int argc, char **argv)
 
 	quitProgram = false;
 	int patternCount = 0;
+	visiblePattern = 0;
 	controlling = false;
 
 	/*create patterns' library using rotated versions of patterns
@@ -169,17 +170,18 @@ int main(int argc, char **argv)
 
 
 		//augment the input frame (and print out the properties of pattern if you want)
-		for (unsigned int i = 0; i<detectedPattern.size(); i++){
-			detectedPattern.at(i).showPattern();
-			detectedPattern.at(i).draw(imgMat, cameraMatrix, distortions);
-			printf("pattern info: %d", detectedPattern[i]);
-			DoIfSees(detectedPattern[i].id);
-		}
+		if (detectedPattern.size()) {
+			for (unsigned int i = 0; i < detectedPattern.size(); i++){
+				detectedPattern.at(i).showPattern();
+				detectedPattern.at(i).draw(imgMat, cameraMatrix, distortions);
+				SetVisiblePattern(detectedPattern[i].id);
+			}
+		} else visiblePattern = 0; // reset visible pattern
 
 
 		KeyControlls();
 		KeepGoodAltitude();
-
+		AutoAdjustPosition();
 
 
 
@@ -357,13 +359,59 @@ void KeyControlls() {
 	} else controlling = false;
 }
 
-void DoIfSees(int patterID) {
-	std::stringstream s;
-	detectedPattern[patterID];
-
+// Sets the state of the visible pattern
+void SetVisiblePattern(int patterID) {
 	// only auto-correct if user is not controlling drone
 	if (!controlling) {
 		switch (patterID) {
+		case 1:
+			// set to visiblePattern to 1
+			visiblePattern = 1;
+			break;
+		case 2:
+			// set to visiblePattern to 2
+			visiblePattern = 2;
+			break;
+		case 3:
+			// set to visiblePattern to 3
+			visiblePattern = 3;
+			break;
+		case 4:
+			// set to visiblePattern to 4
+			visiblePattern = 4;
+			break;
+		case 5:
+			// set to visiblePattern to 5
+			visiblePattern = 5;
+			break;
+		case 6:
+			// set to visiblePattern to 6
+			visiblePattern = 6;
+			break;
+		case 7:
+			// set to visiblePattern to 7
+			visiblePattern = 7;
+			break;
+		case 8:
+			// set to visiblePattern to 8
+			visiblePattern = 8;
+			break;
+		case 9:
+			// set to visiblePattern to 9
+			visiblePattern = 9;
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void AutoAdjustPosition() {
+	std::stringstream s;
+
+	// only auto-correct if user is not controlling drone
+	if (!controlling) {
+		switch (visiblePattern) {
 		case 1:
 			// if sees pattern 1 do
 			s << "seeing 1 " << '\n';
@@ -433,6 +481,9 @@ void DoIfSees(int patterID) {
 			RollLeft();
 			break;
 		default:
+			s << "seeing nothing" << '\n';
+			OutputDebugString(s.str().c_str());
+			// go diagonally backward left
 			break;
 		}
 	}
@@ -461,6 +512,8 @@ void KeepGoodAltitude() {
 }
 
 bool IsWithinBounds() {
+	int x, y;
+
 	return true;
 }
 
