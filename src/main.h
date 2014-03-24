@@ -483,56 +483,56 @@ CvCapture* webcamCapture;
 
 
 //#if (NUM_OF_PATTERNS==2)
-//	loadPattern(filename2, patternLibrary, patternCount);
+//	LoadPattern(filename2, patternLibrary, patternCount);
 //#endif
 //#if (NUM_OF_PATTERNS==3)
-//	loadPattern(filename2, patternLibrary, patternCount);
-//	loadPattern(filename3, patternLibrary, patternCount);
+//	LoadPattern(filename2, patternLibrary, patternCount);
+//	LoadPattern(filename3, patternLibrary, patternCount);
 //#endif
 //#if (NUM_OF_PATTERNS==4)
-//	loadPattern(filename2, patternLibrary, patternCount);
-//	loadPattern(filename3, patternLibrary, patternCount);
-//	loadPattern(filename4, patternLibrary, patternCount);
+//	LoadPattern(filename2, patternLibrary, patternCount);
+//	LoadPattern(filename3, patternLibrary, patternCount);
+//	LoadPattern(filename4, patternLibrary, patternCount);
 //#endif
 //#if (NUM_OF_PATTERNS==5)
-//	loadPattern(filename2, patternLibrary, patternCount);
-//	loadPattern(filename3, patternLibrary, patternCount);
-//	loadPattern(filename4, patternLibrary, patternCount);
-//	loadPattern(filename5, patternLibrary, patternCount);
+//	LoadPattern(filename2, patternLibrary, patternCount);
+//	LoadPattern(filename3, patternLibrary, patternCount);
+//	LoadPattern(filename4, patternLibrary, patternCount);
+//	LoadPattern(filename5, patternLibrary, patternCount);
 //#endif
 //#if (NUM_OF_PATTERNS==6)
-//	loadPattern(filename2, patternLibrary, patternCount);
-//	loadPattern(filename3, patternLibrary, patternCount);
-//	loadPattern(filename4, patternLibrary, patternCount);
-//	loadPattern(filename5, patternLibrary, patternCount);
-//	loadPattern(filename6, patternLibrary, patternCount);
+//	LoadPattern(filename2, patternLibrary, patternCount);
+//	LoadPattern(filename3, patternLibrary, patternCount);
+//	LoadPattern(filename4, patternLibrary, patternCount);
+//	LoadPattern(filename5, patternLibrary, patternCount);
+//	LoadPattern(filename6, patternLibrary, patternCount);
 //#endif
 //#if (NUM_OF_PATTERNS==7)
-//	loadPattern(filename2, patternLibrary, patternCount);
-//	loadPattern(filename3, patternLibrary, patternCount);
-//	loadPattern(filename4, patternLibrary, patternCount);
-//	loadPattern(filename5, patternLibrary, patternCount);
-//	loadPattern(filename6, patternLibrary, patternCount);
-//	loadPattern(filename7, patternLibrary, patternCount);
+//	LoadPattern(filename2, patternLibrary, patternCount);
+//	LoadPattern(filename3, patternLibrary, patternCount);
+//	LoadPattern(filename4, patternLibrary, patternCount);
+//	LoadPattern(filename5, patternLibrary, patternCount);
+//	LoadPattern(filename6, patternLibrary, patternCount);
+//	LoadPattern(filename7, patternLibrary, patternCount);
 //#endif
 //#if (NUM_OF_PATTERNS==8)
-//	loadPattern(filename2, patternLibrary, patternCount);
-//	loadPattern(filename3, patternLibrary, patternCount);
-//	loadPattern(filename4, patternLibrary, patternCount);
-//	loadPattern(filename5, patternLibrary, patternCount);
-//	loadPattern(filename6, patternLibrary, patternCount);
-//	loadPattern(filename7, patternLibrary, patternCount);
-//	loadPattern(filename8, patternLibrary, patternCount);
+//	LoadPattern(filename2, patternLibrary, patternCount);
+//	LoadPattern(filename3, patternLibrary, patternCount);
+//	LoadPattern(filename4, patternLibrary, patternCount);
+//	LoadPattern(filename5, patternLibrary, patternCount);
+//	LoadPattern(filename6, patternLibrary, patternCount);
+//	LoadPattern(filename7, patternLibrary, patternCount);
+//	LoadPattern(filename8, patternLibrary, patternCount);
 //#endif
 //#if (NUM_OF_PATTERNS==9)
-//	loadPattern(filename2, patternLibrary, patternCount);
-//	loadPattern(filename3, patternLibrary, patternCount);
-//	loadPattern(filename4, patternLibrary, patternCount);
-//	loadPattern(filename5, patternLibrary, patternCount);
-//	loadPattern(filename6, patternLibrary, patternCount);
-//	loadPattern(filename7, patternLibrary, patternCount);
-//	loadPattern(filename8, patternLibrary, patternCount);
-//	loadPattern(filename9, patternLibrary, patternCount);
+//	LoadPattern(filename2, patternLibrary, patternCount);
+//	LoadPattern(filename3, patternLibrary, patternCount);
+//	LoadPattern(filename4, patternLibrary, patternCount);
+//	LoadPattern(filename5, patternLibrary, patternCount);
+//	LoadPattern(filename6, patternLibrary, patternCount);
+//	LoadPattern(filename7, patternLibrary, patternCount);
+//	LoadPattern(filename8, patternLibrary, patternCount);
+//	LoadPattern(filename9, patternLibrary, patternCount);
 //#endif
 
 
@@ -543,13 +543,13 @@ CvCapture* webcamCapture;
 //			memset(buffer, 0, sizeof(buffer));
 //			
 //			sprintf(buffer, "filename%i", i);
-//			loadPattern(buffer, patternLibrary, patternCount);
+//			LoadPattern(buffer, patternLibrary, patternCount);
 //			//const char *filename;
 //			//filename = ("filename" + std::to_string(i)).c_str();
-//			//loadPattern(("filename" + std::to_string(i)).c_str(), patternLibrary, patternCount);
-//			//loadPattern(filename, patternLibrary, patternCount);
+//			//LoadPattern(("filename" + std::to_string(i)).c_str(), patternLibrary, patternCount);
+//			//LoadPattern(filename, patternLibrary, patternCount);
 //
-//			//loadPattern(("filename" + std::to_string(i)).c_str(), patternLibrary, patternCount);
+//			//LoadPattern(("filename" + std::to_string(i)).c_str(), patternLibrary, patternCount);
 //		}
 //	}
 //#endif
