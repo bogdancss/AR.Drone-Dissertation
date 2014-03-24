@@ -63,22 +63,22 @@ int main(int argc, char **argv)
 	LoadPattern(filename7, patternLibrary, patternCount);
 	LoadPattern(filename8, patternLibrary, patternCount);
 	LoadPattern(filename9, patternLibrary, patternCount);
-	//LoadPattern(filename10, patternLibrary, patternCount);
-	//LoadPattern(filename11, patternLibrary, patternCount);
-	//LoadPattern(filename12, patternLibrary, patternCount);
-	//LoadPattern(filename13, patternLibrary, patternCount);
-	//LoadPattern(filename14, patternLibrary, patternCount);
-	//LoadPattern(filename15, patternLibrary, patternCount);
-	//LoadPattern(filename16, patternLibrary, patternCount);
-	//LoadPattern(filename17, patternLibrary, patternCount);
-	//LoadPattern(filename18, patternLibrary, patternCount);
-	//LoadPattern(filename19, patternLibrary, patternCount);
-	//LoadPattern(filename20, patternLibrary, patternCount);
-	//LoadPattern(filename21, patternLibrary, patternCount);
-	//LoadPattern(filename22, patternLibrary, patternCount);
-	//LoadPattern(filename23, patternLibrary, patternCount);
-	//LoadPattern(filename24, patternLibrary, patternCount);
-	//LoadPattern(filename25, patternLibrary, patternCount);
+	LoadPattern(filename10, patternLibrary, patternCount);
+	LoadPattern(filename11, patternLibrary, patternCount);
+	LoadPattern(filename12, patternLibrary, patternCount);
+	LoadPattern(filename13, patternLibrary, patternCount);
+	LoadPattern(filename14, patternLibrary, patternCount);
+	LoadPattern(filename15, patternLibrary, patternCount);
+	LoadPattern(filename16, patternLibrary, patternCount);
+	LoadPattern(filename17, patternLibrary, patternCount);
+	LoadPattern(filename18, patternLibrary, patternCount);
+	LoadPattern(filename19, patternLibrary, patternCount);
+	LoadPattern(filename20, patternLibrary, patternCount);
+	LoadPattern(filename21, patternLibrary, patternCount);
+	LoadPattern(filename22, patternLibrary, patternCount);
+	LoadPattern(filename23, patternLibrary, patternCount);
+	LoadPattern(filename24, patternLibrary, patternCount);
+	LoadPattern(filename25, patternLibrary, patternCount);
 #endif
 
 	cout << patternCount << " patterns are loaded." << endl;
@@ -313,83 +313,135 @@ void KeyControlls() {
 
 // Sets the state of the visible pattern
 void SetVisiblePattern(int patterID) {
+	std::stringstream s;
+
 	// only auto-correct if user is not controlling drone
 	if (!controlling) {
 		switch (patterID) {
 		case 1:
 			visiblePattern = 1;
+			s << "seeing patter 1" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 2:
 			visiblePattern = 2;
+			s << "seeing patter 2" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 3:
 			visiblePattern = 3;
+			s << "seeing patter 3" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 4:
 			visiblePattern = 4;
+			s << "seeing patter 4" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 5:
 			visiblePattern = 5;
+			s << "seeing patter 5" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 6:
 			visiblePattern = 6;
+			s << "seeing patter 6" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 7:
 			visiblePattern = 7;
+			s << "seeing patter 7" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 8:
 			visiblePattern = 8;
+			s << "seeing patter 8" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 9:
 			visiblePattern = 9;
+			s << "seeing patter 9" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 10:
 			visiblePattern = 10;
+			s << "seeing patter 10" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 11:
 			visiblePattern = 11;
+			s << "seeing patter 11" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 12:
 			visiblePattern = 12;
+			s << "seeing patter 12" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 13:
 			visiblePattern = 13;
+			s << "seeing patter 13" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 14:
 			visiblePattern = 14;
+			s << "seeing patter 14" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 15:
 			visiblePattern = 15;
+			s << "seeing patter 15" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 16:
 			visiblePattern = 16;
+			s << "seeing patter 16" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 17:
 			visiblePattern = 17;
+			s << "seeing patter 17" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 18:
 			visiblePattern = 18;
+			s << "seeing patter 18" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 19:
 			visiblePattern = 19;
+			s << "seeing patter 19" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 20:
 			visiblePattern = 20;
+			s << "seeing patter 20" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 21:
 			visiblePattern = 21;
+			s << "seeing patter 21" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 22:
 			visiblePattern = 22;
+			s << "seeing patter 22" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 23:
 			visiblePattern = 23;
+			s << "seeing patter 23" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 24:
 			visiblePattern = 24;
+			s << "seeing patter 24" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		case 25:
 			visiblePattern = 25;
+			s << "seeing patter 25" << '\n';
+			OutputDebugString(s.str().c_str());
 			break;
 		default:
 			break;
