@@ -1,6 +1,6 @@
 #include "main.h"
 
-#define PAT_SIZE 64//equal to pattern_size variable (see below)
+#define PAT_SIZE 64//equal to pattern_size variable (see below) testing
 #define NUM_OF_PATTERNS 25// define the number of patterns you want to use
 #define MOVEMENT_SPEED 0.5 // define the drone movement speed
 
