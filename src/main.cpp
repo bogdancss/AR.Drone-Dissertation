@@ -1,7 +1,6 @@
 #include "main.h"
 
 #define PAT_SIZE 64//equal to pattern_size variable (see below)
-#define SAVE_VIDEO 0 //if true, it saves the video in "output.avi"
 #define NUM_OF_PATTERNS 25// define the number of patterns you want to use
 #define MOVEMENT_SPEED 0.5 // define the drone movement speed
 
@@ -91,19 +90,15 @@ int main(int argc, char **argv)
 	int adapt_block_size = 45;//non-used with FIXED_THRESHOLD mode
 	double confidenceThreshold = 0.35;
 	int mode = 2;//1:FIXED_THRESHOLD, 2: ADAPTIVE_THRESHOLD
-
 	PatternDetector myDetector(fixed_thresh, adapt_thresh, adapt_block_size, confidenceThreshold, norm_pattern_size, mode);
 
 	// capture webcam feed
 	webcamCapture = cvCaptureFromCAM(0);
 
-#if (SAVE_VIDEO)
-	CvVideoWriter *video_writer = cvCreateVideoWriter("output.avi", -1, 25, cvSize(640, 480));
-#endif
-
 	Mat imgMat;
 	int k = 0;
-	while (1){ //modify it for longer/shorter videos
+
+	while (1){
 
 		// check to terminate program
 		if (quitProgram) {
@@ -126,7 +121,6 @@ int main(int argc, char **argv)
 
 		Mat imgMat = Mat(img);
 		double tic = (double)cvGetTickCount();
-
 
 		//run the detector
 		myDetector.detect(imgMat, cameraMatrix, distortions, patternLibrary, detectedPattern);
@@ -156,24 +150,12 @@ int main(int argc, char **argv)
 		AutoAdjustPosition();
 
 
-
-
-
-#if (SAVE_VIDEO)
-		cvWriteFrame(video_writer, &((IplImage)imgMat));
-#endif
 		imshow("result", imgMat);
 		cvWaitKey(1);
 		k++;
 
 		detectedPattern.clear();
 	}
-
-#if (SAVE_VIDEO)
-	cvReleaseVideoWriter(&video_writer);
-#endif
-
-
 
 	Stop();
 	return 0;
