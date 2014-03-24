@@ -148,7 +148,7 @@ int main(int argc, char **argv)
 		AutoAdjustPosition();
 
 
-		imshow("result", imgMat);
+		imshow("AR.Drone", imgMat);
 		cvWaitKey(1);
 		k++;
 
