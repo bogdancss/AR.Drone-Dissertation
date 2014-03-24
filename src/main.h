@@ -459,3 +459,97 @@ CvCapture* webcamCapture;
 //// Release the kalman filter
 //cvReleaseKalman(&akalman);
 //cvReleaseKalman(&bkalman);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//#if (NUM_OF_PATTERNS==2)
+//	loadPattern(filename2, patternLibrary, patternCount);
+//#endif
+//#if (NUM_OF_PATTERNS==3)
+//	loadPattern(filename2, patternLibrary, patternCount);
+//	loadPattern(filename3, patternLibrary, patternCount);
+//#endif
+//#if (NUM_OF_PATTERNS==4)
+//	loadPattern(filename2, patternLibrary, patternCount);
+//	loadPattern(filename3, patternLibrary, patternCount);
+//	loadPattern(filename4, patternLibrary, patternCount);
+//#endif
+//#if (NUM_OF_PATTERNS==5)
+//	loadPattern(filename2, patternLibrary, patternCount);
+//	loadPattern(filename3, patternLibrary, patternCount);
+//	loadPattern(filename4, patternLibrary, patternCount);
+//	loadPattern(filename5, patternLibrary, patternCount);
+//#endif
+//#if (NUM_OF_PATTERNS==6)
+//	loadPattern(filename2, patternLibrary, patternCount);
+//	loadPattern(filename3, patternLibrary, patternCount);
+//	loadPattern(filename4, patternLibrary, patternCount);
+//	loadPattern(filename5, patternLibrary, patternCount);
+//	loadPattern(filename6, patternLibrary, patternCount);
+//#endif
+//#if (NUM_OF_PATTERNS==7)
+//	loadPattern(filename2, patternLibrary, patternCount);
+//	loadPattern(filename3, patternLibrary, patternCount);
+//	loadPattern(filename4, patternLibrary, patternCount);
+//	loadPattern(filename5, patternLibrary, patternCount);
+//	loadPattern(filename6, patternLibrary, patternCount);
+//	loadPattern(filename7, patternLibrary, patternCount);
+//#endif
+//#if (NUM_OF_PATTERNS==8)
+//	loadPattern(filename2, patternLibrary, patternCount);
+//	loadPattern(filename3, patternLibrary, patternCount);
+//	loadPattern(filename4, patternLibrary, patternCount);
+//	loadPattern(filename5, patternLibrary, patternCount);
+//	loadPattern(filename6, patternLibrary, patternCount);
+//	loadPattern(filename7, patternLibrary, patternCount);
+//	loadPattern(filename8, patternLibrary, patternCount);
+//#endif
+//#if (NUM_OF_PATTERNS==9)
+//	loadPattern(filename2, patternLibrary, patternCount);
+//	loadPattern(filename3, patternLibrary, patternCount);
+//	loadPattern(filename4, patternLibrary, patternCount);
+//	loadPattern(filename5, patternLibrary, patternCount);
+//	loadPattern(filename6, patternLibrary, patternCount);
+//	loadPattern(filename7, patternLibrary, patternCount);
+//	loadPattern(filename8, patternLibrary, patternCount);
+//	loadPattern(filename9, patternLibrary, patternCount);
+//#endif
+
+
+//#if (NUM_OF_PATTERNS > 1)
+//	if (NUM_OF_PATTERNS > 1) {
+//		for (int i = 2; i <= NUM_OF_PATTERNS; i++) {
+//			char buffer[32];
+//			memset(buffer, 0, sizeof(buffer));
+//			
+//			sprintf(buffer, "filename%i", i);
+//			loadPattern(buffer, patternLibrary, patternCount);
+//			//const char *filename;
+//			//filename = ("filename" + std::to_string(i)).c_str();
+//			//loadPattern(("filename" + std::to_string(i)).c_str(), patternLibrary, patternCount);
+//			//loadPattern(filename, patternLibrary, patternCount);
+//
+//			//loadPattern(("filename" + std::to_string(i)).c_str(), patternLibrary, patternCount);
+//		}
+//	}
+//#endif

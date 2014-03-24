@@ -2,7 +2,7 @@
 
 #define PAT_SIZE 64//equal to pattern_size variable (see below)
 #define SAVE_VIDEO 0 //if true, it saves the video in "output.avi"
-#define NUM_OF_PATTERNS 9// define the number of patterns you want to use
+#define NUM_OF_PATTERNS 25// define the number of patterns you want to use
 #define MOVEMENT_SPEED 0.5 // define the drone movement speed
 
 char* filename1 = "..\\..\\src\\resource\\1.png";//id=1
@@ -14,6 +14,22 @@ char* filename6 = "..\\..\\src\\resource\\6.png";//id=6
 char* filename7 = "..\\..\\src\\resource\\7.png";//id=7
 char* filename8 = "..\\..\\src\\resource\\8.png";//id=8
 char* filename9 = "..\\..\\src\\resource\\9.png";//id=9
+char* filename10 = "..\\..\\src\\resource\\10.png";//id=10
+char* filename11 = "..\\..\\src\\resource\\11.png";//id=11
+char* filename12 = "..\\..\\src\\resource\\12.png";//id=12
+char* filename13 = "..\\..\\src\\resource\\13.png";//id=13
+char* filename14 = "..\\..\\src\\resource\\14.png";//id=14
+char* filename15 = "..\\..\\src\\resource\\15.png";//id=15
+char* filename16 = "..\\..\\src\\resource\\16.png";//id=16
+char* filename17 = "..\\..\\src\\resource\\17.png";//id=17
+char* filename18 = "..\\..\\src\\resource\\18.png";//id=18
+char* filename19 = "..\\..\\src\\resource\\19.png";//id=19
+char* filename20 = "..\\..\\src\\resource\\20.png";//id=20
+char* filename21 = "..\\..\\src\\resource\\21.png";//id=21
+char* filename22 = "..\\..\\src\\resource\\22.png";//id=22
+char* filename23 = "..\\..\\src\\resource\\23.png";//id=23
+char* filename24 = "..\\..\\src\\resource\\24.png";//id=24
+char* filename25 = "..\\..\\src\\resource\\25.png";//id=25
 
 // --------------------------------------------------------------------------
 // main(Number of arguments, Argument values)
@@ -39,49 +55,7 @@ int main(int argc, char **argv)
 	/*create patterns' library using rotated versions of patterns
 	*/
 	loadPattern(filename1, patternLibrary, patternCount);
-#if (NUM_OF_PATTERNS==2)
-	loadPattern(filename2, patternLibrary, patternCount);
-#endif
-#if (NUM_OF_PATTERNS==3)
-	loadPattern(filename2, patternLibrary, patternCount);
-	loadPattern(filename3, patternLibrary, patternCount);
-#endif
-#if (NUM_OF_PATTERNS==4)
-	loadPattern(filename2, patternLibrary, patternCount);
-	loadPattern(filename3, patternLibrary, patternCount);
-	loadPattern(filename4, patternLibrary, patternCount);
-#endif
-#if (NUM_OF_PATTERNS==5)
-	loadPattern(filename2, patternLibrary, patternCount);
-	loadPattern(filename3, patternLibrary, patternCount);
-	loadPattern(filename4, patternLibrary, patternCount);
-	loadPattern(filename5, patternLibrary, patternCount);
-#endif
-#if (NUM_OF_PATTERNS==6)
-	loadPattern(filename2, patternLibrary, patternCount);
-	loadPattern(filename3, patternLibrary, patternCount);
-	loadPattern(filename4, patternLibrary, patternCount);
-	loadPattern(filename5, patternLibrary, patternCount);
-	loadPattern(filename6, patternLibrary, patternCount);
-#endif
-#if (NUM_OF_PATTERNS==7)
-	loadPattern(filename2, patternLibrary, patternCount);
-	loadPattern(filename3, patternLibrary, patternCount);
-	loadPattern(filename4, patternLibrary, patternCount);
-	loadPattern(filename5, patternLibrary, patternCount);
-	loadPattern(filename6, patternLibrary, patternCount);
-	loadPattern(filename7, patternLibrary, patternCount);
-#endif
-#if (NUM_OF_PATTERNS==8)
-	loadPattern(filename2, patternLibrary, patternCount);
-	loadPattern(filename3, patternLibrary, patternCount);
-	loadPattern(filename4, patternLibrary, patternCount);
-	loadPattern(filename5, patternLibrary, patternCount);
-	loadPattern(filename6, patternLibrary, patternCount);
-	loadPattern(filename7, patternLibrary, patternCount);
-	loadPattern(filename8, patternLibrary, patternCount);
-#endif
-#if (NUM_OF_PATTERNS==9)
+#if (NUM_OF_PATTERNS==25)
 	loadPattern(filename2, patternLibrary, patternCount);
 	loadPattern(filename3, patternLibrary, patternCount);
 	loadPattern(filename4, patternLibrary, patternCount);
@@ -90,25 +64,23 @@ int main(int argc, char **argv)
 	loadPattern(filename7, patternLibrary, patternCount);
 	loadPattern(filename8, patternLibrary, patternCount);
 	loadPattern(filename9, patternLibrary, patternCount);
+	//loadPattern(filename10, patternLibrary, patternCount);
+	//loadPattern(filename11, patternLibrary, patternCount);
+	//loadPattern(filename12, patternLibrary, patternCount);
+	//loadPattern(filename13, patternLibrary, patternCount);
+	//loadPattern(filename14, patternLibrary, patternCount);
+	//loadPattern(filename15, patternLibrary, patternCount);
+	//loadPattern(filename16, patternLibrary, patternCount);
+	//loadPattern(filename17, patternLibrary, patternCount);
+	//loadPattern(filename18, patternLibrary, patternCount);
+	//loadPattern(filename19, patternLibrary, patternCount);
+	//loadPattern(filename20, patternLibrary, patternCount);
+	//loadPattern(filename21, patternLibrary, patternCount);
+	//loadPattern(filename22, patternLibrary, patternCount);
+	//loadPattern(filename23, patternLibrary, patternCount);
+	//loadPattern(filename24, patternLibrary, patternCount);
+	//loadPattern(filename25, patternLibrary, patternCount);
 #endif
-
-	//#if (NUM_OF_PATTERNS > 1)
-	//	if (NUM_OF_PATTERNS > 1) {
-	//		for (int i = 2; i <= NUM_OF_PATTERNS; i++) {
-	//			char buffer[32];
-	//			memset(buffer, 0, sizeof(buffer));
-	//			
-	//			sprintf(buffer, "filename%i", i);
-	//			loadPattern(buffer, patternLibrary, patternCount);
-	//			//const char *filename;
-	//			//filename = ("filename" + std::to_string(i)).c_str();
-	//			//loadPattern(("filename" + std::to_string(i)).c_str(), patternLibrary, patternCount);
-	//			//loadPattern(filename, patternLibrary, patternCount);
-	//
-	//			//loadPattern(("filename" + std::to_string(i)).c_str(), patternLibrary, patternCount);
-	//		}
-	//	}
-	//#endif
 
 	cout << patternCount << " patterns are loaded." << endl;
 
@@ -365,40 +337,79 @@ void SetVisiblePattern(int patterID) {
 	if (!controlling) {
 		switch (patterID) {
 		case 1:
-			// set to visiblePattern to 1
 			visiblePattern = 1;
 			break;
 		case 2:
-			// set to visiblePattern to 2
 			visiblePattern = 2;
 			break;
 		case 3:
-			// set to visiblePattern to 3
 			visiblePattern = 3;
 			break;
 		case 4:
-			// set to visiblePattern to 4
 			visiblePattern = 4;
 			break;
 		case 5:
-			// set to visiblePattern to 5
 			visiblePattern = 5;
 			break;
 		case 6:
-			// set to visiblePattern to 6
 			visiblePattern = 6;
 			break;
 		case 7:
-			// set to visiblePattern to 7
 			visiblePattern = 7;
 			break;
 		case 8:
-			// set to visiblePattern to 8
 			visiblePattern = 8;
 			break;
 		case 9:
-			// set to visiblePattern to 9
 			visiblePattern = 9;
+			break;
+		case 10:
+			visiblePattern = 10;
+			break;
+		case 11:
+			visiblePattern = 11;
+			break;
+		case 12:
+			visiblePattern = 12;
+			break;
+		case 13:
+			visiblePattern = 13;
+			break;
+		case 14:
+			visiblePattern = 14;
+			break;
+		case 15:
+			visiblePattern = 15;
+			break;
+		case 16:
+			visiblePattern = 16;
+			break;
+		case 17:
+			visiblePattern = 17;
+			break;
+		case 18:
+			visiblePattern = 18;
+			break;
+		case 19:
+			visiblePattern = 19;
+			break;
+		case 20:
+			visiblePattern = 20;
+			break;
+		case 21:
+			visiblePattern = 21;
+			break;
+		case 22:
+			visiblePattern = 22;
+			break;
+		case 23:
+			visiblePattern = 23;
+			break;
+		case 24:
+			visiblePattern = 24;
+			break;
+		case 25:
+			visiblePattern = 25;
 			break;
 		default:
 			break;
@@ -412,78 +423,91 @@ void AutoAdjustPosition() {
 	// only auto-correct if user is not controlling drone
 	if (!controlling) {
 		switch (visiblePattern) {
+
 		case 1:
-			// if sees pattern 1 do
-			s << "seeing 1 " << '\n';
+		case 17:
+			// if sees pattern 1 or 17 do
+			s << "go diagonally backward right " << '\n';
 			OutputDebugString(s.str().c_str());
-			// go diagonally forward right
-			PitchForwards();
+			PitchBackwards();
 			RollRight();
 			break;
+
 		case 2:
-			// if sees pattern 2 do
-			s << "seeing 2" << '\n';
-			OutputDebugString(s.str().c_str());
-			// go straight right
-			RollRight();
-			break;
 		case 3:
-			// if sees pattern 3 do
-			s << "seeing 3" << '\n';
+		case 4:
+		case 18:
+			// if sees pattern 2, 3, 4 or 18 do
+			s << "go straight back" << '\n';
 			OutputDebugString(s.str().c_str());
-			// go diagonally backward right
 			PitchBackwards();
+			break;
+
+		case 5:
+		case 19:
+			// if sees pattern 5 or 19 do
+			s << "go diagonally backward left" << '\n';
+			OutputDebugString(s.str().c_str());
+			PitchBackwards();
+			RollLeft();
+			break;
+
+		case 6:
+		case 7:
+		case 8:
+		case 20:
+			// if sees pattern 6, 7, 8 or 20 do
+			s << "go straight left" << '\n';
+			OutputDebugString(s.str().c_str());
+			RollLeft();
+			break;
+
+		case 9:
+		case 21:
+			// if sees pattern 9 or 21 do
+			s << "go diagonally forward left" << '\n';
+			OutputDebugString(s.str().c_str());
+			PitchForwards();
+			RollLeft();
+			break;
+
+		case 10:
+		case 11:
+		case 12:
+		case 22:
+			// if sees pattern 10, 11, 12 or 22 do
+			s << "go straight forward" << '\n';
+			OutputDebugString(s.str().c_str());
+			PitchForwards();
+			break;
+
+		case 13:
+		case 23:
+			// if sees pattern 13 or 23 do
+			s << "go diagonally forward right" << '\n';
+			OutputDebugString(s.str().c_str());
+			PitchForwards();
 			RollRight();
 			break;
-		case 4:
-			// if sees pattern 4 do
-			s << "seeing 4" << '\n';
+
+		case 14:
+		case 15:
+		case 16:
+		case 24:
+			// if sees pattern 14, 15, 16 or 24 do
+			s << "go straight right" << '\n';
 			OutputDebugString(s.str().c_str());
-			// go straight forward
-			PitchForwards();
+			RollRight();
 			break;
-		case 5:
-			// if sees pattern 5 do
-			// do nothig > hover
-			s << "seeing 5" << '\n';
+
+		case 25:
+			// if sees pattern 25 do
+			s << "do nothing - hover" << '\n';
 			OutputDebugString(s.str().c_str());
-			// hover
-			// do nothig
-			break;
-		case 6:
-			// if sees pattern 6 do
-			s << "seeing 6" << '\n';
-			OutputDebugString(s.str().c_str());
-			// go straight backward
-			PitchBackwards();
-			break;
-		case 7:
-			// if sees pattern 7 do
-			s << "seeing 7" << '\n';
-			OutputDebugString(s.str().c_str());
-			// go diagonally forward left
-			PitchForwards();
-			RollLeft();
-			break;
-		case 8:
-			// if sees pattern 8 do
-			s << "seeing 8" << '\n';
-			OutputDebugString(s.str().c_str());
-			// go straight left
-			RollLeft();
-			break;
-		case 9:
-			// if sees pattern 9 do
-			s << "seeing 9" << '\n';
-			OutputDebugString(s.str().c_str());
-			// go diagonally backward left
-			PitchBackwards();
-			RollLeft();
 			break;
 		default:
 			s << "seeing nothing" << '\n';
 			OutputDebugString(s.str().c_str());
-			// go diagonally backward left
 			break;
 		}
 	}
@@ -518,40 +542,62 @@ bool IsWithinBounds() {
 
 	switch (visiblePattern)
 	{
+
+	// upper left corner
 	case 1:
-		if (x > 75 || y > 75) return false;
-		else return true;
-		break;
-	case 2:
-		if (x > 75) return false;
-		else return true;
-		break;
-	case 3:
 		if (x > 75 || y < 25) return false;
 		else return true;
 		break;
+
+	// upper 3
+	case 2:
+	case 3:
 	case 4:
-		if (y > 75) return false;
-		else return true;
-		break;
-	case 5:
-		// don't care about 5
-		break;
-	case 6:
 		if (y < 25) return false;
 		else return true;
-	case 7:
-		if (x < 25 || y > 75) return false;
+
+	// upper right corner
+	case 5:
+		if (x < 25 || y < 25) return false;
 		else return true;
 		break;
+
+	// right 3
+	case 6:
+	case 7:
 	case 8:
 		if (x < 25) return false;
 		else return true;
 		break;
+
+	// lower right corner
 	case 9:
-		if (x < 25 || y < 25) return false;
+		if (x < 25 || y > 75) return false;
 		else return true;
 		break;
+
+	// lower 3
+	case 10:
+	case 11:
+	case 12:
+		if (y > 75) return false;
+		else return true;
+		break;
+
+	// lower left corner
+	case 13:
+		if (x > 75 || y > 75) return false;
+		else return true;
+		break;
+
+	// left 3
+	case 14:
+	case 15:
+	case 16:
+		if (x > 75) return false;
+		else return true;
+		break;
+
 	default:
 		break;
 	}
