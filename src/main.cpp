@@ -110,11 +110,9 @@ int main(int argc, char **argv)
 
 		if (isDroneConnected) {
 			// Get drone image
-			printf("Initialising drone\n");
 			img = ardrone.getImage();
 		} else {
 			// Get webcam image
-			printf("Initialising webcam\n");
 			img = cvQueryFrame(webcamCapture);
 		}
 
