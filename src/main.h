@@ -17,7 +17,7 @@ typedef std::vector <std::vector<int>> colorsMatrix;
 ARDrone ardrone;
 
 static void Stop();
-static int loadPattern(const char*, std::vector<cv::Mat>&, int&);
+static int LoadPattern(const char*, std::vector<cv::Mat>&, int&);
 static void SetVisiblePattern(int patterID);
 
 // movement

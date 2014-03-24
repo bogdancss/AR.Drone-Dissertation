@@ -1,6 +1,6 @@
 #include "main.h"
 
-#define PAT_SIZE 64//equal to pattern_size variable (see below) testing
+#define PAT_SIZE 64//equal to pattern_size variable (see below)
 #define NUM_OF_PATTERNS 25// define the number of patterns you want to use
 #define MOVEMENT_SPEED 0.5 // define the drone movement speed
 
@@ -53,32 +53,32 @@ int main(int argc, char **argv)
 
 	/*create patterns' library using rotated versions of patterns
 	*/
-	loadPattern(filename1, patternLibrary, patternCount);
+	LoadPattern(filename1, patternLibrary, patternCount);
 #if (NUM_OF_PATTERNS==25)
-	loadPattern(filename2, patternLibrary, patternCount);
-	loadPattern(filename3, patternLibrary, patternCount);
-	loadPattern(filename4, patternLibrary, patternCount);
-	loadPattern(filename5, patternLibrary, patternCount);
-	loadPattern(filename6, patternLibrary, patternCount);
-	loadPattern(filename7, patternLibrary, patternCount);
-	loadPattern(filename8, patternLibrary, patternCount);
-	loadPattern(filename9, patternLibrary, patternCount);
-	//loadPattern(filename10, patternLibrary, patternCount);
-	//loadPattern(filename11, patternLibrary, patternCount);
-	//loadPattern(filename12, patternLibrary, patternCount);
-	//loadPattern(filename13, patternLibrary, patternCount);
-	//loadPattern(filename14, patternLibrary, patternCount);
-	//loadPattern(filename15, patternLibrary, patternCount);
-	//loadPattern(filename16, patternLibrary, patternCount);
-	//loadPattern(filename17, patternLibrary, patternCount);
-	//loadPattern(filename18, patternLibrary, patternCount);
-	//loadPattern(filename19, patternLibrary, patternCount);
-	//loadPattern(filename20, patternLibrary, patternCount);
-	//loadPattern(filename21, patternLibrary, patternCount);
-	//loadPattern(filename22, patternLibrary, patternCount);
-	//loadPattern(filename23, patternLibrary, patternCount);
-	//loadPattern(filename24, patternLibrary, patternCount);
-	//loadPattern(filename25, patternLibrary, patternCount);
+	LoadPattern(filename2, patternLibrary, patternCount);
+	LoadPattern(filename3, patternLibrary, patternCount);
+	LoadPattern(filename4, patternLibrary, patternCount);
+	LoadPattern(filename5, patternLibrary, patternCount);
+	LoadPattern(filename6, patternLibrary, patternCount);
+	LoadPattern(filename7, patternLibrary, patternCount);
+	LoadPattern(filename8, patternLibrary, patternCount);
+	LoadPattern(filename9, patternLibrary, patternCount);
+	//LoadPattern(filename10, patternLibrary, patternCount);
+	//LoadPattern(filename11, patternLibrary, patternCount);
+	//LoadPattern(filename12, patternLibrary, patternCount);
+	//LoadPattern(filename13, patternLibrary, patternCount);
+	//LoadPattern(filename14, patternLibrary, patternCount);
+	//LoadPattern(filename15, patternLibrary, patternCount);
+	//LoadPattern(filename16, patternLibrary, patternCount);
+	//LoadPattern(filename17, patternLibrary, patternCount);
+	//LoadPattern(filename18, patternLibrary, patternCount);
+	//LoadPattern(filename19, patternLibrary, patternCount);
+	//LoadPattern(filename20, patternLibrary, patternCount);
+	//LoadPattern(filename21, patternLibrary, patternCount);
+	//LoadPattern(filename22, patternLibrary, patternCount);
+	//LoadPattern(filename23, patternLibrary, patternCount);
+	//LoadPattern(filename24, patternLibrary, patternCount);
+	//LoadPattern(filename25, patternLibrary, patternCount);
 #endif
 
 	cout << patternCount << " patterns are loaded." << endl;
@@ -162,7 +162,7 @@ int main(int argc, char **argv)
 }
 
 
-int loadPattern(const char* filename, std::vector<cv::Mat>& library, int& patternCount){
+int LoadPattern(const char* filename, std::vector<cv::Mat>& library, int& patternCount){
 	Mat img = imread(filename, 0);
 
 	if (img.cols != img.rows){
