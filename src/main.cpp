@@ -39,10 +39,10 @@ int main(int argc, char **argv)
 {
 
 	// Initialize
+	// If drone is not connected, initialise webcam
 	if (!ardrone.open()) {
 		printf("Drone failed to connect.\n");
 		isDroneConnected = false;
-		//return -1;
 	} else isDroneConnected = true;
 
 
@@ -51,8 +51,7 @@ int main(int argc, char **argv)
 	visiblePattern = 0;
 	controlling = false;
 
-	/*create patterns' library using rotated versions of patterns
-	*/
+	// Loading patterns
 	LoadPattern(filename1, patternLibrary, patternCount);
 #if (NUM_OF_PATTERNS==25)
 	LoadPattern(filename2, patternLibrary, patternCount);
@@ -80,23 +79,26 @@ int main(int argc, char **argv)
 	LoadPattern(filename24, patternLibrary, patternCount);
 	LoadPattern(filename25, patternLibrary, patternCount);
 #endif
-
 	cout << patternCount << " patterns are loaded." << endl;
 
 
+	// Pattern detector arguments
 	int norm_pattern_size = PAT_SIZE;
 	double fixed_thresh = 40;
 	double adapt_thresh = 5;//non-used with FIXED_THRESHOLD mode
 	int adapt_block_size = 45;//non-used with FIXED_THRESHOLD mode
 	double confidenceThreshold = 0.35;
 	int mode = 2;//1:FIXED_THRESHOLD, 2: ADAPTIVE_THRESHOLD
+
+	// Initialise PatternDetector
 	PatternDetector myDetector(fixed_thresh, adapt_thresh, adapt_block_size, confidenceThreshold, norm_pattern_size, mode);
 
-	// capture webcam feed
+	// Capture webcam feed
 	webcamCapture = cvCaptureFromCAM(0);
 
+	// Matrix for OpenCV image
 	Mat imgMat;
-	int k = 0;
+	//int k = 0;
 
 	while (1){
 
@@ -106,8 +108,10 @@ int main(int argc, char **argv)
 			break;
 		}
 
+		// OpenCV image
 		IplImage *img;
 
+		// Check which image source to feed to OpenCV
 		if (isDroneConnected) {
 			// Get drone image
 			img = ardrone.getImage();
@@ -116,86 +120,64 @@ int main(int argc, char **argv)
 			img = cvQueryFrame(webcamCapture);
 		}
 
-
+		// Create image matrix
 		Mat imgMat = Mat(img);
+		// Timer for pattern detection time
 		double tic = (double)cvGetTickCount();
 
-		//run the detector
+		// Run the detector
 		myDetector.detect(imgMat, cameraMatrix, distortions, patternLibrary, detectedPattern);
 
+		// Show the pattern detection time
 		double toc = (double)cvGetTickCount();
 		double detectionTime = (toc - tic) / ((double)cvGetTickFrequency() * 1000);
 		cout << "Detected Patterns: " << detectedPattern.size() << endl;
 		cout << "Detection time: " << detectionTime << endl;
 
+		// Some usefull debug printfs
 		printf("Battery = %d%%\n", ardrone.getBatteryPercentage());
 		printf("Altitude = %d%%\n", ardrone.getAltitude());
 		printf("Position = %d%%\n", ardrone.getPosition());
 
 
-		//augment the input frame (and print out the properties of pattern if you want)
+		// Augment the input frame (and print out the properties of pattern if you want)
 		if (detectedPattern.size()) {
 			for (unsigned int i = 0; i < detectedPattern.size(); i++){
+				// Draw a cube over patterns
 				detectedPattern.at(i).showPattern();
 				detectedPattern.at(i).draw(imgMat, cameraMatrix, distortions);
+
+				// Toggling which pattern is visible
 				SetVisiblePattern(detectedPattern[i].id);
 			}
 		} else visiblePattern = 0; // reset visible pattern
 
-
+		// Providing key controlls
 		KeyControlls();
+
+		// Autonomous drone controll
 		KeepGoodAltitude();
 		AutoAdjustPosition();
 
-
+		// Show the OpenCV image in a new window AR.Drone
 		imshow("AR.Drone", imgMat);
+		// Give HighGUI to process the draw requests
 		cvWaitKey(1);
-		k++;
+		//k++;
 
+		// Clear pattern for next tick
 		detectedPattern.clear();
 	}
 
+	// Stop processes before quitting
 	Stop();
 	return 0;
 }
 
 
-int LoadPattern(const char* filename, std::vector<cv::Mat>& library, int& patternCount){
-	Mat img = imread(filename, 0);
-
-	if (img.cols != img.rows){
-		return -1;
-		printf("Not a square pattern");
-	}
-
-	int msize = PAT_SIZE;
-
-	Mat src(msize, msize, CV_8UC1);
-	Point2f center((msize - 1) / 2.0f, (msize - 1) / 2.0f);
-	Mat rot_mat(2, 3, CV_32F);
-
-	resize(img, src, Size(msize, msize));
-	Mat subImg = src(Range(msize / 4, 3 * msize / 4), Range(msize / 4, 3 * msize / 4));
-	library.push_back(subImg);
-
-	rot_mat = getRotationMatrix2D(center, 90, 1.0);
-
-	for (int i = 1; i<4; i++){
-		Mat dst = Mat(msize, msize, CV_8UC1);
-		rot_mat = getRotationMatrix2D(center, -i * 90, 1.0);
-		warpAffine(src, dst, rot_mat, Size(msize, msize));
-		Mat subImg = dst(Range(msize / 4, 3 * msize / 4), Range(msize / 4, 3 * msize / 4));
-		library.push_back(subImg);
-	}
-
-	patternCount++;
-	return 1;
-}
 
 
-
-
-// movement methods
+// Movement methods
 void PitchBackwards() {
 	ardrone.move3D(MOVEMENT_SPEED, 0.0, 0.0, 0.0);
 }
@@ -236,7 +218,7 @@ void KeyControlls() {
 	// Key input
 	int key = cvWaitKey(33);
 
-	// quit if ESC key
+	// Quit if ESC key
 	if (key == 0x1b) quitProgram = true;
 
 
@@ -252,69 +234,69 @@ void KeyControlls() {
 
 
 	// Movement
-	// up arrow
-	// gain altitude
+	// Up arrow
+	// Gain altitude
 	if (key == 0x260000 || key == 'r' && !IsTooHigh()) GainAltitude();
-	// down arrow
-	// loose altitude
+	// Down arrow
+	// Loose altitude
 	if (key == 0x280000 || key == 'f' && !IsTooLow()) LooseAltitude();
 
-	// game controlls - need to be within bounds to opperate
-	// left/right controlls
+	// Game controlls - need to be within bounds to opperate
+	// Left/right controlls
 	if (IsWithinBounds()) {
-		// left arrow
-		// roll left
+		// Left arrow
+		// Roll left
 		if (key == 0x250000) {
 			RollLeft();
 			controlling = true;
 		} else controlling = false;
-		// right arrow
-		// roll right
+		// Right arrow
+		// Roll right
 		if (key == 0x270000) {
 			RollRight();
 			controlling = true;
 		} else controlling = false;
 	}
 
-	// emergency controlls - always available
-	// left arrow | a key
-	// roll left
+	// Emergency controlls - always available
+	// Left arrow | a key
+	// Roll left
 	if (key == 'a') {
 		RollLeft();
 		controlling = true;
 	} else controlling = false;
-	// right arrow | d key
-	// roll right
+	// Right arrow | d key
+	// Roll right
 	if (key == 'd') {
 		RollRight();
 		controlling = true;
 	} else controlling = false;
 	// w key
-	// pitch forwards
+	// Pitch forwards
 	if (key == 'w') {
 		PitchForwards();
 		controlling = true;
 	} else controlling = false;
 	// s key
-	// pitch backwards
+	// Pitch backwards
 	if (key == 's') {
 		PitchBackwards();
 		controlling = true;
 	} else controlling = false;
 	// q key
-	// yaw c-clockwise
+	// Yaw c-clockwise
 	if (key == 'q') {
 		YawCClockwise();
 		controlling = true;
 	} else controlling = false;
 	// e key
-	// yaw clockwise
+	// Yaw clockwise
 	if (key == 'e') {
 		YawClockwise();
 		controlling = true;
 	} else controlling = false;
 
-	// always go back to hovering if no user input
+	// Always go back to hovering if no user input
 	Hover();
 }
 
@@ -322,7 +304,7 @@ void KeyControlls() {
 void SetVisiblePattern(int patterID) {
 	std::stringstream s;
 
-	// only auto-correct if user is not controlling drone
+	// Only auto-correct if user is not controlling drone
 	if (!controlling) {
 		switch (patterID) {
 		case 1:
@@ -456,16 +438,17 @@ void SetVisiblePattern(int patterID) {
 	}
 }
 
+// Autonomous drone controll
 void AutoAdjustPosition() {
 	std::stringstream s;
 
-	// only auto-correct if user is not controlling drone
+	// Only auto-correct if user is not controlling drone
 	if (!controlling) {
 		switch (visiblePattern) {
 
 		case 1:
 		case 17:
-			// if sees pattern 1 or 17 do
+			// If sees pattern 1 or 17 do
 			s << "go diagonally backward right " << '\n';
 			OutputDebugString(s.str().c_str());
 			PitchBackwards();
@@ -476,7 +459,7 @@ void AutoAdjustPosition() {
 		case 3:
 		case 4:
 		case 18:
-			// if sees pattern 2, 3, 4 or 18 do
+			// If sees pattern 2, 3, 4 or 18 do
 			s << "go straight back" << '\n';
 			OutputDebugString(s.str().c_str());
 			PitchBackwards();
@@ -484,7 +467,7 @@ void AutoAdjustPosition() {
 
 		case 5:
 		case 19:
-			// if sees pattern 5 or 19 do
+			// If sees pattern 5 or 19 do
 			s << "go diagonally backward left" << '\n';
 			OutputDebugString(s.str().c_str());
 			PitchBackwards();
@@ -495,7 +478,7 @@ void AutoAdjustPosition() {
 		case 7:
 		case 8:
 		case 20:
-			// if sees pattern 6, 7, 8 or 20 do
+			// If sees pattern 6, 7, 8 or 20 do
 			s << "go straight left" << '\n';
 			OutputDebugString(s.str().c_str());
 			RollLeft();
@@ -503,7 +486,7 @@ void AutoAdjustPosition() {
 
 		case 9:
 		case 21:
-			// if sees pattern 9 or 21 do
+			// If sees pattern 9 or 21 do
 			s << "go diagonally forward left" << '\n';
 			OutputDebugString(s.str().c_str());
 			PitchForwards();
@@ -514,7 +497,7 @@ void AutoAdjustPosition() {
 		case 11:
 		case 12:
 		case 22:
-			// if sees pattern 10, 11, 12 or 22 do
+			// If sees pattern 10, 11, 12 or 22 do
 			s << "go straight forward" << '\n';
 			OutputDebugString(s.str().c_str());
 			PitchForwards();
@@ -522,7 +505,7 @@ void AutoAdjustPosition() {
 
 		case 13:
 		case 23:
-			// if sees pattern 13 or 23 do
+			// If sees pattern 13 or 23 do
 			s << "go diagonally forward right" << '\n';
 			OutputDebugString(s.str().c_str());
 			PitchForwards();
@@ -533,14 +516,14 @@ void AutoAdjustPosition() {
 		case 15:
 		case 16:
 		case 24:
-			// if sees pattern 14, 15, 16 or 24 do
+			// If sees pattern 14, 15, 16 or 24 do
 			s << "go straight right" << '\n';
 			OutputDebugString(s.str().c_str());
 			RollRight();
 			break;
 
 		case 25:
-			// if sees pattern 25 do
+			// If sees pattern 25 do
 			s << "do nothing - hover" << '\n';
 			OutputDebugString(s.str().c_str());
 			Hover();
@@ -554,6 +537,7 @@ void AutoAdjustPosition() {
 	}
 }
 
+// Return true if drone altitude is under .5 m
 bool IsTooLow() {
 	double altitude = ardrone.getAltitude();
 
@@ -561,6 +545,7 @@ bool IsTooLow() {
 	else return false;
 }
 
+// Return true if drone altitude is over 1.5 m
 bool IsTooHigh() {
 	double altitude = ardrone.getAltitude();
 
@@ -568,15 +553,16 @@ bool IsTooHigh() {
 	else return false;
 }
 
+// Autonomous drone altitude controll
 void KeepGoodAltitude() {
-	// lower the drone
+	// Lower the drone
 	if (IsTooHigh()) LooseAltitude();
 
-	// raise the drone
+	// Raise the drone
 	if (IsTooLow()) GainAltitude();
 }
 
-// check if coords of the pattern is within bounds
+// Check if coords of the pattern is within bounds
 bool IsWithinBounds() {
 	int x = 50;
 	int y = 50;
@@ -585,26 +571,26 @@ bool IsWithinBounds() {
 		switch (visiblePattern)
 		{
 
-			// upper left corner
+			// Upper left corner
 		case 1:
 			if (x > 75 || y < 25) return false;
 			else return true;
 			break;
 
-			// upper 3
+			// Upper 3
 		case 2:
 		case 3:
 		case 4:
 			if (y < 25) return false;
 			else return true;
 
-			// upper right corner
+			// Upper right corner
 		case 5:
 			if (x < 25 || y < 25) return false;
 			else return true;
 			break;
 
-			// right 3
+			// Right 3
 		case 6:
 		case 7:
 		case 8:
@@ -612,13 +598,13 @@ bool IsWithinBounds() {
 			else return true;
 			break;
 
-			// lower right corner
+			// Lower right corner
 		case 9:
 			if (x < 25 || y > 75) return false;
 			else return true;
 			break;
 
-			// lower 3
+			// Lower 3
 		case 10:
 		case 11:
 		case 12:
@@ -626,13 +612,13 @@ bool IsWithinBounds() {
 			else return true;
 			break;
 
-			// lower left corner
+			// Lower left corner
 		case 13:
 			if (x > 75 || y > 75) return false;
 			else return true;
 			break;
 
-			// left 3
+			// Left 3
 		case 14:
 		case 15:
 		case 16:
@@ -645,12 +631,49 @@ bool IsWithinBounds() {
 		}
 	}
 
-	// if not patterns are detected, consider drone is within bounds.
+	// If not patterns are detected, consider drone is within bounds.
 	return true;
 }
 
+// Stop processes
 void Stop() {
 	cvReleaseCapture(&webcamCapture);
 	// See you
 	ardrone.close();
+}
+
+
+
+
+// Loads pattern images for detection
+int LoadPattern(const char* filename, std::vector<cv::Mat>& library, int& patternCount){
+	Mat img = imread(filename, 0);
+
+	if (img.cols != img.rows){
+		return -1;
+		printf("Not a square pattern");
+	}
+
+	int msize = PAT_SIZE;
+
+	Mat src(msize, msize, CV_8UC1);
+	Point2f center((msize - 1) / 2.0f, (msize - 1) / 2.0f);
+	Mat rot_mat(2, 3, CV_32F);
+
+	resize(img, src, Size(msize, msize));
+	Mat subImg = src(Range(msize / 4, 3 * msize / 4), Range(msize / 4, 3 * msize / 4));
+	library.push_back(subImg);
+
+	rot_mat = getRotationMatrix2D(center, 90, 1.0);
+
+	for (int i = 1; i<4; i++){
+		Mat dst = Mat(msize, msize, CV_8UC1);
+		rot_mat = getRotationMatrix2D(center, -i * 90, 1.0);
+		warpAffine(src, dst, rot_mat, Size(msize, msize));
+		Mat subImg = dst(Range(msize / 4, 3 * msize / 4), Range(msize / 4, 3 * msize / 4));
+		library.push_back(subImg);
+	}
+
+	patternCount++;
+	return 1;
 }

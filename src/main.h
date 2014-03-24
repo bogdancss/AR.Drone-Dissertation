@@ -1,6 +1,5 @@
 #include "ardrone/ardrone.h"
 #include <vector>
-
 #include <iostream>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -16,11 +15,23 @@ typedef std::vector <std::vector<int>> colorsMatrix;
 // AR.Drone class
 ARDrone ardrone;
 
+// Webcam video feed
+CvCapture* webcamCapture;
+
+
+// Methods
 static void Stop();
 static int LoadPattern(const char*, std::vector<cv::Mat>&, int&);
 static void SetVisiblePattern(int patterID);
 
-// movement
+static void KeyControlls();
+static void AutoAdjustPosition();
+static void KeepGoodAltitude();
+bool IsTooLow();
+bool IsTooHigh();
+bool IsWithinBounds();
+
+// Movement methods
 static void PitchForwards();
 static void PitchBackwards();
 static void RollLeft();
@@ -31,25 +42,18 @@ static void GainAltitude();
 static void LooseAltitude();
 static void Hover();
 
-static void KeyControlls();
-static void AutoAdjustPosition();
-
-bool IsTooLow();
-bool IsTooHigh();
-bool IsWithinBounds();
-
-static void KeepGoodAltitude();
-
-int visiblePattern;
 
 
+// Arrays
 std::vector<cv::Mat> patternLibrary;
 std::vector<Pattern> detectedPattern;
 
+
+// Variables
+int visiblePattern;
 bool quitProgram;
 bool isDroneConnected;
 bool controlling;
-CvCapture* webcamCapture;
 
 
 
