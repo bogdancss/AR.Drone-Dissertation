@@ -35,8 +35,7 @@ char* filename25 = "..\\..\\src\\resource\\25.png";//id=25
 // Description  : This is the entry point of the program.
 // Return value : SUCCESS:0  ERROR:-1
 // --------------------------------------------------------------------------
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
 
 	// Initialize
 	// If drone is not connected, initialise webcam
@@ -100,7 +99,8 @@ int main(int argc, char **argv)
 	Mat imgMat;
 	//int k = 0;
 
-	while (1){
+	// Start main loop
+	while (1) {
 
 		// check to terminate program
 		if (quitProgram) {
@@ -646,7 +646,7 @@ void Stop() {
 
 
 // Loads pattern images for detection
-int LoadPattern(const char* filename, std::vector<cv::Mat>& library, int& patternCount){
+int LoadPattern(const char* filename, std::vector<cv::Mat>& library, int& patternCount) {
 	Mat img = imread(filename, 0);
 
 	if (img.cols != img.rows){
