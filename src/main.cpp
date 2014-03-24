@@ -228,6 +228,10 @@ void LooseAltitude() {
 	ardrone.move3D(0.0, 0.0, -MOVEMENT_SPEED, 0.0);
 }
 
+void Hover() {
+	ardrone.move3D(0.0, 0.0, 0.0, 0.0);
+}
+
 void KeyControlls() {
 	// Key input
 	int key = cvWaitKey(33);
@@ -309,6 +313,9 @@ void KeyControlls() {
 		YawClockwise();
 		controlling = true;
 	} else controlling = false;
+
+	// always go back to hovering if no user input
+	Hover();
 }
 
 // Sets the state of the visible pattern
@@ -536,10 +543,12 @@ void AutoAdjustPosition() {
 			// if sees pattern 25 do
 			s << "do nothing - hover" << '\n';
 			OutputDebugString(s.str().c_str());
+			Hover();
 			break;
 		default:
 			s << "seeing nothing" << '\n';
 			OutputDebugString(s.str().c_str());
+			Hover();
 			break;
 		}
 	}
@@ -572,66 +581,68 @@ bool IsWithinBounds() {
 	int x = 50;
 	int y = 50;
 
-	switch (visiblePattern)
-	{
+	if (false) {
+		switch (visiblePattern)
+		{
 
-	// upper left corner
-	case 1:
-		if (x > 75 || y < 25) return false;
-		else return true;
-		break;
+			// upper left corner
+		case 1:
+			if (x > 75 || y < 25) return false;
+			else return true;
+			break;
 
-	// upper 3
-	case 2:
-	case 3:
-	case 4:
-		if (y < 25) return false;
-		else return true;
+			// upper 3
+		case 2:
+		case 3:
+		case 4:
+			if (y < 25) return false;
+			else return true;
 
-	// upper right corner
-	case 5:
-		if (x < 25 || y < 25) return false;
-		else return true;
-		break;
+			// upper right corner
+		case 5:
+			if (x < 25 || y < 25) return false;
+			else return true;
+			break;
 
-	// right 3
-	case 6:
-	case 7:
-	case 8:
-		if (x < 25) return false;
-		else return true;
-		break;
+			// right 3
+		case 6:
+		case 7:
+		case 8:
+			if (x < 25) return false;
+			else return true;
+			break;
 
-	// lower right corner
-	case 9:
-		if (x < 25 || y > 75) return false;
-		else return true;
-		break;
+			// lower right corner
+		case 9:
+			if (x < 25 || y > 75) return false;
+			else return true;
+			break;
 
-	// lower 3
-	case 10:
-	case 11:
-	case 12:
-		if (y > 75) return false;
-		else return true;
-		break;
+			// lower 3
+		case 10:
+		case 11:
+		case 12:
+			if (y > 75) return false;
+			else return true;
+			break;
 
-	// lower left corner
-	case 13:
-		if (x > 75 || y > 75) return false;
-		else return true;
-		break;
+			// lower left corner
+		case 13:
+			if (x > 75 || y > 75) return false;
+			else return true;
+			break;
 
-	// left 3
-	case 14:
-	case 15:
-	case 16:
-		if (x > 75) return false;
-		else return true;
-		break;
+			// left 3
+		case 14:
+		case 15:
+		case 16:
+			if (x > 75) return false;
+			else return true;
+			break;
 
-	default:
-		break;
+		default:
+			break;
+		}
 	}
 
 	// if not patterns are detected, consider drone is within bounds.

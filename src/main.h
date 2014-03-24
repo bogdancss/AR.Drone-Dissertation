@@ -29,6 +29,7 @@ static void YawCClockwise();
 static void YawClockwise();
 static void GainAltitude();
 static void LooseAltitude();
+static void Hover();
 
 static void KeyControlls();
 static void AutoAdjustPosition();
