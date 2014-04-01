@@ -97,7 +97,6 @@ int main(int argc, char **argv) {
 
 	// Matrix for OpenCV image
 	Mat imgMat;
-	//int k = 0;
 
 	// Start main loop
 	while (1) {
@@ -163,7 +162,6 @@ int main(int argc, char **argv) {
 		imshow("AR.Drone", imgMat);
 		// Give HighGUI to process the draw requests
 		cvWaitKey(1);
-		//k++;
 
 		// Clear pattern for next tick
 		detectedPattern.clear();
