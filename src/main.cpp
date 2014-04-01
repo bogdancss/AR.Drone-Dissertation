@@ -39,10 +39,13 @@ int main(int argc, char **argv) {
 
 	// Initialize
 	// If drone is not connected, initialise webcam
-	if (!ardrone.open()) {
-		printf("Drone failed to connect.\n");
-		isDroneConnected = false;
-	} else isDroneConnected = true;
+	//if (!ardrone.open()) {
+	//	printf("Drone failed to connect.\n");
+	//	isDroneConnected = false;
+	//} else isDroneConnected = true;
+
+	// DEBUGGING
+	isDroneConnected = false;
 
 
 	quitProgram = false;
