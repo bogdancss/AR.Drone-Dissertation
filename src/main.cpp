@@ -95,9 +95,6 @@ int main(int argc, char **argv) {
 	// Initialise PatternDetector
 	PatternDetector myDetector(fixed_thresh, adapt_thresh, adapt_block_size, confidenceThreshold, norm_pattern_size, mode);
 
-	// Capture webcam feed
-	webcamCapture = cvCaptureFromCAM(0);
-
 	// Matrix for OpenCV image
 	Mat imgMat;
 
@@ -118,6 +115,12 @@ int main(int argc, char **argv) {
 			// Get drone image
 			img = ardrone.getImage();
 		} else {
+			// Capture webcam feed
+			CvCapture *webcamCapture = cvCreateCameraCapture(0);
+			// Set custom webcam size
+			cvSetCaptureProperty(webcamCapture, CV_CAP_PROP_FRAME_WIDTH, 640);
+			cvSetCaptureProperty(webcamCapture, CV_CAP_PROP_FRAME_HEIGHT, 480);
+
 			// Get webcam image
 			img = cvQueryFrame(webcamCapture);
 		}
