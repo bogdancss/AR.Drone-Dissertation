@@ -125,8 +125,23 @@ int main(int argc, char **argv) {
 			img = cvQueryFrame(webcamCapture);
 		}
 
+
+
 		// Create image matrix
 		Mat imgMat = Mat(img);
+
+		// Read HUD image
+		Mat image = imread("..\\..\\src\\resource\\hud.png", -1);
+
+		// Create a matrix to mix the video feed with the HUD image
+		Mat result;
+
+		// Overlay the HUD over the video feed
+		OverlayImage(imgMat, image, result, cv::Point(0, 0));
+
+
+
+
 		// Timer for pattern detection time
 		double tic = (double)cvGetTickCount();
 
@@ -165,7 +180,7 @@ int main(int argc, char **argv) {
 		AutoAdjustPosition();
 
 		// Show the OpenCV image in a new window AR.Drone
-		imshow("AR.Drone", imgMat);
+		imshow("AR.Drone", result);
 		// Give HighGUI to process the draw requests
 		cvWaitKey(1);
 
@@ -680,4 +695,52 @@ int LoadPattern(const char* filename, std::vector<cv::Mat>& library, int& patter
 
 	patternCount++;
 	return 1;
+}
+
+
+// Overlay image method
+void OverlayImage(const cv::Mat &background, const cv::Mat &foreground, cv::Mat &output, cv::Point2i location)
+{
+	background.copyTo(output);
+
+
+	// Start at the row indicated by location, or at row 0 if location.y is negative.
+	for (int y = std::max(location.y, 0); y < background.rows; ++y)
+	{
+		int fY = y - location.y; // because of the translation
+
+		// Stop if all rows of the foreground image are processed.
+		if (fY >= foreground.rows)
+			break;
+
+		// Start at the column indicated by location, 
+		// Or at column 0 if location.x is negative.
+		for (int x = std::max(location.x, 0); x < background.cols; ++x)
+		{
+			int fX = x - location.x; // because of the translation.
+
+			// Stop with this row if the column is outside of the foreground image.
+			if (fX >= foreground.cols)
+				break;
+
+			// Determine the opacity of the foregrond pixel, using its fourth (alpha) channel.
+			double opacity =
+				((double)foreground.data[fY * foreground.step + fX * foreground.channels() + 3])
+
+				/ 255.;
+
+
+			// And now combine the background and foreground pixel, using the opacity, 
+			// But only if opacity > 0.
+			for (int c = 0; opacity > 0 && c < output.channels(); ++c)
+			{
+				unsigned char foregroundPx =
+					foreground.data[fY * foreground.step + fX * foreground.channels() + c];
+				unsigned char backgroundPx =
+					background.data[y * background.step + x * background.channels() + c];
+				output.data[y*output.step + output.channels()*x + c] =
+					backgroundPx * (1. - opacity) + foregroundPx * opacity;
+			}
+		}
+	}
 }

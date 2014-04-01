@@ -3,6 +3,7 @@
 #include <iostream>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 #include "cameraparams.h"
 #include "patterndetector.h"
 
@@ -20,6 +21,8 @@ CvCapture* webcamCapture;
 
 
 // Methods
+void OverlayImage(const cv::Mat &background, const cv::Mat &foreground, cv::Mat &output, cv::Point2i location);
+
 static void Stop();
 static int LoadPattern(const char*, std::vector<cv::Mat>&, int&);
 static void SetVisiblePattern(int patterID);
