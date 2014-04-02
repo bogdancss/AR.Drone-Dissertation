@@ -164,6 +164,14 @@ int main(int argc, char **argv) {
 		printf("Altitude = %d%%\n", ardrone.getAltitude());
 		printf("Position = %d%%\n", ardrone.getPosition());
 
+		
+
+		// Display text to HUD
+		std::ostringstream str;
+		str << "Detection time: " << detectionTime;
+		cv::putText(result, str.str(), cv::Point(10, 30), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 250, 0));
+
+
 
 		// Augment the input frame (and print out the properties of pattern if you want)
 		if (detectedPattern.size()) {
