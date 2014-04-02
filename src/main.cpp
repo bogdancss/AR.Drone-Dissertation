@@ -130,21 +130,8 @@ int main(int argc, char **argv) {
 		// Create image matrix
 		Mat imgMat = Mat(img);
 
-		// Read HUD image
-		Mat image = imread("..\\..\\src\\resource\\hud.png", -1);
-		// Resized HUD image
-		Mat rImage;
-
-		// Resize HUD to fit window
-		resize(image, rImage, Size(640, 480), 0, 0, INTER_CUBIC);
-
-		// Create a matrix to mix the video feed with the HUD image
-		Mat result;
-
-		// Overlay the HUD over the video feed
-		OverlayImage(imgMat, rImage, result, Point(0, 0));
-
-
+		// Render the HUD
+		Mat result = HUD(imgMat, 640, 480);
 
 
 		// Timer for pattern detection time
@@ -163,15 +150,6 @@ int main(int argc, char **argv) {
 		printf("Battery = %d%%\n", ardrone.getBatteryPercentage());
 		printf("Altitude = %d%%\n", ardrone.getAltitude());
 		printf("Position = %d%%\n", ardrone.getPosition());
-
-		
-
-		// Display info on to HUD
-		std::ostringstream str; // string stream
-
-
-		str << "Detection time: " << detectionTime;
-		putText(result, str.str(), Point(10, 30), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 250, 0));
 
 
 
@@ -752,4 +730,30 @@ void OverlayImage(const Mat &background, const Mat &foreground, Mat &output, Poi
 			}
 		}
 	}
+}
+
+Mat HUD(Mat videoFeed, int sizex, int sizey) {
+	// Read HUD image
+	Mat image = imread("..\\..\\src\\resource\\hud.png", -1);
+
+	// Resized HUD image
+	Mat rImage;
+
+	// Resize HUD to fit window
+	resize(image, rImage, Size(sizex, sizey), 0, 0, INTER_CUBIC);
+
+	// Create a matrix to mix the video feed with the HUD image
+	Mat result;
+
+	// Overlay the HUD over the video feed
+	OverlayImage(videoFeed, rImage, result, Point(0, 0));
+
+
+	// Display info on to HUD
+	std::ostringstream str; // string stream
+
+	str << "Detection time: " << 10;
+	putText(result, str.str(), Point(10, 30), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 250, 0));
+
+	return result;
 }

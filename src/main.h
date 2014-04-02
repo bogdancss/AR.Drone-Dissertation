@@ -22,6 +22,7 @@ CvCapture* webcamCapture;
 
 // Methods
 void OverlayImage(const Mat &background, const Mat &foreground, Mat &output, Point2i location);
+Mat HUD(Mat videoFeed, int sizex, int sizey);
 
 static void Stop();
 static int LoadPattern(const char*, std::vector<Mat>&, int&);
