@@ -142,7 +142,7 @@ int main(int argc, char **argv) {
 		Mat result;
 
 		// Overlay the HUD over the video feed
-		OverlayImage(imgMat, rImage, result, cv::Point(0, 0));
+		OverlayImage(imgMat, rImage, result, Point(0, 0));
 
 
 
@@ -166,10 +166,12 @@ int main(int argc, char **argv) {
 
 		
 
-		// Display text to HUD
-		std::ostringstream str;
+		// Display info on to HUD
+		std::ostringstream str; // string stream
+
+
 		str << "Detection time: " << detectionTime;
-		cv::putText(result, str.str(), cv::Point(10, 30), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 250, 0));
+		putText(result, str.str(), Point(10, 30), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 250, 0));
 
 
 
@@ -678,7 +680,7 @@ void Stop() {
 
 
 // Loads pattern images for detection
-int LoadPattern(const char* filename, std::vector<cv::Mat>& library, int& patternCount) {
+int LoadPattern(const char* filename, std::vector<Mat>& library, int& patternCount) {
 	Mat img = imread(filename, 0);
 
 	if (img.cols != img.rows){
@@ -712,7 +714,7 @@ int LoadPattern(const char* filename, std::vector<cv::Mat>& library, int& patter
 
 
 // Overlay image method
-void OverlayImage(const cv::Mat &background, const cv::Mat &foreground, cv::Mat &output, cv::Point2i location)
+void OverlayImage(const Mat &background, const Mat &foreground, Mat &output, Point2i location)
 {
 	background.copyTo(output);
 

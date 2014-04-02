@@ -21,10 +21,10 @@ CvCapture* webcamCapture;
 
 
 // Methods
-void OverlayImage(const cv::Mat &background, const cv::Mat &foreground, cv::Mat &output, cv::Point2i location);
+void OverlayImage(const Mat &background, const Mat &foreground, Mat &output, Point2i location);
 
 static void Stop();
-static int LoadPattern(const char*, std::vector<cv::Mat>&, int&);
+static int LoadPattern(const char*, std::vector<Mat>&, int&);
 static void SetVisiblePattern(int patterID);
 
 static void KeyControlls();
@@ -48,7 +48,7 @@ static void Hover();
 
 
 // Arrays
-std::vector<cv::Mat> patternLibrary;
+std::vector<Mat> patternLibrary;
 std::vector<Pattern> detectedPattern;
 
 
