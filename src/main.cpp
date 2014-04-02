@@ -132,12 +132,17 @@ int main(int argc, char **argv) {
 
 		// Read HUD image
 		Mat image = imread("..\\..\\src\\resource\\hud.png", -1);
+		// Resized HUD image
+		Mat rImage;
+
+		// Resize HUD to fit window
+		resize(image, rImage, Size(640, 480), 0, 0, INTER_CUBIC);
 
 		// Create a matrix to mix the video feed with the HUD image
 		Mat result;
 
 		// Overlay the HUD over the video feed
-		OverlayImage(imgMat, image, result, cv::Point(0, 0));
+		OverlayImage(imgMat, rImage, result, cv::Point(0, 0));
 
 
 
