@@ -353,3 +353,4 @@ protected:
 
 }
 #endif /* __OPENCV_CONTRIB_RETINA_HPP__ */
+

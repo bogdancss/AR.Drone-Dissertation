@@ -145,7 +145,7 @@ public:
 
 
 
-#if defined(HAVE_OPENCV_GPU) && !defined(ANDROID)
+#ifdef HAVE_OPENCV_GPU
 class PlaneWarperGpu: public WarperCreator
 {
 public:

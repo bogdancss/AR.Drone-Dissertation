@@ -227,7 +227,7 @@ private:
 };
 
 
-#if defined(HAVE_OPENCV_GPU) && !defined(ANDROID)
+#ifdef HAVE_OPENCV_GPU
 class CV_EXPORTS GraphCutSeamFinderGpu : public GraphCutSeamFinderBase, public PairwiseSeamFinder
 {
 public:

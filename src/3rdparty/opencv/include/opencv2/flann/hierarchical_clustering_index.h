@@ -298,11 +298,6 @@ public:
         trees_ = get_param(params,"trees",4);
         root = new NodePtr[trees_];
         indices = new int*[trees_];
-
-        for (int i=0; i<trees_; ++i) {
-            root[i] = NULL;
-            indices[i] = NULL;
-        }
     }
 
     HierarchicalClusteringIndex(const HierarchicalClusteringIndex&);
@@ -315,33 +310,10 @@ public:
      */
     virtual ~HierarchicalClusteringIndex()
     {
-        free_elements();
-
-        if (root!=NULL) {
-            delete[] root;
-        }
-
         if (indices!=NULL) {
             delete[] indices;
         }
     }
-
-
-    /**
-     * Release the inner elements of indices[]
-     */
-    void free_elements()
-    {
-        if (indices!=NULL) {
-            for(int i=0; i<trees_; ++i) {
-                if (indices[i]!=NULL) {
-                    delete[] indices[i];
-                    indices[i] = NULL;
-                }
-            }
-        }
-    }
-
 
     /**
      *  Returns size of index.
@@ -377,9 +349,6 @@ public:
         if (branching_<2) {
             throw FLANNException("Branching factor must be at least 2");
         }
-
-        free_elements();
-
         for (int i=0; i<trees_; ++i) {
             indices[i] = new int[size_];
             for (size_t j=0; j<size_; ++j) {
@@ -419,17 +388,6 @@ public:
         load_value(stream, centers_init_);
         load_value(stream, leaf_size_);
         load_value(stream, memoryCounter);
-
-        free_elements();
-
-        if (root!=NULL) {
-            delete[] root;
-        }
-
-        if (indices!=NULL) {
-            delete[] indices;
-        }
-
         indices = new int*[trees_];
         root = new NodePtr[trees_];
         for (int i=0; i<trees_; ++i) {
