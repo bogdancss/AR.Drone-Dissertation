@@ -1,5 +1,6 @@
 #include "ardrone/ardrone.h"
-#include "3rdparty\glut\include\glut.h"
+#include <glut.h>
+#include <math.h>
 #include <vector>
 #include <iostream>
 #include <opencv2/opencv.hpp>

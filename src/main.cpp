@@ -172,8 +172,22 @@ int main(int argc, char **argv) {
 		KeepGoodAltitude();
 		AutoAdjustPosition();
 
+		//glBegin(GL_LINE_LOOP);
+		//for (int i = 0; i <= 300; i++){
+		//	double angle = 2 * M_PHI * i / 300;
+		//	double x = cos(angle);
+		//	double y = sin(angle);
+		//	glVertex2d(x, y);
+		//}
+		//glEnd();
+
+
+		// Initialise OpenGL window
+		namedWindow("AR.Drone", WINDOW_OPENGL);
 		// Show the OpenCV image in a new window AR.Drone
 		imshow("AR.Drone", result);
+
+
 		// Give HighGUI to process the draw requests
 		cvWaitKey(1);
 
