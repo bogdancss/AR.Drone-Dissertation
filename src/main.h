@@ -16,6 +16,9 @@ using namespace ARma;
 
 typedef std::vector <std::vector<int>> colorsMatrix;
 
+// Just for debugging
+std::stringstream s;
+
 // AR.Drone class
 ARDrone ardrone;
 
@@ -31,7 +34,7 @@ static void Stop();
 static int LoadPattern(const char*, std::vector<Mat>&, int&);
 static void SetVisiblePattern(int patterID);
 
-static void KeyControlls();
+static void KeyControlls(int key);
 static void AutoAdjustPosition();
 static void KeepGoodAltitude();
 bool IsTooLow();
@@ -63,6 +66,7 @@ bool quitProgram;
 bool isDroneConnected;
 bool controlling;
 bool absoluteControl;
+double vx, vy, vz, vr;
 
 
 

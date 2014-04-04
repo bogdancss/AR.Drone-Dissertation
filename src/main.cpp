@@ -1,7 +1,7 @@
 #include "main.h"
 
-#define PAT_SIZE 64//equal to pattern_size variable (see below)
-#define NUM_OF_PATTERNS 25// define the number of patterns you want to use
+#define PAT_SIZE 64 // equal to pattern_size variable (see below)
+#define NUM_OF_PATTERNS 25 // define the number of patterns you want to use
 #define MOVEMENT_SPEED 0.5 // define the drone movement speed
 
 char* filename1 = "..\\..\\src\\resource\\1.png";//id=1
@@ -39,13 +39,13 @@ int main(int argc, char **argv) {
 
 	// Initialize
 	// If drone is not connected, initialise webcam
-	//if (!ardrone.open()) {
-	//	printf("Drone failed to connect.\n");
-	//	isDroneConnected = false;
-	//} else isDroneConnected = true;
+	if (!ardrone.open()) {
+		printf("Drone failed to connect.\n");
+		isDroneConnected = false;
+	} else isDroneConnected = true;
 
-	// DEBUGGING
-	isDroneConnected = false;
+	//// DEBUGGING
+	//isDroneConnected = false;
 
 
 	quitProgram = false;
@@ -54,6 +54,9 @@ int main(int argc, char **argv) {
 	lastVisiblePattern = 0;
 	controlling = false;
 	absoluteControl = false;
+	vx = 0.0, vy = 0.0, vz = 0.0, vr = 0.0;
+
+
 
 	// Loading patterns
 	LoadPattern(filename1, patternLibrary, patternCount);
@@ -104,10 +107,10 @@ int main(int argc, char **argv) {
 	while (1) {
 
 		// check to terminate program
-		if (quitProgram) {
-			Stop();
-			break;
-		}
+		if (quitProgram) break;
+
+		// Update
+		if (!ardrone.update()) break;
 
 		// OpenCV image
 		IplImage *img;
@@ -159,20 +162,37 @@ int main(int argc, char **argv) {
 		if (detectedPattern.size()) {
 			for (unsigned int i = 0; i < detectedPattern.size(); i++){
 				// Draw a cube over patterns
-				detectedPattern.at(i).showPattern();
-				detectedPattern.at(i).draw(imgMat, cameraMatrix, distortions);
+				//detectedPattern.at(i).showPattern();
+				//detectedPattern.at(i).draw(imgMat, cameraMatrix, distortions);
 
 				// Toggling which pattern is visible
 				SetVisiblePattern(detectedPattern[i].id);
 			}
-		} else visiblePattern = 0; // reset visible pattern
+		} else {
+			// Reset visible pattern
+			visiblePattern = 0;
+		}
+
+
+		// Get key input
+		int key = cvWaitKey(33);
 
 		// Providing key controlls
-		KeyControlls();
+		KeyControlls(key);
+
+		// Drone movement
+		ardrone.move3D(vx, vy, vz, vr);
+
 
 		// Autonomous drone controll
 		KeepGoodAltitude();
 		AutoAdjustPosition();
+
+		// Always go back to hovering if no user input
+		if (!controlling) Hover();
+
+
+
 
 		//glBegin(GL_LINE_LOOP);
 		//for (int i = 0; i <= 300; i++){
@@ -207,44 +227,60 @@ int main(int argc, char **argv) {
 
 // Movement methods
 void PitchBackwards() {
-	ardrone.move3D(MOVEMENT_SPEED, 0.0, 0.0, 0.0);
+	vx = -MOVEMENT_SPEED;
+	s << "pitch back" << '\n';
+	OutputDebugString(s.str().c_str());
 }
 
 void PitchForwards() {
-	ardrone.move3D(-MOVEMENT_SPEED, 0.0, 0.0, 0.0);
+	vx = MOVEMENT_SPEED;
+	s << "pitch front" << '\n';
+	OutputDebugString(s.str().c_str());
 }
 
 void RollLeft() {
-	ardrone.move3D(0.0, -MOVEMENT_SPEED, 0.0, 0.0);
+	vy = MOVEMENT_SPEED;
+	s << "roll left" << '\n';
+	OutputDebugString(s.str().c_str());
 }
 
 void RollRight() {
-	ardrone.move3D(0.0, MOVEMENT_SPEED, 0.0, 0.0);
+	vy = -MOVEMENT_SPEED;
+	s << "roll right" << '\n';
+	OutputDebugString(s.str().c_str());
 }
 
 void YawCClockwise() {
-	ardrone.move3D(0.0, 0.0, 0.0, -MOVEMENT_SPEED);
+	vr = MOVEMENT_SPEED;
+	s << "yaw cc" << '\n';
+	OutputDebugString(s.str().c_str());
 }
 
 void YawClockwise() {
-	ardrone.move3D(0.0, 0.0, 0.0, MOVEMENT_SPEED);
+	vr = -MOVEMENT_SPEED;
+	s << "yaw c" << '\n';
+	OutputDebugString(s.str().c_str());
 }
 
 void GainAltitude() {
-	ardrone.move3D(0.0, 0.0, MOVEMENT_SPEED, 0.0);
+	vz = MOVEMENT_SPEED;
+	s << "gain alt" << '\n';
+	OutputDebugString(s.str().c_str());
 }
 
 void LooseAltitude() {
-	ardrone.move3D(0.0, 0.0, -MOVEMENT_SPEED, 0.0);
+	vz = -MOVEMENT_SPEED;
+	s << "loose alt" << '\n';
+	OutputDebugString(s.str().c_str());
 }
 
 void Hover() {
-	ardrone.move3D(0.0, 0.0, 0.0, 0.0);
+	vx = 0.0, vy = 0.0, vz = 0.0, vr = 0.0;
+	s << "hover" << '\n';
+	OutputDebugString(s.str().c_str());
 }
 
-void KeyControlls() {
-	// Key input
-	int key = cvWaitKey(33);
+void KeyControlls(int key) {
 
 	// Quit if ESC key
 	if (key == 0x1b) quitProgram = true;
@@ -265,11 +301,15 @@ void KeyControlls() {
 	if (key == 'x') ardrone.emergency();
 
 	// Reset patterns
-	// r key
-	if (key == 'r') {
+	// p key
+	if (key == 'p') {
 		visiblePattern = 0;
 		lastVisiblePattern = 0;
 	}
+
+	// Start hovering
+	// h key
+	if (key == 'h') Hover();
 
 	// Movement
 	// Up arrow
@@ -297,8 +337,8 @@ void KeyControlls() {
 	}
 
 	// Toggle absolute control
-	// c key
-	if (key == 'c') {
+	// o key
+	if (key == 'o') {
 		if (absoluteControl) absoluteControl = false;
 		else absoluteControl = true;
 	}
@@ -349,15 +389,10 @@ void KeyControlls() {
 		}
 		else controlling = false;
 	}
-
-	// Always go back to hovering if no user input
-	Hover();
 }
 
 // Sets the state of the visible pattern
 void SetVisiblePattern(int patterID) {
-	std::stringstream s;
-
 	// Only auto-correct if user is not controlling drone
 	if (!controlling) {
 		switch (patterID) {
@@ -601,7 +636,7 @@ void AutoAdjustPosition() {
 			// If sees pattern 0 do
 			s << "do nothing - hover" << '\n';
 			OutputDebugString(s.str().c_str());
-			Hover();
+			//Hover();
 			break;
 		}
 
