@@ -3,6 +3,7 @@
 #define PAT_SIZE 64 // equal to pattern_size variable (see below)
 #define NUM_OF_PATTERNS 25 // define the number of patterns you want to use
 #define MOVEMENT_SPEED 0.5 // define the drone movement speed
+#define RESET_TIMER 3 // define a reset timer for autonomous control
 
 char* filename1 = "..\\..\\src\\resource\\1.png";//id=1
 char* filename2 = "..\\..\\src\\resource\\2.png";//id=2
@@ -37,15 +38,15 @@ char* filename25 = "..\\..\\src\\resource\\25.png";//id=25
 // --------------------------------------------------------------------------
 int main(int argc, char **argv) {
 
-	// Initialize
-	// If drone is not connected, initialise webcam
-	if (!ardrone.open()) {
-		printf("Drone failed to connect.\n");
-		isDroneConnected = false;
-	} else isDroneConnected = true;
+	//// Initialize
+	//// If drone is not connected, initialise webcam
+	//if (!ardrone.open()) {
+	//	printf("Drone failed to connect.\n");
+	//	isDroneConnected = false;
+	//} else isDroneConnected = true;
 
-	//// DEBUGGING
-	//isDroneConnected = false;
+	// DEBUGGING
+	isDroneConnected = false;
 
 
 	quitProgram = false;
@@ -55,7 +56,6 @@ int main(int argc, char **argv) {
 	controlling = false;
 	absoluteControl = false;
 	vx = 0.0, vy = 0.0, vz = 0.0, vr = 0.0;
-
 
 
 	// Loading patterns
@@ -157,7 +157,6 @@ int main(int argc, char **argv) {
 		printf("Position = %d%%\n", ardrone.getPosition());
 
 
-
 		// Augment the input frame (and print out the properties of pattern if you want)
 		if (detectedPattern.size()) {
 			for (unsigned int i = 0; i < detectedPattern.size(); i++){
@@ -168,10 +167,19 @@ int main(int argc, char **argv) {
 				// Toggling which pattern is visible
 				SetVisiblePattern(detectedPattern[i].id);
 			}
-		} else {
-			// Reset visible pattern
-			visiblePattern = 0;
-		}
+		// Reset visible pattern
+		} else visiblePattern = 0;
+
+
+
+		// Get elapsed time since last saw pattern
+		lastVPElapsed = cvGetTickCount();
+		int elapsedTime = ((lastVPElapsed - lastVPStart) / (cvGetTickFrequency() * 1000)) / 1000;
+
+		// Check if reset timer limit passed and reset last visible pattern
+		if (elapsedTime < 300)
+			if (RESET_TIMER - elapsedTime < 0) lastVisiblePattern = 0;
+		
 
 
 		// Get key input
@@ -188,8 +196,8 @@ int main(int argc, char **argv) {
 		KeepGoodAltitude();
 		AutoAdjustPosition();
 
-		// Always go back to hovering if no user input
-		if (!controlling) Hover();
+		// Always go back to hovering if no user input, no pattern visible and too old last visible pattern (0)
+		if (!controlling && visiblePattern == 0 && lastVisiblePattern == 0) Hover();
 
 
 
@@ -527,6 +535,9 @@ void SetVisiblePattern(int patterID) {
 
 		// store last visible pattern
 		lastVisiblePattern = visiblePattern;
+
+		// Start reset timer since last saw pattern
+		lastVPStart = cvGetTickCount();
 	}
 }
 
@@ -630,13 +641,6 @@ void AutoAdjustPosition() {
 			s << "do nothing - hover" << '\n';
 			OutputDebugString(s.str().c_str());
 			Hover();
-			break;
-
-		case 0:
-			// If sees pattern 0 do
-			s << "do nothing - hover" << '\n';
-			OutputDebugString(s.str().c_str());
-			//Hover();
 			break;
 		}
 
