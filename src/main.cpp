@@ -51,7 +51,9 @@ int main(int argc, char **argv) {
 	quitProgram = false;
 	int patternCount = 0;
 	visiblePattern = 0;
+	lastVisiblePattern = 0;
 	controlling = false;
+	absoluteControl = false;
 
 	// Loading patterns
 	LoadPattern(filename1, patternLibrary, patternCount);
@@ -258,6 +260,9 @@ void KeyControlls() {
 		else                    ardrone.landing();
 	}
 
+	// Emergency stop
+	// x key
+	if (key == 'x') ardrone.emergency();
 
 	// Movement
 	// Up arrow
@@ -284,43 +289,59 @@ void KeyControlls() {
 		} else controlling = false;
 	}
 
-	// Emergency controlls - always available
-	// Left arrow | a key
-	// Roll left
-	if (key == 'a') {
-		RollLeft();
-		controlling = true;
-	} else controlling = false;
-	// Right arrow | d key
-	// Roll right
-	if (key == 'd') {
-		RollRight();
-		controlling = true;
-	} else controlling = false;
-	// w key
-	// Pitch forwards
-	if (key == 'w') {
-		PitchForwards();
-		controlling = true;
-	} else controlling = false;
-	// s key
-	// Pitch backwards
-	if (key == 's') {
-		PitchBackwards();
-		controlling = true;
-	} else controlling = false;
-	// q key
-	// Yaw c-clockwise
-	if (key == 'q') {
-		YawCClockwise();
-		controlling = true;
-	} else controlling = false;
-	// e key
-	// Yaw clockwise
-	if (key == 'e') {
-		YawClockwise();
-		controlling = true;
-	} else controlling = false;
+	// Toggle absolute control
+	// c key
+	if (key == 'c') {
+		if (absoluteControl) absoluteControl = false;
+		else absoluteControl = true;
+	}
+
+	// Emergency controls
+	// Available only in absoulte control mode
+	if (absoluteControl) {
+		// Left arrow | a key
+		// Roll left
+		if (key == 'a') {
+			RollLeft();
+			controlling = true;
+		}
+		else controlling = false;
+		// Right arrow | d key
+		// Roll right
+		if (key == 'd') {
+			RollRight();
+			controlling = true;
+		}
+		else controlling = false;
+		// w key
+		// Pitch forwards
+		if (key == 'w') {
+			PitchForwards();
+			controlling = true;
+		}
+		else controlling = false;
+		// s key
+		// Pitch backwards
+		if (key == 's') {
+			PitchBackwards();
+			controlling = true;
+		}
+		else controlling = false;
+		// q key
+		// Yaw c-clockwise
+		if (key == 'q') {
+			YawCClockwise();
+			controlling = true;
+		}
+		else controlling = false;
+		// e key
+		// Yaw clockwise
+		if (key == 'e') {
+			YawClockwise();
+			controlling = true;
+		}
+		else controlling = false;
+	}
 
 	// Always go back to hovering if no user input
 	Hover();
@@ -461,6 +482,9 @@ void SetVisiblePattern(int patterID) {
 		default:
 			break;
 		}
+
+		// store last visible pattern
+		lastVisiblePattern = visiblePattern;
 	}
 }
 
@@ -470,7 +494,18 @@ void AutoAdjustPosition() {
 
 	// Only auto-correct if user is not controlling drone
 	if (!controlling) {
-		switch (visiblePattern) {
+
+		// Switch variable
+		int patternSwitch = 0;
+
+		// Check if there is no pattern visible, but there was one store previously
+		if (visiblePattern == 0 && lastVisiblePattern != 0) {
+			// If so, execute action of last pattern
+			patternSwitch = lastVisiblePattern;
+		// Else, execute current action
+		} else patternSwitch = visiblePattern;
+
+		switch (patternSwitch) {
 
 		case 1:
 		case 17:
@@ -554,12 +589,15 @@ void AutoAdjustPosition() {
 			OutputDebugString(s.str().c_str());
 			Hover();
 			break;
+
 		default:
 			s << "seeing nothing" << '\n';
 			OutputDebugString(s.str().c_str());
-			Hover();
 			break;
 		}
+
+		s << "last visible " << lastVisiblePattern << '\n';
+		OutputDebugString(s.str().c_str());
 	}
 }
 
@@ -766,7 +804,7 @@ Mat HUD(Mat videoFeed, int sizex, int sizey) {
 	// Display info on to HUD
 	std::ostringstream str; // string stream
 
-	str << "Detection time: " << 10;
+	str << "Absolute control : " << absoluteControl;
 	putText(result, str.str(), Point(10, 30), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 250, 0));
 
 	return result;

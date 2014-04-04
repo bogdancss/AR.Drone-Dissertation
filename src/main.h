@@ -58,9 +58,11 @@ std::vector<Pattern> detectedPattern;
 
 // Variables
 int visiblePattern;
+int lastVisiblePattern;
 bool quitProgram;
 bool isDroneConnected;
 bool controlling;
+bool absoluteControl;
 
 
 
