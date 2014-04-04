@@ -264,6 +264,13 @@ void KeyControlls() {
 	// x key
 	if (key == 'x') ardrone.emergency();
 
+	// Reset patterns
+	// r key
+	if (key == 'r') {
+		visiblePattern = 0;
+		lastVisiblePattern = 0;
+	}
+
 	// Movement
 	// Up arrow
 	// Gain altitude
@@ -590,9 +597,11 @@ void AutoAdjustPosition() {
 			Hover();
 			break;
 
-		default:
-			s << "seeing nothing" << '\n';
+		case 0:
+			// If sees pattern 0 do
+			s << "do nothing - hover" << '\n';
 			OutputDebugString(s.str().c_str());
+			Hover();
 			break;
 		}
 
