@@ -128,10 +128,7 @@ int main(int argc, char **argv) {
 			img = ardrone.getImage();
 		} else {
 			// Capture webcam feed
-			CvCapture *webcamCapture = cvCreateCameraCapture(0);
-			// Set custom webcam size
-			cvSetCaptureProperty(webcamCapture, CV_CAP_PROP_FRAME_WIDTH, 640);
-			cvSetCaptureProperty(webcamCapture, CV_CAP_PROP_FRAME_HEIGHT, 480);
+			CvCapture* webcamCapture = cvCaptureFromCAM(0);
 
 			// Get webcam image
 			img = cvQueryFrame(webcamCapture);
@@ -146,7 +143,7 @@ int main(int argc, char **argv) {
 		Mat result = HUD(imgMat, 640, 480);
 
 		// Run the detector
-		myDetector.detect(imgMat, cameraMatrix, distortions, patternLibrary, detectedPattern);
+		myDetector.detect(result, cameraMatrix, distortions, patternLibrary, detectedPattern);
 
 		// Some usefull info
 		cout << "Battery: " << ardrone.getBatteryPercentage() << endl;
@@ -165,7 +162,7 @@ int main(int argc, char **argv) {
 
 				// Draw a cube over patterns
 				//detectedPattern.at(i).showPattern();
-				//detectedPattern.at(i).draw(imgMat, cameraMatrix, distortions);
+				detectedPattern.at(i).draw(result, cameraMatrix, distortions);
 			}
 		} else {
 			// reset pattern timers
@@ -204,22 +201,14 @@ int main(int argc, char **argv) {
 
 		// Always go back to hovering if no user input, no pattern visible and too old last visible pattern (0)
 		if (!controlling && visiblePattern == 0 && lastVisiblePattern == 0) Hover();
+		
 
 
 
-
-		//glBegin(GL_LINE_LOOP);
-		//for (int i = 0; i <= 300; i++){
-		//	double angle = 2 * M_PHI * i / 300;
-		//	double x = cos(angle);
-		//	double y = sin(angle);
-		//	glVertex2d(x, y);
-		//}
-		//glEnd();
-
-
-		// Initialise OpenGL window
+		// Initialise window with OpenGL support
 		namedWindow("AR.Drone", WINDOW_OPENGL);
+		// Set window size 
+		resizeWindow("AR.Drone", 640, 480);
 		// Show the OpenCV image in a new window AR.Drone
 		imshow("AR.Drone", result);
 
