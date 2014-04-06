@@ -34,7 +34,7 @@ static void Stop();
 static int LoadPattern(const char*, std::vector<Mat>&, int&);
 static void SetVisiblePattern(int patterID);
 
-static void KeyControlls(int key);
+static void KeyControls(int key);
 static void AutoAdjustPosition();
 static void KeepGoodAltitude();
 bool IsTooLow();

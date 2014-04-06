@@ -4,7 +4,7 @@
 #define NUM_OF_PATTERNS 25 // define the number of patterns you want to use
 #define MOVEMENT_SPEED 0.5 // define the drone movement speed
 #define ALTITUDE_SPEED 0.5 // define the drone altitude gain/loose speed
-#define RESET_TIMER 3 // define a reset timer for autonomous control
+#define RESET_TIMER 2 // define a reset timer for autonomous control
 
 char* filename1 = "..\\..\\src\\resource\\1.png";//id=1
 char* filename2 = "..\\..\\src\\resource\\2.png";//id=2
@@ -203,14 +203,14 @@ int main(int argc, char **argv) {
 		// Get key input
 		int key = cvWaitKey(33);
 
-		// Providing key controlls
-		KeyControlls(key);
+		// Providing key controls
+		KeyControls(key);
 
 		// Drone movement
 		ardrone.move3D(vx, vy, vz, vr);
 
 
-		// Autonomous drone controll
+		// Autonomous drone control
 		KeepGoodAltitude();
 		AutoAdjustPosition();
 
@@ -306,7 +306,7 @@ void Hover() {
 	OutputDebugString(s.str().c_str());
 }
 
-void KeyControlls(int key) {
+void KeyControls(int key) {
 
 	// Quit if ESC key
 	if (key == 0x1b) quitProgram = true;
@@ -348,8 +348,8 @@ void KeyControlls(int key) {
 	if (!IsTooLow())
 		if (key == 0x280000 || key == 'f') LooseAltitude();
 
-	// Game controlls - need to be within bounds to opperate
-	// Left/right controlls
+	// Game controls - need to be within bounds to opperate
+	// Left/right controls
 	if (IsWithinBounds()) {
 		// Left arrow
 		// Roll left
@@ -562,7 +562,7 @@ void SetVisiblePattern(int patterID) {
 	}
 }
 
-// Autonomous drone controll
+// Autonomous drone control
 void AutoAdjustPosition() {
 	std::stringstream s;
 
@@ -686,7 +686,7 @@ bool IsTooHigh() {
 	else return false;
 }
 
-// Autonomous drone altitude controll
+// Autonomous drone altitude control
 void KeepGoodAltitude() {
 	// Lower the drone
 	if (IsTooHigh()) LooseAltitude();
