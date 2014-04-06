@@ -68,6 +68,7 @@ bool controlling;
 bool absoluteControl;
 double vx, vy, vz, vr;
 int lastVPStart, lastVPElapsed;
+std::vector<int> timers;
 
 
 

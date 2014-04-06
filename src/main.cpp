@@ -100,6 +100,12 @@ int main(int argc, char **argv) {
 	// Initialise PatternDetector
 	PatternDetector myDetector(fixed_thresh, adapt_thresh, adapt_block_size, confidenceThreshold, norm_pattern_size, mode);
 
+	// Initialise each pattern timer
+	int timer;
+	for (int i = 0; i < patternCount; i++) {
+		timers.push_back(timer);
+	}
+
 	// Matrix for OpenCV image
 	Mat imgMat;
 
@@ -159,16 +165,27 @@ int main(int argc, char **argv) {
 
 		// Augment the input frame (and print out the properties of pattern if you want)
 		if (detectedPattern.size()) {
-			for (unsigned int i = 0; i < detectedPattern.size(); i++){
+			for (unsigned int i = 0; i < detectedPattern.size(); i++) {
+				
+				// Start current pattern seen timer
+				int now = cvGetTickCount();
+				int passedSinceSeen = ((now - timers[i]) / (cvGetTickFrequency() * 1000)) / 1000;
+
+				// Only set visible pattern if detected a pattern for more than 1 second 
+				if (passedSinceSeen > 1.0) SetVisiblePattern(detectedPattern[i].id);
+
 				// Draw a cube over patterns
 				//detectedPattern.at(i).showPattern();
 				//detectedPattern.at(i).draw(imgMat, cameraMatrix, distortions);
-
-				// Toggling which pattern is visible
-				SetVisiblePattern(detectedPattern[i].id);
 			}
-		// Reset visible pattern
-		} else visiblePattern = 0;
+		} else {
+			// reset pattern timers
+			for (int i = 0; i < patternCount; i++)
+				timers[i] = cvGetTickCount();
+
+			// Reset visible pattern
+			visiblePattern = 0;
+		}
 
 
 
