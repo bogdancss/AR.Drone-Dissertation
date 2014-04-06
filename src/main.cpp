@@ -3,6 +3,7 @@
 #define PAT_SIZE 64 // equal to pattern_size variable (see below)
 #define NUM_OF_PATTERNS 25 // define the number of patterns you want to use
 #define MOVEMENT_SPEED 0.5 // define the drone movement speed
+#define ALTITUDE_SPEED 0.5 // define the drone altitude gain/loose speed
 #define RESET_TIMER 3 // define a reset timer for autonomous control
 
 char* filename1 = "..\\..\\src\\resource\\1.png";//id=1
@@ -288,13 +289,13 @@ void YawClockwise() {
 }
 
 void GainAltitude() {
-	vz = MOVEMENT_SPEED;
+	vz = ALTITUDE_SPEED;
 	s << "gain alt" << '\n';
 	OutputDebugString(s.str().c_str());
 }
 
 void LooseAltitude() {
-	vz = -MOVEMENT_SPEED;
+	vz = -ALTITUDE_SPEED;
 	s << "loose alt" << '\n';
 	OutputDebugString(s.str().c_str());
 }
@@ -339,10 +340,13 @@ void KeyControlls(int key) {
 	// Movement
 	// Up arrow
 	// Gain altitude
-	if (key == 0x260000 || key == 'r' && !IsTooHigh()) GainAltitude();
+	if (!IsTooHigh())
+		if (key == 0x260000 || key == 'r') GainAltitude();
+
 	// Down arrow
 	// Loose altitude
-	if (key == 0x280000 || key == 'f' && !IsTooLow()) LooseAltitude();
+	if (!IsTooLow())
+		if (key == 0x280000 || key == 'f') LooseAltitude();
 
 	// Game controlls - need to be within bounds to opperate
 	// Left/right controlls
