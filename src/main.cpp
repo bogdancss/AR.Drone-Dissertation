@@ -145,24 +145,12 @@ int main(int argc, char **argv) {
 		// Render the HUD
 		Mat result = HUD(imgMat, 640, 480);
 
-
-		// Timer for pattern detection time
-		double tic = (double)cvGetTickCount();
-
 		// Run the detector
 		myDetector.detect(imgMat, cameraMatrix, distortions, patternLibrary, detectedPattern);
 
-		// Show the pattern detection time
-		double toc = (double)cvGetTickCount();
-		double detectionTime = (toc - tic) / ((double)cvGetTickFrequency() * 1000);
-		cout << "Detected Patterns: " << detectedPattern.size() << endl;
-		cout << "Detection time: " << detectionTime << endl;
-
-		// Some usefull debug printfs
-		printf("Battery = %d%%\n", ardrone.getBatteryPercentage());
-		printf("Altitude = %d%%\n", ardrone.getAltitude());
-		printf("Position = %d%%\n", ardrone.getPosition());
-
+		// Some usefull info
+		cout << "Battery: " << ardrone.getBatteryPercentage() << endl;
+		cout << "altitude = " << ardrone.getAltitude() << endl;
 
 		// Augment the input frame (and print out the properties of pattern if you want)
 		if (detectedPattern.size()) {
