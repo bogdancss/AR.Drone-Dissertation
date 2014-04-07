@@ -163,13 +163,7 @@ int main(int argc, char **argv) {
 
 				//// Only set visible pattern if detected a pattern for more than 1 second 
 				//if (passedSinceSeen > SEEN_TIMER) SetVisiblePattern(detectedPattern[i].id);
-				visiblePattern = detectedPattern[i].id;
-
-				// store last visible pattern
-				lastVisiblePattern = visiblePattern;
-
-				// Start reset timer since last saw pattern
-				lastVPStart = cvGetTickCount();
+				SetVisiblePattern(detectedPattern[i].id);
 
 				// Draw a cube over patterns
 				//detectedPattern.at(i).showPattern();
@@ -335,6 +329,13 @@ void KeyControls(int key) {
 	// x key
 	if (key == 'x') ardrone.emergency();
 
+	// Reset patterns
+	// p key
+	if (key == 'p') {
+		visiblePattern = 0;
+		lastVisiblePattern = 0;
+	}
+
 	// Start hovering
 	// h key
 	if (key == 'h') Hover();
@@ -425,6 +426,123 @@ void KeyControls(int key) {
 			controlling = true;
 		}
 		else controlling = false;
+	}
+}
+
+// Sets the state of the visible pattern
+void SetVisiblePattern(int patterID) {
+	// Only auto-correct if user is not controlling drone
+	if (!controlling) {
+		switch (patterID) {
+		case 1:
+			visiblePattern = 1;
+			cout << "seing patter 1" << endl;
+			break;
+		case 2:
+			cout << "seing patter 2" << endl;
+			visiblePattern = 2;
+			break;
+		case 3:
+			cout << "seing patter 3" << endl;
+			visiblePattern = 3;
+			break;
+		case 4:
+			cout << "seing patter 4" << endl;
+			visiblePattern = 4;
+			break;
+		case 5:
+			cout << "seing patter 5" << endl;
+			visiblePattern = 5;
+			break;
+		case 6:
+			cout << "seing patter 6" << endl;
+			visiblePattern = 6;
+			break;
+		case 7:
+			cout << "seing patter 7" << endl;
+			visiblePattern = 7;
+			break;
+		case 8:
+			cout << "seing patter 8" << endl;
+			visiblePattern = 8;
+			break;
+		case 9:
+			cout << "seing patter 9" << endl;
+			visiblePattern = 9;
+			break;
+		case 10:
+			cout << "seing patter 10" << endl;
+			visiblePattern = 10;
+			break;
+		case 11:
+			cout << "seing patter 11" << endl;
+			visiblePattern = 11;
+			break;
+		case 12:
+			cout << "seing patter 12" << endl;
+			visiblePattern = 12;
+			break;
+		case 13:
+			cout << "seing patter 13" << endl;
+			visiblePattern = 13;
+			break;
+		case 14:
+			cout << "seing patter 14" << endl;
+			visiblePattern = 14;
+			break;
+		case 15:
+			cout << "seing patter 15" << endl;
+			visiblePattern = 15;
+			break;
+		case 16:
+			cout << "seing patter 16" << endl;
+			visiblePattern = 16;
+			break;
+		case 17:
+			cout << "seing patter 17" << endl;
+			visiblePattern = 17;
+			break;
+		case 18:
+			cout << "seing patter 18" << endl;
+			visiblePattern = 18;
+			break;
+		case 19:
+			cout << "seing patter 19" << endl;
+			visiblePattern = 19;
+			break;
+		case 20:
+			cout << "seing patter 20" << endl;
+			visiblePattern = 20;
+			break;
+		case 21:
+			cout << "seing patter 21" << endl;
+			visiblePattern = 21;
+			break;
+		case 22:
+			cout << "seing patter 22" << endl;
+			visiblePattern = 22;
+			break;
+		case 23:
+			cout << "seing patter 23" << endl;
+			visiblePattern = 23;
+			break;
+		case 24:
+			visiblePattern = 24;
+			cout << "seing patter 24" << endl;
+			break;
+		case 25:
+			cout << "seing patter 25" << endl;
+			visiblePattern = 25;
+			break;
+		default:
+			break;
+		}
+
+		// store last visible pattern
+		lastVisiblePattern = visiblePattern;
+
+		// Start reset timer since last saw pattern
+		lastVPStart = cvGetTickCount();
 	}
 }
 
