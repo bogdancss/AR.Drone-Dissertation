@@ -29,7 +29,6 @@ Mat HUD(Mat videoFeed, int sizex, int sizey);
 
 static void Stop();
 static int LoadPattern(const char*, vector<Mat>&, int&);
-static void SetVisiblePattern(int patterID);
 
 static void KeyControls(int key);
 static void AutoAdjustPosition();
