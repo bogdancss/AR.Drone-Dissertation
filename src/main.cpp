@@ -4,7 +4,8 @@
 #define NUM_OF_PATTERNS 25 // define the number of patterns you want to use
 #define MOVEMENT_SPEED 0.5 // define the drone movement speed
 #define ALTITUDE_SPEED 0.5 // define the drone altitude gain/loose speed
-#define RESET_TIMER 2 // define a reset timer for autonomous control
+#define RESET_TIMER 1 // define a reset timer for autonomous control
+#define SEEN_TIMER 0.1 // define a timer to consider pattern as "seen"
 #define WIDTH 640 // define window width 
 #define HEIGHT 480 // define window heigth
 
@@ -109,9 +110,6 @@ int main(int argc, char **argv) {
 		timers.push_back(timer);
 	}
 
-	// Matrix for OpenCV image
-	Mat imgMat;
-
 	// Start main loop
 	while (1) {
 
@@ -130,7 +128,7 @@ int main(int argc, char **argv) {
 			img = ardrone.getImage();
 		} else {
 			// Capture webcam feed
-			CvCapture* webcamCapture = cvCaptureFromCAM(0);
+			webcamCapture = cvCaptureFromCAM(0);
 
 			// Get webcam image
 			img = cvQueryFrame(webcamCapture);
@@ -157,10 +155,10 @@ int main(int argc, char **argv) {
 				
 				// Start current pattern seen timer
 				int now = cvGetTickCount();
-				int passedSinceSeen = ((now - timers[i]) / (cvGetTickFrequency() * 1000)) / 1000;
+				int passedSinceSeen = ((now - timers[detectedPattern[i].id]) / (cvGetTickFrequency() * 1000)) / 1000;
 
 				// Only set visible pattern if detected a pattern for more than 1 second 
-				if (passedSinceSeen > 1.0) SetVisiblePattern(detectedPattern[i].id);
+				if (passedSinceSeen > SEEN_TIMER) SetVisiblePattern(detectedPattern[i].id);
 
 				// Draw a cube over patterns
 				//detectedPattern.at(i).showPattern();
