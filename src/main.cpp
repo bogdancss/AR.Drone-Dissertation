@@ -157,12 +157,13 @@ int main(int argc, char **argv) {
 		if (detectedPattern.size()) {
 			for (unsigned int i = 0; i < detectedPattern.size(); i++) {
 				
-				// Start current pattern seen timer
-				int now = cvGetTickCount();
-				int passedSinceSeen = ((now - timers[detectedPattern[i].id]) / (cvGetTickFrequency() * 1000)) / 1000;
+				//// Start current pattern seen timer
+				//int now = cvGetTickCount();
+				//int passedSinceSeen = ((now - timers[detectedPattern[i].id]) / (cvGetTickFrequency() * 1000)) / 1000;
 
-				// Only set visible pattern if detected a pattern for more than 1 second 
-				if (passedSinceSeen > SEEN_TIMER) SetVisiblePattern(detectedPattern[i].id);
+				//// Only set visible pattern if detected a pattern for more than 1 second 
+				//if (passedSinceSeen > SEEN_TIMER) SetVisiblePattern(detectedPattern[i].id);
+				SetVisiblePattern(detectedPattern[i].id);
 
 				// Draw a cube over patterns
 				//detectedPattern.at(i).showPattern();
@@ -224,7 +225,6 @@ int main(int argc, char **argv) {
 
 		// Always go back to hovering if no user input, no pattern visible and too old last visible pattern (0)
 		if (!controlling && visiblePattern == 0 && lastVisiblePattern == 0) Hover();
-		
 
 
 
@@ -266,56 +266,47 @@ int main(int argc, char **argv) {
 // Movement methods
 void PitchBackwards() {
 	vx = -MOVEMENT_SPEED;
-	s << "pitch back" << '\n';
-	OutputDebugString(s.str().c_str());
+	cout << "pitch backwards" << endl;
 }
 
 void PitchForwards() {
 	vx = MOVEMENT_SPEED;
-	s << "pitch front" << '\n';
-	OutputDebugString(s.str().c_str());
+	cout << "pitch forwards" << endl;
 }
 
 void RollLeft() {
 	vy = MOVEMENT_SPEED;
-	s << "roll left" << '\n';
-	OutputDebugString(s.str().c_str());
+	cout << "roll left" << endl;
 }
 
 void RollRight() {
 	vy = -MOVEMENT_SPEED;
-	s << "roll right" << '\n';
-	OutputDebugString(s.str().c_str());
+	cout << "roll right" << endl;
 }
 
 void YawCClockwise() {
 	vr = MOVEMENT_SPEED;
-	s << "yaw cc" << '\n';
-	OutputDebugString(s.str().c_str());
+	cout << "yaw ccwise" << endl;
 }
 
 void YawClockwise() {
 	vr = -MOVEMENT_SPEED;
-	s << "yaw c" << '\n';
-	OutputDebugString(s.str().c_str());
+	cout << "yaw cwise" << endl;
 }
 
 void GainAltitude() {
 	vz = ALTITUDE_SPEED;
-	s << "gain alt" << '\n';
-	OutputDebugString(s.str().c_str());
+	cout << "gain alt" << endl;
 }
 
 void LooseAltitude() {
 	vz = -ALTITUDE_SPEED;
-	s << "loose alt" << '\n';
-	OutputDebugString(s.str().c_str());
+	cout << "loose alt" << endl;
 }
 
 void Hover() {
 	vx = 0.0, vy = 0.0, vz = 0.0, vr = 0.0;
-	s << "hover" << '\n';
-	OutputDebugString(s.str().c_str());
+	cout << "hover" << endl;
 }
 
 void KeyControls(int key) {
@@ -352,30 +343,36 @@ void KeyControls(int key) {
 	// Movement
 	// Up arrow
 	// Gain altitude
-	if (!IsTooHigh())
-		if (key == 0x260000 || key == 'r') GainAltitude();
+	if (key == 0x260000 || key == 'r')
+		if (!IsTooHigh())
+			GainAltitude();
 
 	// Down arrow
 	// Loose altitude
-	if (!IsTooLow())
-		if (key == 0x280000 || key == 'f') LooseAltitude();
+	if (key == 0x280000 || key == 'f')
+		if (!IsTooLow())
+			LooseAltitude();
 
 	// Game controls - need to be within bounds to opperate
 	// Left/right controls
-	if (IsWithinBounds()) {
-		// Left arrow
-		// Roll left
-		if (key == 0x250000) {
+	// Left arrow
+	// Roll left
+	if (key == 0x250000) {
+		if (IsWithinBounds()) {
 			RollLeft();
 			controlling = true;
-		} else controlling = false;
-		// Right arrow
-		// Roll right
-		if (key == 0x270000) {
+		}
+	} else controlling = false;
+
+
+	// Right arrow
+	// Roll right
+	if (key == 0x270000) {
+		if (IsWithinBounds()) {
 			RollRight();
 			controlling = true;
-		} else controlling = false;
-	}
+		}
+	} else controlling = false;
 
 	// Toggle absolute control
 	// o key
@@ -439,128 +436,103 @@ void SetVisiblePattern(int patterID) {
 		switch (patterID) {
 		case 1:
 			visiblePattern = 1;
-			s << "seeing patter 1" << '\n';
-			OutputDebugString(s.str().c_str());
+			cout << "seing patter 1" << endl;
 			break;
 		case 2:
+			cout << "seing patter 2" << endl;
 			visiblePattern = 2;
-			s << "seeing patter 2" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 3:
+			cout << "seing patter 3" << endl;
 			visiblePattern = 3;
-			s << "seeing patter 3" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 4:
+			cout << "seing patter 4" << endl;
 			visiblePattern = 4;
-			s << "seeing patter 4" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 5:
+			cout << "seing patter 5" << endl;
 			visiblePattern = 5;
-			s << "seeing patter 5" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 6:
+			cout << "seing patter 6" << endl;
 			visiblePattern = 6;
-			s << "seeing patter 6" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 7:
+			cout << "seing patter 7" << endl;
 			visiblePattern = 7;
-			s << "seeing patter 7" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 8:
+			cout << "seing patter 8" << endl;
 			visiblePattern = 8;
-			s << "seeing patter 8" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 9:
+			cout << "seing patter 9" << endl;
 			visiblePattern = 9;
-			s << "seeing patter 9" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 10:
+			cout << "seing patter 10" << endl;
 			visiblePattern = 10;
-			s << "seeing patter 10" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 11:
+			cout << "seing patter 11" << endl;
 			visiblePattern = 11;
-			s << "seeing patter 11" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 12:
+			cout << "seing patter 12" << endl;
 			visiblePattern = 12;
-			s << "seeing patter 12" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 13:
+			cout << "seing patter 13" << endl;
 			visiblePattern = 13;
-			s << "seeing patter 13" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 14:
+			cout << "seing patter 14" << endl;
 			visiblePattern = 14;
-			s << "seeing patter 14" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 15:
+			cout << "seing patter 15" << endl;
 			visiblePattern = 15;
-			s << "seeing patter 15" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 16:
+			cout << "seing patter 16" << endl;
 			visiblePattern = 16;
-			s << "seeing patter 16" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 17:
+			cout << "seing patter 17" << endl;
 			visiblePattern = 17;
-			s << "seeing patter 17" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 18:
+			cout << "seing patter 18" << endl;
 			visiblePattern = 18;
-			s << "seeing patter 18" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 19:
+			cout << "seing patter 19" << endl;
 			visiblePattern = 19;
-			s << "seeing patter 19" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 20:
+			cout << "seing patter 20" << endl;
 			visiblePattern = 20;
-			s << "seeing patter 20" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 21:
+			cout << "seing patter 21" << endl;
 			visiblePattern = 21;
-			s << "seeing patter 21" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 22:
+			cout << "seing patter 22" << endl;
 			visiblePattern = 22;
-			s << "seeing patter 22" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 23:
+			cout << "seing patter 23" << endl;
 			visiblePattern = 23;
-			s << "seeing patter 23" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		case 24:
 			visiblePattern = 24;
-			s << "seeing patter 24" << '\n';
-			OutputDebugString(s.str().c_str());
+			cout << "seing patter 24" << endl;
 			break;
 		case 25:
+			cout << "seing patter 25" << endl;
 			visiblePattern = 25;
-			s << "seeing patter 25" << '\n';
-			OutputDebugString(s.str().c_str());
 			break;
 		default:
 			break;
@@ -594,8 +566,6 @@ void AutoAdjustPosition() {
 		case 1:
 		case 17:
 			// If sees pattern 1 or 17 do
-			s << "go diagonally backward right " << '\n';
-			OutputDebugString(s.str().c_str());
 			PitchBackwards();
 			RollRight();
 			break;
@@ -605,16 +575,12 @@ void AutoAdjustPosition() {
 		case 4:
 		case 18:
 			// If sees pattern 2, 3, 4 or 18 do
-			s << "go straight back" << '\n';
-			OutputDebugString(s.str().c_str());
 			PitchBackwards();
 			break;
 
 		case 5:
 		case 19:
 			// If sees pattern 5 or 19 do
-			s << "go diagonally backward left" << '\n';
-			OutputDebugString(s.str().c_str());
 			PitchBackwards();
 			RollLeft();
 			break;
@@ -624,16 +590,12 @@ void AutoAdjustPosition() {
 		case 8:
 		case 20:
 			// If sees pattern 6, 7, 8 or 20 do
-			s << "go straight left" << '\n';
-			OutputDebugString(s.str().c_str());
 			RollLeft();
 			break;
 
 		case 9:
 		case 21:
 			// If sees pattern 9 or 21 do
-			s << "go diagonally forward left" << '\n';
-			OutputDebugString(s.str().c_str());
 			PitchForwards();
 			RollLeft();
 			break;
@@ -643,16 +605,12 @@ void AutoAdjustPosition() {
 		case 12:
 		case 22:
 			// If sees pattern 10, 11, 12 or 22 do
-			s << "go straight forward" << '\n';
-			OutputDebugString(s.str().c_str());
 			PitchForwards();
 			break;
 
 		case 13:
 		case 23:
 			// If sees pattern 13 or 23 do
-			s << "go diagonally forward right" << '\n';
-			OutputDebugString(s.str().c_str());
 			PitchForwards();
 			RollRight();
 			break;
@@ -662,21 +620,16 @@ void AutoAdjustPosition() {
 		case 16:
 		case 24:
 			// If sees pattern 14, 15, 16 or 24 do
-			s << "go straight right" << '\n';
-			OutputDebugString(s.str().c_str());
 			RollRight();
 			break;
 
 		case 25:
 			// If sees pattern 25 do
-			s << "do nothing - hover" << '\n';
-			OutputDebugString(s.str().c_str());
 			Hover();
 			break;
 		}
 
-		s << "last visible " << lastVisiblePattern << '\n';
-		OutputDebugString(s.str().c_str());
+		cout << "last visible " << lastVisiblePattern << endl;
 	}
 }
 

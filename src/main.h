@@ -16,9 +16,6 @@ using namespace ARma;
 
 typedef vector <vector<int>> colorsMatrix;
 
-// Just for debugging
-stringstream s;
-
 // AR.Drone class
 ARDrone ardrone;
 
