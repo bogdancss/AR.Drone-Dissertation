@@ -174,14 +174,10 @@ int main(int argc, char **argv) {
 				detectedPattern.at(i).getCoordinates(ul, ur, lr, ll, cameraMatrix, distortions);
 
 				// Store coordinates
-				vector<Point2f> coordinates;
-				coordinates.push_back(ul);
-				coordinates.push_back(ur);
-				coordinates.push_back(lr);
-				coordinates.push_back(ll);
-
-				// Store coordinates for to the current pattern
-				patternsCoordinates[detectedPattern[i].id] = coordinates;
+				patternsCoordinates[detectedPattern[i].id].push_back(ul);
+				patternsCoordinates[detectedPattern[i].id].push_back(ur);
+				patternsCoordinates[detectedPattern[i].id].push_back(lr);
+				patternsCoordinates[detectedPattern[i].id].push_back(ll);
 			}
 		} else {
 			for (int i = 0; i < patternCount; i++) {
@@ -196,7 +192,6 @@ int main(int argc, char **argv) {
 			// Reset visible pattern
 			visiblePattern = 0;
 		}
-
 
 
 		// Get elapsed time since last saw pattern
@@ -259,8 +254,6 @@ int main(int argc, char **argv) {
 	Stop();
 	return 0;
 }
-
-
 
 
 // Movement methods
@@ -660,21 +653,16 @@ bool IsWithinBounds() {
 	int height25 = HEIGHT * 25 / 100;
 	int height75 = HEIGHT * 75 / 100;
 
-	vector<Point2f> coordinates;
-
 	// Only run if there are visible patterns
 	if (visiblePattern) {
 
-		// Store current visible pattern coordinates
-		coordinates = patternsCoordinates[visiblePattern];
-
-		if (coordinates.size()) {
+		if (patternsCoordinates[visiblePattern].size()) {
 
 			// Get upper left, upper right, lower right and lower left pattern corner coordinates
-			Point2f ul = coordinates[0];
-			Point2f ur = coordinates[1];
-			Point2f lr = coordinates[2];
-			Point2f ll = coordinates[3];
+			Point2f ul = patternsCoordinates[visiblePattern][0];
+			Point2f ur = patternsCoordinates[visiblePattern][1];
+			Point2f lr = patternsCoordinates[visiblePattern][2];
+			Point2f ll = patternsCoordinates[visiblePattern][3];
 
 			// Upper left corner
 			if (visiblePattern == 1)
@@ -867,4 +855,12 @@ Mat HUD(Mat videoFeed, int sizex, int sizey) {
 	putText(result, str.str(), Point(10, 30), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 250, 0));
 
 	return result;
+}
+
+// Returns the distance between 2 patterns
+static int DistanceBetween(int pat1, int pat2) {
+	if (patternsCoordinates[pat1].size() && patternsCoordinates[pat2].size()) {
+		// Get the distance between the upper left corners of the patterns
+		return norm(patternsCoordinates[pat1][0] - patternsCoordinates[pat2][0]);
+	} else return 0;
 }

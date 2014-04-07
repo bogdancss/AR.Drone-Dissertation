@@ -37,6 +37,7 @@ static void KeepGoodAltitude();
 bool IsTooLow();
 bool IsTooHigh();
 bool IsWithinBounds();
+static int DistanceBetween(int pat1, int pat2);
 
 // Movement methods
 static void PitchForwards();
