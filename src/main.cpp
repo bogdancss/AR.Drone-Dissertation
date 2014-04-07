@@ -329,13 +329,6 @@ void KeyControls(int key) {
 	// x key
 	if (key == 'x') ardrone.emergency();
 
-	// Reset patterns
-	// p key
-	if (key == 'p') {
-		visiblePattern = 0;
-		lastVisiblePattern = 0;
-	}
-
 	// Start hovering
 	// h key
 	if (key == 'h') Hover();
