@@ -58,6 +58,7 @@ static void Hover();
 vector<Mat> patternLibrary;
 vector<Pattern> detectedPattern;
 vector<int> timers;
+vector<vector<Point2f>> patternsCoordinates;
 
 
 // Variables

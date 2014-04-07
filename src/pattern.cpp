@@ -106,23 +106,50 @@ namespace ARma {
 
 
 		//draw cube, or whatever
-		int i;
-		for (i =0; i<4; i++){
-			cv::line(frame, model2ImagePts.at(i%4), model2ImagePts.at((i+1)%4), color, 3);
-		}
-		for (i =4; i<7; i++){
-			cv::line(frame, model2ImagePts.at(i%8), model2ImagePts.at((i+1)%8), color, 3);
-		}
-		cv::line(frame, model2ImagePts.at(7), model2ImagePts.at(4), color, 3);
-		for (i =0; i<4; i++){
-			cv::line(frame, model2ImagePts.at(i), model2ImagePts.at(i+4), color, 3);
-		}
+		//int i;
+		//for (i =0; i<4; i++){
+		//	cv::line(frame, model2ImagePts.at(i%4), model2ImagePts.at((i+1)%4), color, 3);
+		//}
+		//for (i =4; i<7; i++){
+		//	cv::line(frame, model2ImagePts.at(i%8), model2ImagePts.at((i+1)%8), color, 3);
+		//}
+		//cv::line(frame, model2ImagePts.at(7), model2ImagePts.at(4), color, 3);
+		//for (i =0; i<4; i++){
+		//	cv::line(frame, model2ImagePts.at(i), model2ImagePts.at(i+4), color, 3);
+		//}
 		
 		//draw the line that reflects the orientation. It indicates the bottom side of the pattern
-		cv::line(frame, model2ImagePts.at(2), model2ImagePts.at(3), cvScalar(80,255,80), 3);
+		//cv::line(frame, model2ImagePts.at(2), model2ImagePts.at(3), cvScalar(80,255,80), 3);
+		circle(frame, model2ImagePts.at(0), 10, Scalar(255, 0, 0), -1);
+		circle(frame, model2ImagePts.at(1), 10, Scalar(255, 255, 0), -1);
+		circle(frame, model2ImagePts.at(2), 10, Scalar(255, 0, 255), -1);
+		circle(frame, model2ImagePts.at(3), 10, Scalar(0, 0, 255), -1);
+
+		//cout << model2ImagePts.at(2) << endl;
 
 		model2ImagePts.clear();
 
 	}
 
+	void Pattern::getCoordinates(Point2f& ul, Point2f& ur, Point2f& lr, Point2f& ll, const Mat& camMatrix, const Mat& distMatrix) {
+
+		//model 3D points: they must be projected to the image plane
+		Mat modelPts = (Mat_<float>(8, 3) << 0, 0, 0, size, 0, 0, size, size, 0, 0, size, 0,
+			0, 0, -size, size, 0, -size, size, size, -size, 0, size, -size);
+
+
+		std::vector<cv::Point2f> model2ImagePts;
+		/* project model 3D points to the image. Points through the transformation matrix
+		(defined by rotVec and transVec) "are transfered" from the pattern CS to the
+		camera CS, and then, points are projected using camera parameters
+		(camera matrix, distortion matrix) from the camera 3D CS to its image plane
+		*/
+		projectPoints(modelPts, rotVec, transVec, camMatrix, distMatrix, model2ImagePts);
+
+		// return corner coordinates
+		ul = model2ImagePts.at(0);
+		ur = model2ImagePts.at(1);
+		lr = model2ImagePts.at(2);
+		ll = model2ImagePts.at(3);
+	}
 }
