@@ -5,6 +5,8 @@
 #define MOVEMENT_SPEED 0.5 // define the drone movement speed
 #define ALTITUDE_SPEED 0.5 // define the drone altitude gain/loose speed
 #define RESET_TIMER 2 // define a reset timer for autonomous control
+#define WIDTH 640 // define window width 
+#define HEIGHT 480 // define window heigth
 
 char* filename1 = "..\\..\\src\\resource\\1.png";//id=1
 char* filename2 = "..\\..\\src\\resource\\2.png";//id=2
@@ -140,10 +142,10 @@ int main(int argc, char **argv) {
 		Mat imgMat = Mat(img);
 
 		// Render the HUD
-		Mat result = HUD(imgMat, 640, 480);
+		Mat result = HUD(imgMat, WIDTH, HEIGHT);
 
 		// Run the detector
-		myDetector.detect(result, cameraMatrix, distortions, patternLibrary, detectedPattern);
+		myDetector.detect(imgMat, cameraMatrix, distortions, patternLibrary, detectedPattern);
 
 		// Some usefull info
 		cout << "Battery: " << ardrone.getBatteryPercentage() << endl;
@@ -205,10 +207,22 @@ int main(int argc, char **argv) {
 
 
 
+		// Create a buffer of the image
+		Mat copy;
+		result.copyTo(copy);
+
+		// Render circle on buffer
+		circle(copy, Point(result.cols / 2, result.rows / 2), 20, Scalar(255, 0, 0), -1);
+
+		// Combine buffer with original image + opacity
+		double opacity = 0.2;
+		addWeighted(copy, opacity, result, 1 - opacity, 0, result);
+
+
 		// Initialise window with OpenGL support
 		namedWindow("AR.Drone", WINDOW_OPENGL);
 		// Set window size 
-		resizeWindow("AR.Drone", 640, 480);
+		resizeWindow("AR.Drone", WIDTH, HEIGHT);
 		// Show the OpenCV image in a new window AR.Drone
 		imshow("AR.Drone", result);
 
