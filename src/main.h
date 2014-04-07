@@ -14,10 +14,10 @@ using namespace std;
 using namespace cv;
 using namespace ARma;
 
-typedef vector <vector<int>> colorsMatrix;
+typedef std::vector <std::vector<int>> colorsMatrix;
 
 // Just for debugging
-stringstream s;
+std::stringstream s;
 
 // AR.Drone class
 ARDrone ardrone;
@@ -31,7 +31,7 @@ void OverlayImage(const Mat &background, const Mat &foreground, Mat &output, Poi
 Mat HUD(Mat videoFeed, int sizex, int sizey);
 
 static void Stop();
-static int LoadPattern(const char*, vector<Mat>&, int&);
+static int LoadPattern(const char*, std::vector<Mat>&, int&);
 static void SetVisiblePattern(int patterID);
 
 static void KeyControls(int key);
@@ -55,9 +55,8 @@ static void Hover();
 
 
 // Arrays
-vector<Mat> patternLibrary;
-vector<Pattern> detectedPattern;
-vector<int> timers;
+std::vector<Mat> patternLibrary;
+std::vector<Pattern> detectedPattern;
 
 
 // Variables
@@ -69,6 +68,7 @@ bool controlling;
 bool absoluteControl;
 double vx, vy, vz, vr;
 int lastVPStart, lastVPElapsed;
+std::vector<int> timers;
 
 
 
