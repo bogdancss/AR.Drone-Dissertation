@@ -541,8 +541,6 @@ void SetVisiblePattern(int patterID) {
 
 // Autonomous drone control
 void AutoAdjustPosition() {
-	std::stringstream s;
-
 	// Only auto-correct if user is not controlling drone
 	if (!controlling) {
 
@@ -756,7 +754,7 @@ void Stop() {
 
 
 // Loads pattern images for detection
-int LoadPattern(const char* filename, std::vector<Mat>& library, int& patternCount) {
+int LoadPattern(const char* filename, vector<Mat>& library, int& patternCount) {
 	Mat img = imread(filename, 0);
 
 	if (img.cols != img.rows){
@@ -796,7 +794,7 @@ void OverlayImage(const Mat &background, const Mat &foreground, Mat &output, Poi
 
 
 	// Start at the row indicated by location, or at row 0 if location.y is negative.
-	for (int y = std::max(location.y, 0); y < background.rows; ++y)
+	for (int y = max(location.y, 0); y < background.rows; ++y)
 	{
 		int fY = y - location.y; // because of the translation
 
@@ -806,7 +804,7 @@ void OverlayImage(const Mat &background, const Mat &foreground, Mat &output, Poi
 
 		// Start at the column indicated by location, 
 		// Or at column 0 if location.x is negative.
-		for (int x = std::max(location.x, 0); x < background.cols; ++x)
+		for (int x = max(location.x, 0); x < background.cols; ++x)
 		{
 			int fX = x - location.x; // because of the translation.
 
@@ -848,7 +846,7 @@ Mat HUD(Mat videoFeed, int sizex, int sizey) {
 
 
 	// Display info on to HUD
-	std::ostringstream str; // string stream
+	ostringstream str; // string stream
 
 	str << "Absolute control : " << absoluteControl;
 	putText(result, str.str(), Point(10, 30), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 250, 0));
