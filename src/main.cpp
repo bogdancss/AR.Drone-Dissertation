@@ -148,8 +148,8 @@ int main(int argc, char **argv) {
 		myDetector.detect(imgMat, cameraMatrix, distortions, patternLibrary, detectedPattern);
 
 		// Some usefull info
-		cout << "Battery: " << ardrone.getBatteryPercentage() << endl;
-		cout << "altitude = " << ardrone.getAltitude() << endl;
+		//cout << "Battery: " << ardrone.getBatteryPercentage() << endl;
+		//cout << "altitude = " << ardrone.getAltitude() << endl;
 
 		// Augment the input frame (and print out the properties of pattern if you want)
 		if (detectedPattern.size()) {
