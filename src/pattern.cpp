@@ -74,7 +74,7 @@ namespace ARma {
 		cvFindExtrinsicCameraParams2(&objectPts, &imagePts, &intrinsics, &distCoeff, &rot, &tra);
 	}
 
-	void Pattern::draw(Mat& frame, const Mat& camMatrix, const Mat& distMatrix)
+	void Pattern::draw(int radius, Scalar colour, Mat& frame, const Mat& camMatrix, const Mat& distMatrix)
 	{
 
 		CvScalar color = cvScalar(255,255,255);
@@ -102,7 +102,7 @@ namespace ARma {
 		camera CS, and then, points are projected using camera parameters 
 		(camera matrix, distortion matrix) from the camera 3D CS to its image plane
 		*/
-		projectPoints(modelPts, rotVec, transVec, camMatrix, distMatrix, model2ImagePts); 
+		projectPoints(modelPts, rotVec, transVec, camMatrix, distMatrix, model2ImagePts);
 
 
 		//draw cube, or whatever
@@ -143,7 +143,7 @@ namespace ARma {
 		Point2f coord(x1 + (dist / 2), y1 + (dist / 2));
 
 		// Draw a circle at the middle of pattern
-		circle(frame, coord, 10, Scalar(0, 255, 225), -1);
+		circle(frame, coord, radius, colour, -1);
 
 
 

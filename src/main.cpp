@@ -171,7 +171,7 @@ int main(int argc, char **argv) {
 
 				// Draw a cube over patterns
 				//detectedPattern.at(i).showPattern();
-				detectedPattern.at(i).draw(buffer, cameraMatrix, distortions);
+				detectedPattern.at(i).draw(10, Scalar(0, 255, 255), buffer, cameraMatrix, distortions);
 
 				// Get pattern corner coordinates
 				Point2f ul, ur, lr, ll;
