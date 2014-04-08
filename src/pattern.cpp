@@ -125,7 +125,30 @@ namespace ARma {
 		circle(frame, model2ImagePts.at(2), 10, Scalar(255, 0, 255), -1);
 		circle(frame, model2ImagePts.at(3), 10, Scalar(0, 0, 255), -1);
 
-		//cout << model2ImagePts.at(2) << endl;
+
+		// Get coords for one side of pattern
+		int x1 = model2ImagePts.at(0).x;
+		int y1 = model2ImagePts.at(0).y;
+		int x2 = model2ImagePts.at(1).x;
+		int y2 = model2ImagePts.at(1).y;
+
+		// Create 2 points from coords
+		Point2f point1(x1, y1);
+		Point2f point2(x2, y2);
+
+		// calculate distance between corners
+		int dist = norm(point1 - point2);
+
+		// Get coords of middle of pattern
+		Point2f coord(x1 + (dist / 2), y1 + (dist / 2));
+
+		// Draw a circle at the middle of pattern
+		circle(frame, coord, 10, Scalar(0, 255, 225), -1);
+
+
+
+
+
 
 		model2ImagePts.clear();
 

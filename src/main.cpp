@@ -146,6 +146,10 @@ int main(int argc, char **argv) {
 		// Render the HUD
 		Mat result = HUD(imgMat, WIDTH, HEIGHT);
 
+		// Create a buffer of the image
+		Mat buffer;
+		result.copyTo(buffer);
+
 		// Run the detector
 		myDetector.detect(imgMat, cameraMatrix, distortions, patternLibrary, detectedPattern);
 
@@ -167,7 +171,7 @@ int main(int argc, char **argv) {
 
 				// Draw a cube over patterns
 				//detectedPattern.at(i).showPattern();
-				detectedPattern.at(i).draw(result, cameraMatrix, distortions);
+				detectedPattern.at(i).draw(buffer, cameraMatrix, distortions);
 
 				// Get pattern corner coordinates
 				Point2f ul, ur, lr, ll;
@@ -185,14 +189,12 @@ int main(int argc, char **argv) {
 				timers[i] = cvGetTickCount();
 
 				// reset pattern coordinates
-				vector<Point2f> coordinates;
-				patternsCoordinates[i] = coordinates;
+				patternsCoordinates.clear();
 			}
 
 			// Reset visible pattern
 			visiblePattern = 0;
 		}
-
 
 		// Get elapsed time since last saw pattern
 		lastVPElapsed = cvGetTickCount();
@@ -222,17 +224,9 @@ int main(int argc, char **argv) {
 		if (!controlling && visiblePattern == 0 && lastVisiblePattern == 0) Hover();
 
 
-
-		// Create a buffer of the image
-		Mat copy;
-		result.copyTo(copy);
-
-		// Render circle on buffer
-		circle(copy, Point(result.cols / 2, result.rows / 2), 20, Scalar(255, 0, 0), -1);
-
 		// Combine buffer with original image + opacity
 		double opacity = 0.2;
-		addWeighted(copy, opacity, result, 1 - opacity, 0, result);
+		addWeighted(buffer, opacity, result, 1 - opacity, 0, result);
 
 
 		// Initialise window with OpenGL support
