@@ -338,7 +338,7 @@ void KeyControls(int key) {
 	// Left arrow
 	// Roll left
 	if (key == 0x250000) {
-		if (IsWithinBounds()) {
+		if (IsWithinLeftBounds()) {
 			RollLeft();
 			controlling = true;
 		}
@@ -348,11 +348,31 @@ void KeyControls(int key) {
 	// Right arrow
 	// Roll right
 	if (key == 0x270000) {
-		if (IsWithinBounds()) {
+		if (IsWithinRightBounds()) {
 			RollRight();
 			controlling = true;
 		}
 	} else controlling = false;
+
+	// Up arrow
+	// Pitch forwards
+	if (key == 0x260000) {
+		if (IsWithinUpperBounds()) {
+			PitchForwards();
+			controlling = true;
+		}
+	}
+	else controlling = false;
+
+	// Down arrow
+	// Pitch backwards
+	if (key == 0x280000) {
+		if (IsWithinLowerBounds()) {
+			PitchBackwards();
+			controlling = true;
+		}
+	}
+	else controlling = false;
 
 	// Toggle absolute control
 	// o key
@@ -638,49 +658,85 @@ void KeepGoodAltitude() {
 	if (IsTooLow()) GainAltitude();
 }
 
-// Check if coords of the pattern is within bounds
-bool IsWithinBounds() {
-	// Get 25%/75% of frame width
-	int width25 = WIDTH * 25 / 100;
+// Check if coords of the pattern are within the left edge bounds
+bool IsWithinLeftBounds() {
+	// Get 75% of frame width
 	int width75 = WIDTH * 75 / 100;
-	// Get 25%/75% of frame height
-	int height25 = HEIGHT * 25 / 100;
-	int height75 = HEIGHT * 75 / 100;
 
 	// Only run if there are visible patterns
 	if (visiblePattern) {
 
 		if (patternsCoordinates[visiblePattern].size()) {
 
-			// Get upper left, upper right, lower right and lower left pattern corner coordinates
-			Point2f ul = patternsCoordinates[visiblePattern][0];
+			// Get upper right and lower right pattern corner coordinates
 			Point2f ur = patternsCoordinates[visiblePattern][1];
 			Point2f lr = patternsCoordinates[visiblePattern][2];
-			Point2f ll = patternsCoordinates[visiblePattern][3];
 
 			// Upper left corner
 			if (visiblePattern == 1)
-				// Return false if lr pattern corner is in the lower right corner of image
-				if (lr.x > width75 || lr.y > height75) {
+				// Return false if ur or lr pattern corner is in the right part of image
+				if (ur.x > width75 || lr.x > width75) {
 					cout << "1 - false" << endl;
 					return false;
 				}
 				else return true;
 
-				// Upper 3
-			else if (visiblePattern == 2 || visiblePattern == 3 || visiblePattern == 4)
-				// Return false if lr or ll pattern corner is in the lower part of image
-				if (ll.y > height75 || lr.y > height75) {
-					cout << "2/3/4 - false" << endl;
+				// Lower left corner
+			else if (visiblePattern == 13)
+				// Return false if ur or lr pattern corner is in the right part of image
+				if (ur.x > width75 || lr.x > width75) {
+					cout << "13 - false" << endl;
 					return false;
 				}
 				else return true;
 
-				// Upper right corner
-			else if (visiblePattern == 5)
-				// Return false if ll pattern corner is in the lower left corner of image
-				if (ll.x < width25 || ll.y > height75) {
+				// Left 3
+			else if (visiblePattern == 14 || visiblePattern == 15 || visiblePattern == 16)
+				// Return false if ur or lr pattern corner is in the right part of image
+				if (ur.x > width75 || lr.x > width75) {
+					cout << "14/15/16 - false" << endl;
+					return false;
+				}
+				else return true;
+
+				// If not patterns are detected, consider drone is within bounds.
+			else return true;
+		}
+		// If not patterns are detected, consider drone is within bounds.
+		else return true;
+	}
+	// If not patterns are detected, consider drone is within bounds.
+	else return true;
+}
+
+// Check if coords of the pattern are within the right edge bounds
+bool IsWithinRightBounds() {
+	// Get 25% of frame width
+	int width25 = WIDTH * 25 / 100;
+
+	// Only run if there are visible patterns
+	if (visiblePattern) {
+
+		if (patternsCoordinates[visiblePattern].size()) {
+
+			// Get upper left and lower left pattern corner coordinates
+			Point2f ul = patternsCoordinates[visiblePattern][0];
+			Point2f ll = patternsCoordinates[visiblePattern][3];
+
+			// Upper right corner
+			if (visiblePattern == 5)
+				// Return false if ul or ll pattern corner is in the left part of image
+				if (ul.x < width25 || ll .x < width25) {
 					cout << "5 - false" << endl;
+					return false;
+				}
+				else return true;
+
+				// Lower right corner
+			else if (visiblePattern == 9)
+				// Return false if ul or ll pattern corner is in the left part of image
+				if (ul.x < width25 || ll.x < width25) {
+					cout << "9 - false" << endl;
 					return false;
 				}
 				else return true;
@@ -694,11 +750,44 @@ bool IsWithinBounds() {
 				}
 				else return true;
 
+				// If not patterns are detected, consider drone is within bounds.
+			else return true;
+		}
+		// If not patterns are detected, consider drone is within bounds.
+		else return true;
+	}
+	// If not patterns are detected, consider drone is within bounds.
+	else return true;
+}
+
+// Check if coords of the pattern are within the upper edge bounds
+bool IsWithinLowerBounds() {
+	// Get 25% of frame height
+	int height25 = HEIGHT * 25 / 100;
+
+	// Only run if there are visible patterns
+	if (visiblePattern) {
+
+		if (patternsCoordinates[visiblePattern].size()) {
+
+			// Get upper left and upper right pattern corner coordinates
+			Point2f ul = patternsCoordinates[visiblePattern][0];
+			Point2f ur = patternsCoordinates[visiblePattern][1];
+
 				// Lower right corner
-			else if (visiblePattern == 9)
-				// Return false if ul pattern corner is in the upper left corner of image
-				if (ul.x < width25 || ul.y < height25) {
+			if (visiblePattern == 9)
+				// Return false if ul or ur pattern corner is in the upper part of image
+				if (ul.y < height25 || ur.y < height25) {
 					cout << "9 - false" << endl;
+					return false;
+				}
+				else return true;
+
+				// Lower left corner
+			else if (visiblePattern == 13)
+				// Return false if ur pattern corner is in the upper part of image
+				if (ul.y < height25 || ur.y < height25) {
+					cout << "13 - false" << endl;
 					return false;
 				}
 				else return true;
@@ -712,20 +801,53 @@ bool IsWithinBounds() {
 				}
 				else return true;
 
-				// Lower left corner
-			else if (visiblePattern == 13)
-				// Return false if ur pattern corner is in the upper right corner of image
-				if (ur.x > width75 || ur.y < height25) {
-					cout << "13 - false" << endl;
+				// If not patterns are detected, consider drone is within bounds.
+			else return true;
+		}
+		// If not patterns are detected, consider drone is within bounds.
+		else return true;
+	}
+	// If not patterns are detected, consider drone is within bounds.
+	else return true;
+}
+
+// Check if coords of the pattern are within the lower edge bounds
+bool IsWithinLowerBounds() {
+	// Get 75% of frame height
+	int height75 = HEIGHT * 75 / 100;
+
+	// Only run if there are visible patterns
+	if (visiblePattern) {
+
+		if (patternsCoordinates[visiblePattern].size()) {
+
+			// Get lower right and lower left pattern corner coordinates
+			Point2f lr = patternsCoordinates[visiblePattern][2];
+			Point2f ll = patternsCoordinates[visiblePattern][3];
+
+			// Upper left corner
+			if (visiblePattern == 1)
+				// Return false if ll or lr pattern corner is in the lower part of image
+				if (ll.y > height75 || lr.y > height75) {
+					cout << "1 - false" << endl;
 					return false;
 				}
 				else return true;
 
-				// Left 3
-			else if (visiblePattern == 14 || visiblePattern == 15 || visiblePattern == 16)
-				// Return false if ur or lr pattern corner is in the right part of image
-				if (ur.x > width75 || lr.x > width75) {
-					cout << "14/15/16 - false" << endl;
+				// Upper right corner
+			else if (visiblePattern == 5)
+				// Return false if ll or lr pattern corner is in the lower part of image
+				if (ll.y > height75 || lr.y > height75) {
+					cout << "5 - false" << endl;
+					return false;
+				}
+				else return true;
+
+				// Upper 3
+			else if (visiblePattern == 2 || visiblePattern == 3 || visiblePattern == 4)
+				// Return false if lr or ll pattern corner is in the lower part of image
+				if (ll.y > height75 || lr.y > height75) {
+					cout << "2/3/4 - false" << endl;
 					return false;
 				}
 				else return true;
