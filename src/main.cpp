@@ -761,7 +761,7 @@ bool IsWithinRightBounds() {
 }
 
 // Check if coords of the pattern are within the upper edge bounds
-bool IsWithinLowerBounds() {
+bool IsWithinUpperBounds() {
 	// Get 25% of frame height
 	int height25 = HEIGHT * 25 / 100;
 
