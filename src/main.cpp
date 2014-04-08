@@ -107,6 +107,11 @@ int main(int argc, char **argv) {
 	for (int i = 0; i < patternCount; i++) {
 		// Initialise each pattern coordinates
 		vector<Point2f> coordinates;
+		Point2f point;
+		coordinates.push_back(point);
+		coordinates.push_back(point);
+		coordinates.push_back(point);
+		coordinates.push_back(point);
 		patternsCoordinates.push_back(coordinates);
 
 		// Initialise each pattern timer
@@ -114,6 +119,7 @@ int main(int argc, char **argv) {
 		timers.push_back(timer);
 	}
 
+	
 	// Start main loop
 	while (1) {
 
@@ -178,18 +184,15 @@ int main(int argc, char **argv) {
 				detectedPattern.at(i).getCoordinates(ul, ur, lr, ll, cameraMatrix, distortions);
 
 				// Store coordinates
-				patternsCoordinates[detectedPattern[i].id].push_back(ul);
-				patternsCoordinates[detectedPattern[i].id].push_back(ur);
-				patternsCoordinates[detectedPattern[i].id].push_back(lr);
-				patternsCoordinates[detectedPattern[i].id].push_back(ll);
+				patternsCoordinates[detectedPattern[i].id][0] = ul;
+				patternsCoordinates[detectedPattern[i].id][1] = ur;
+				patternsCoordinates[detectedPattern[i].id][2] = lr;
+				patternsCoordinates[detectedPattern[i].id][3] = ll;
 			}
 		} else {
 			for (int i = 0; i < patternCount; i++) {
 				// reset pattern timers
 				timers[i] = cvGetTickCount();
-
-				// reset pattern coordinates
-				patternsCoordinates.clear();
 			}
 
 			// Reset visible pattern
@@ -664,7 +667,7 @@ bool IsWithinLeftBounds() {
 	int width75 = WIDTH * 75 / 100;
 
 	// Only run if there are visible patterns
-	if (visiblePattern) {
+	if (visiblePattern == 1 || visiblePattern == 13 || visiblePattern == 14 || visiblePattern == 15 || visiblePattern == 16) {
 
 		if (patternsCoordinates[visiblePattern].size()) {
 
@@ -715,7 +718,7 @@ bool IsWithinRightBounds() {
 	int width25 = WIDTH * 25 / 100;
 
 	// Only run if there are visible patterns
-	if (visiblePattern) {
+	if (visiblePattern == 5 || visiblePattern == 6 || visiblePattern == 7 || visiblePattern == 8 || visiblePattern == 9) {
 
 		if (patternsCoordinates[visiblePattern].size()) {
 
@@ -726,7 +729,7 @@ bool IsWithinRightBounds() {
 			// Upper right corner
 			if (visiblePattern == 5)
 				// Return false if ul or ll pattern corner is in the left part of image
-				if (ul.x < width25 || ll .x < width25) {
+				if (ul.x < width25 || ll.x < width25) {
 					cout << "5 - false" << endl;
 					return false;
 				}
@@ -760,13 +763,13 @@ bool IsWithinRightBounds() {
 	else return true;
 }
 
-// Check if coords of the pattern are within the upper edge bounds
-bool IsWithinUpperBounds() {
+// Check if coords of the pattern are within the lower edge bounds
+bool IsWithinLowerBounds() {
 	// Get 25% of frame height
 	int height25 = HEIGHT * 25 / 100;
 
 	// Only run if there are visible patterns
-	if (visiblePattern) {
+	if (visiblePattern == 9 || visiblePattern == 10 || visiblePattern == 11 || visiblePattern == 12 || visiblePattern == 13) {
 
 		if (patternsCoordinates[visiblePattern].size()) {
 
@@ -811,13 +814,13 @@ bool IsWithinUpperBounds() {
 	else return true;
 }
 
-// Check if coords of the pattern are within the lower edge bounds
-bool IsWithinLowerBounds() {
+// Check if coords of the pattern are within the upper edge bounds
+bool IsWithinUpperBounds() {
 	// Get 75% of frame height
 	int height75 = HEIGHT * 75 / 100;
 
 	// Only run if there are visible patterns
-	if (visiblePattern) {
+	if (visiblePattern == 1 || visiblePattern == 2 || visiblePattern == 3 || visiblePattern == 4 || visiblePattern == 5) {
 
 		if (patternsCoordinates[visiblePattern].size()) {
 
