@@ -65,7 +65,6 @@ int main(int argc, char **argv) {
 	int patternCount = 0;
 	visiblePattern = 0;
 	//lastVisiblePattern = 0;
-	controlling = false;
 	absoluteControl = false;
 	vx = 0.0, vy = 0.0, vz = 0.0, vr = 0.0;
 
@@ -237,11 +236,11 @@ int main(int argc, char **argv) {
 
 		// Autonomous drone control
 		KeepGoodAltitude();
-		AutoAdjustPosition();
+		AutoAdjustPosition(key);
 
 		// Always go back to hovering if no user input, no pattern visible and too old last visible pattern (0)
-		if (absoluteControl && !controlling) Hover();
-		else if (!controlling && visiblePattern == 0/* && lastVisiblePattern == 0*/) Hover();
+		if (absoluteControl && key < 0) Hover();
+		else if (key < 0 && visiblePattern == 0/* && lastVisiblePattern == 0*/) Hover();
 
 
 		// Combine buffer with original image + opacity
@@ -355,61 +354,38 @@ void KeyControls(int key) {
 
 	// q key
 	// Yaw c-clockwise
-	if (key == 'q') {
+	if (key == 'q')
 		YawCClockwise();
-		controlling = true;
-	}
-	else controlling = false;
 
 	// e key
 	// Yaw clockwise
-	if (key == 'e') {
+	if (key == 'e')
 		YawClockwise();
-		controlling = true;
-	}
-	else controlling = false;
 
 	// Game controls - need to be within bounds to opperate
 	// Left arrow / a key
 	// Roll left
-	if (key == 0x250000 || key == 'a') {
-		if (IsWithinLeftBounds()) {
+	if (key == 0x250000 || key == 'a')
+		if (IsWithinLeftBounds())
 			RollLeft();
-			controlling = true;
-		}
-	}
-	else controlling = false;
-
 
 	// Right arrow / d key
 	// Roll right
-	if (key == 0x270000 || key == 'd') {
-		if (IsWithinRightBounds()) {
+	if (key == 0x270000 || key == 'd')
+		if (IsWithinRightBounds())
 			RollRight();
-			controlling = true;
-		}
-	}
-	else controlling = false;
 
 	// Up arrow // w key
 	// Pitch forwards
-	if (key == 0x260000 || key == 'w') {
-		if (IsWithinUpperBounds()) {
+	if (key == 0x260000 || key == 'w')
+		if (IsWithinUpperBounds())
 			PitchForwards();
-			controlling = true;
-		}
-	}
-	else controlling = false;
 
 	// Down arrow / s key
 	// Pitch backwards
-	if (key == 0x280000 || key == 's') {
-		if (IsWithinLowerBounds()) {
+	if (key == 0x280000 || key == 's')
+		if (IsWithinLowerBounds())
 			PitchBackwards();
-			controlling = true;
-		}
-	}
-	else controlling = false;
 
 	// Toggle absolute control
 	// o key
@@ -559,9 +535,9 @@ void SetVisiblePattern(int patterID) {
 
 
 // Autonomous drone control
-void AutoAdjustPosition() {
+void AutoAdjustPosition(int key) {
 	// Only auto-correct if user is not controlling drone and not in absolute control mode
-	if (!controlling && !absoluteControl) {
+	if (key < 0 && !absoluteControl) {
 
 		// Switch variable
 		int patternSwitch = 0;

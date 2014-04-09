@@ -32,7 +32,7 @@ static int LoadPattern(const char*, vector<Mat>&, int&);
 static void SetVisiblePattern(int patterID);
 
 static void KeyControls(int key);
-static void AutoAdjustPosition();
+static void AutoAdjustPosition(int key);
 static void KeepGoodAltitude();
 bool IsTooLow();
 bool IsTooHigh();
@@ -67,7 +67,6 @@ int visiblePattern;
 //int lastVisiblePattern;
 bool quitProgram;
 bool isDroneConnected;
-bool controlling;
 bool absoluteControl;
 double vx, vy, vz, vr;
 //int lastVPStart, lastVPElapsed;
