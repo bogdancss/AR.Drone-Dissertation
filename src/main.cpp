@@ -1,8 +1,9 @@
 #include "main.h"
 
 #define PAT_SIZE 64 // equal to pattern_size variable (see below)
-#define MOVEMENT_SPEED 0.5 // define the drone movement speed
-#define ALTITUDE_SPEED 0.5 // define the drone altitude gain/loose speed
+#define MOVEMENT_SPEED 0.2 // define the drone movement speed
+#define ALTITUDE_SPEED 0.3 // define the drone altitude gain/loose speed
+#define YAW_SPEED 0.3 // define the drone yaw speed
 #define RESET_TIMER 1 // define a reset timer for autonomous control
 #define SEEN_TIMER 0.1 // define a timer to consider pattern as "seen"
 #define WIDTH 640 // define window width 
@@ -285,12 +286,12 @@ void RollRight() {
 }
 
 void YawCClockwise() {
-	vr = MOVEMENT_SPEED;
+	vr = YAW_SPEED;
 	cout << "yaw ccwise" << endl;
 }
 
 void YawClockwise() {
-	vr = -MOVEMENT_SPEED;
+	vr = -YAW_SPEED;
 	cout << "yaw cwise" << endl;
 }
 
@@ -334,17 +335,34 @@ void KeyControls(int key) {
 	if (key == 'h') Hover();
 
 	// Movement
-	// Up arrow
+	// r key
 	// Gain altitude
-	if (key == 0x260000 || key == 'r')
+	if (key == 'r')
 		if (!IsTooHigh())
 			GainAltitude();
 
 	// Down arrow
+	// f key
 	// Loose altitude
-	if (key == 0x280000 || key == 'f')
+	if (key == 'f')
 		if (!IsTooLow())
 			LooseAltitude();
+
+	// q key
+	// Yaw c-clockwise
+	if (key == 'q') {
+		YawCClockwise();
+		controlling = true;
+	}
+	else controlling = false;
+
+	// e key
+	// Yaw clockwise
+	if (key == 'e') {
+		YawClockwise();
+		controlling = true;
+	}
+	else controlling = false;
 
 	// Game controls - need to be within bounds to opperate
 	// Left/right controls
@@ -422,20 +440,6 @@ void KeyControls(int key) {
 		// Pitch backwards
 		if (key == 's') {
 			PitchBackwards();
-			controlling = true;
-		}
-		else controlling = false;
-		// q key
-		// Yaw c-clockwise
-		if (key == 'q') {
-			YawCClockwise();
-			controlling = true;
-		}
-		else controlling = false;
-		// e key
-		// Yaw clockwise
-		if (key == 'e') {
-			YawClockwise();
 			controlling = true;
 		}
 		else controlling = false;
