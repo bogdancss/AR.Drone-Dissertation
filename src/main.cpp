@@ -6,8 +6,9 @@
 #define YAW_SPEED 0.3 // define the drone yaw speed
 #define RESET_TIMER 1 // define a reset timer for autonomous control
 #define SEEN_TIMER 0.1 // define a timer to consider pattern as "seen"
-#define WIDTH 640 // define window width 
-#define HEIGHT 480 // define window heigth
+#define WIDTH 640 // define window width
+#define HEIGHT 360 // define window height
+#define WEBCAM_HEIGHT 480 // define webcam window height
 
 char* filename1 = "..\\..\\src\\resource\\1.png";//id=1
 char* filename2 = "..\\..\\src\\resource\\2.png";//id=2
@@ -112,6 +113,9 @@ int main(int argc, char **argv) {
 	double confidenceThreshold = 0.35;
 	int mode = 2;//1:FIXED_THRESHOLD, 2: ADAPTIVE_THRESHOLD
 
+	// Set to vertical drone camera
+	ardrone.setCamera(1);
+
 	// Initialise PatternDetector
 	PatternDetector myDetector(fixed_thresh, adapt_thresh, adapt_block_size, confidenceThreshold, norm_pattern_size, mode);
 
@@ -161,7 +165,11 @@ int main(int argc, char **argv) {
 		Mat imgMat = Mat(img);
 
 		// Render the HUD
-		Mat result = HUD(imgMat, WIDTH, HEIGHT);
+		Mat result;
+		if (isDroneConnected)
+			result = HUD(imgMat, WIDTH, HEIGHT);
+		else
+			result = HUD(imgMat, WIDTH, WEBCAM_HEIGHT);
 
 		// Create a buffer of the image
 		Mat buffer;
@@ -245,8 +253,6 @@ int main(int argc, char **argv) {
 
 		// Initialise window with OpenGL support
 		namedWindow("AR.Drone", WINDOW_OPENGL);
-		// Set window size 
-		resizeWindow("AR.Drone", WIDTH, HEIGHT);
 		// Show the OpenCV image in a new window AR.Drone
 		imshow("AR.Drone", result);
 
