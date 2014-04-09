@@ -463,103 +463,127 @@ void SetVisiblePattern(int patterID) {
 		switch (patterID) {
 		case 1:
 			visiblePattern = 1;
-			cout << "seing patter 1" << endl;
+			//cout << "seing patter 1" << endl;
 			break;
 		case 2:
-			cout << "seing patter 2" << endl;
+			//cout << "seing patter 2" << endl;
 			visiblePattern = 2;
 			break;
 		case 3:
-			cout << "seing patter 3" << endl;
+			//cout << "seing patter 3" << endl;
 			visiblePattern = 3;
 			break;
 		case 4:
-			cout << "seing patter 4" << endl;
+			//cout << "seing patter 4" << endl;
 			visiblePattern = 4;
 			break;
 		case 5:
-			cout << "seing patter 5" << endl;
+			//cout << "seing patter 5" << endl;
 			visiblePattern = 5;
 			break;
 		case 6:
-			cout << "seing patter 6" << endl;
+			//cout << "seing patter 6" << endl;
 			visiblePattern = 6;
 			break;
 		case 7:
-			cout << "seing patter 7" << endl;
+			//cout << "seing patter 7" << endl;
 			visiblePattern = 7;
 			break;
 		case 8:
-			cout << "seing patter 8" << endl;
+			//cout << "seing patter 8" << endl;
 			visiblePattern = 8;
 			break;
 		case 9:
-			cout << "seing patter 9" << endl;
+			//cout << "seing patter 9" << endl;
 			visiblePattern = 9;
 			break;
 		case 10:
-			cout << "seing patter 10" << endl;
+			//cout << "seing patter 10" << endl;
 			visiblePattern = 10;
 			break;
 		case 11:
-			cout << "seing patter 11" << endl;
+			//cout << "seing patter 11" << endl;
 			visiblePattern = 11;
 			break;
 		case 12:
-			cout << "seing patter 12" << endl;
+			//cout << "seing patter 12" << endl;
 			visiblePattern = 12;
 			break;
 		case 13:
-			cout << "seing patter 13" << endl;
+			//cout << "seing patter 13" << endl;
 			visiblePattern = 13;
 			break;
 		case 14:
-			cout << "seing patter 14" << endl;
+			//cout << "seing patter 14" << endl;
 			visiblePattern = 14;
 			break;
 		case 15:
-			cout << "seing patter 15" << endl;
+			//cout << "seing patter 15" << endl;
 			visiblePattern = 15;
 			break;
 		case 16:
-			cout << "seing patter 16" << endl;
+			//cout << "seing patter 16" << endl;
 			visiblePattern = 16;
 			break;
 		case 17:
-			cout << "seing patter 17" << endl;
+			//cout << "seing patter 17" << endl;
 			visiblePattern = 17;
 			break;
 		case 18:
-			cout << "seing patter 18" << endl;
+			//cout << "seing patter 18" << endl;
 			visiblePattern = 18;
 			break;
 		case 19:
-			cout << "seing patter 19" << endl;
+			//cout << "seing patter 19" << endl;
 			visiblePattern = 19;
 			break;
 		case 20:
-			cout << "seing patter 20" << endl;
+			//cout << "seing patter 20" << endl;
 			visiblePattern = 20;
 			break;
 		case 21:
-			cout << "seing patter 21" << endl;
+			//cout << "seing patter 21" << endl;
 			visiblePattern = 21;
 			break;
 		case 22:
-			cout << "seing patter 22" << endl;
+			//cout << "seing patter 22" << endl;
 			visiblePattern = 22;
 			break;
 		case 23:
-			cout << "seing patter 23" << endl;
+			//cout << "seing patter 23" << endl;
 			visiblePattern = 23;
 			break;
 		case 24:
+			//cout << "seing patter 24" << endl;
 			visiblePattern = 24;
-			cout << "seing patter 24" << endl;
 			break;
 		case 25:
-			cout << "seing patter 25" << endl;
+			//cout << "seing patter 25" << endl;
 			visiblePattern = 25;
+			break;
+		case 26:
+			//cout << "seing patter 26" << endl;
+			visiblePattern = 26;
+			break;
+		case 27:
+			//cout << "seing patter 27" << endl;
+			visiblePattern = 27;
+			break;
+		case 28:
+			//cout << "seing patter 28" << endl;
+			visiblePattern = 28;
+			break;
+		case 29:
+			//cout << "seing patter 29" << endl;
+			visiblePattern = 29;
+			break;
+		case 30:
+			//cout << "seing patter 30" << endl;
+			visiblePattern = 30;
+			break;
+		case 31:
+			//cout << "seing patter 31" << endl;
+			visiblePattern = 31;
 			break;
 		default:
 			break;
