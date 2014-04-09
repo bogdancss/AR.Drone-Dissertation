@@ -24,9 +24,12 @@ class Pattern
 		//solves the exterior orientation problem between patten and camera
 		void getExtrinsics(int patternSize, const Mat& cameraMatrix, const Mat& distortions);
 
-		//augments image with 3D cubes. It's too simple augmentation just for checking
-		// Draw a circle of coulour and radius
-		void Pattern::draw(int radius, Scalar colour, Mat& frame, const Mat& camMatrix, const Mat& distMatrix);
+		//augments image
+		// 0 for corner circles
+		// 1 for circle
+		// 2 for square
+		// 3 for cube
+		void Pattern::draw(int type, Scalar colour, Mat& frame, const Mat& camMatrix, const Mat& distMatrix);
 
 		//computes the rotation matrix from the rotation vector using Rodrigues
 		void Pattern::rotationMatrix(const Mat& rotation_vector, Mat& rotation_matrix);

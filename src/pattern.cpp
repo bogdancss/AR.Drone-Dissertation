@@ -74,7 +74,7 @@ namespace ARma {
 		cvFindExtrinsicCameraParams2(&objectPts, &imagePts, &intrinsics, &distCoeff, &rot, &tra);
 	}
 
-	void Pattern::draw(int radius, Scalar colour, Mat& frame, const Mat& camMatrix, const Mat& distMatrix)
+	void Pattern::draw(int type, Scalar colour, Mat& frame, const Mat& camMatrix, const Mat& distMatrix)
 	{
 
 		CvScalar color = cvScalar(255,255,255);
@@ -105,53 +105,62 @@ namespace ARma {
 		projectPoints(modelPts, rotVec, transVec, camMatrix, distMatrix, model2ImagePts);
 
 
-		//draw cube, or whatever
-		//int i;
-		//for (i =0; i<4; i++){
-		//	cv::line(frame, model2ImagePts.at(i%4), model2ImagePts.at((i+1)%4), color, 3);
-		//}
-		//for (i =4; i<7; i++){
-		//	cv::line(frame, model2ImagePts.at(i%8), model2ImagePts.at((i+1)%8), color, 3);
-		//}
-		//cv::line(frame, model2ImagePts.at(7), model2ImagePts.at(4), color, 3);
-		//for (i =0; i<4; i++){
-		//	cv::line(frame, model2ImagePts.at(i), model2ImagePts.at(i+4), color, 3);
-		//}
-		
-		//draw the line that reflects the orientation. It indicates the bottom side of the pattern
-		//cv::line(frame, model2ImagePts.at(2), model2ImagePts.at(3), cvScalar(80,255,80), 3);
-		circle(frame, model2ImagePts.at(0), 10, Scalar(255, 0, 0), -1);
-		circle(frame, model2ImagePts.at(1), 10, Scalar(255, 255, 0), -1);
-		circle(frame, model2ImagePts.at(2), 10, Scalar(255, 0, 255), -1);
-		circle(frame, model2ImagePts.at(3), 10, Scalar(0, 0, 255), -1);
 
 
-		// Get coords for one side of pattern
-		int x1 = model2ImagePts.at(0).x;
-		int y1 = model2ImagePts.at(0).y;
-		int x2 = model2ImagePts.at(1).x;
-		int y2 = model2ImagePts.at(1).y;
+		if (type == 1) {
+			// Get coords for one side of pattern
+			int x1 = model2ImagePts.at(0).x;
+			int y1 = model2ImagePts.at(0).y;
+			int x2 = model2ImagePts.at(1).x;
+			int y2 = model2ImagePts.at(1).y;
 
-		// Create 2 points from coords
-		Point2f point1(x1, y1);
-		Point2f point2(x2, y2);
+			// Create 2 points from coords
+			Point2f point1(x1, y1);
+			Point2f point2(x2, y2);
 
-		// calculate distance between corners
-		int dist = norm(point1 - point2);
+			// calculate distance between corners
+			int dist = norm(point1 - point2);
 
-		// Get coords of middle of pattern
-		Point2f coord(x1 + (dist / 2), y1 + (dist / 2));
-
-		// Draw a circle at the middle of pattern
-		circle(frame, coord, radius, colour, -1);
+			// Get coords of middle of pattern
+			Point2f coord(x1 + (dist / 2), y1 + (dist / 2));
 
 
+			// Calculate distance between corners
+			int size = norm(model2ImagePts.at(0) - model2ImagePts.at(1));
 
-
+			// Draw a circle at the middle of pattern
+			circle(frame, coord, size, colour, -1);
+		}
+		else if (type == 2) {
+			cv::line(frame, model2ImagePts.at(0), model2ImagePts.at(1), colour, 3);
+			cv::line(frame, model2ImagePts.at(1), model2ImagePts.at(2), colour, 3);
+			cv::line(frame, model2ImagePts.at(2), model2ImagePts.at(3), colour, 3);
+			cv::line(frame, model2ImagePts.at(3), model2ImagePts.at(0), colour, 3);
+		}
+		else if (type == 3) {
+			//draw cube, or whatever
+			int i;
+			for (i =0; i<4; i++){
+				cv::line(frame, model2ImagePts.at(i%4), model2ImagePts.at((i+1)%4), color, 3);
+			}
+			for (i =4; i<7; i++){
+				cv::line(frame, model2ImagePts.at(i%8), model2ImagePts.at((i+1)%8), color, 3);
+			}
+			cv::line(frame, model2ImagePts.at(7), model2ImagePts.at(4), color, 3);
+			for (i =0; i<4; i++){
+				cv::line(frame, model2ImagePts.at(i), model2ImagePts.at(i+4), color, 3);
+			}
+		}
+		else {
+			// draw circles at pattern corners
+			circle(frame, model2ImagePts.at(0), 10, colour, -1);
+			circle(frame, model2ImagePts.at(1), 10, colour, -1);
+			circle(frame, model2ImagePts.at(2), 10, colour, -1);
+			circle(frame, model2ImagePts.at(3), 10, colour, -1);
+		}
 
 
 		model2ImagePts.clear();
-
 	}
 
 	void Pattern::getCoordinates(Point2f& ul, Point2f& ur, Point2f& lr, Point2f& ll, const Mat& camMatrix, const Mat& distMatrix) {
