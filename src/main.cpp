@@ -49,16 +49,16 @@ char* filename31 = "..\\..\\src\\resource\\x.png";//id=31 -> x
 // --------------------------------------------------------------------------
 int main(int argc, char **argv) {
 
-	// Initialize
-	// If drone is not connected, initialise webcam
-	if (!ardrone.open()) {
-		printf("Drone failed to connect.\n");
-		isDroneConnected = false;
-	}
-	else isDroneConnected = true;
+	//// Initialize
+	//// If drone is not connected, initialise webcam
+	//if (!ardrone.open()) {
+	//	printf("Drone failed to connect.\n");
+	//	isDroneConnected = false;
+	//}
+	//else isDroneConnected = true;
 
-	//// DEBUGGING
-	//isDroneConnected = false;
+	// DEBUGGING
+	isDroneConnected = false;
 
 
 	quitProgram = false;
@@ -254,9 +254,6 @@ int main(int argc, char **argv) {
 		// Show the OpenCV image in a new window AR.Drone
 		imshow("AR.Drone", result);
 
-
-		// Give HighGUI to process the draw requests
-		cvWaitKey(1);
 
 		// Clear pattern for next tick
 		detectedPattern.clear();
