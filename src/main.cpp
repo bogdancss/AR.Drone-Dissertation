@@ -857,6 +857,10 @@ Mat HUD(Mat videoFeed, int sizex, int sizey) {
 	// Read HUD image
 	Mat image = imread("..\\..\\src\\resource\\hud.png", -1);
 
+	// Create a buffer of the image
+	Mat buffer;
+	videoFeed.copyTo(buffer);
+
 	// Resized HUD image
 	Mat rImage;
 
@@ -870,6 +874,11 @@ Mat HUD(Mat videoFeed, int sizex, int sizey) {
 	OverlayImage(videoFeed, rImage, result, Point(0, 0));
 
 
+	// Draw the crosshair
+	Point2f point(sizex/2, sizey/2);
+	circle(buffer, point, 10, Scalar(255, 255, 0), -1);
+
+
 	// Display info on to HUD
 	ostringstream str; // string stream
 	ostringstream str2; // string stream
@@ -879,6 +888,10 @@ Mat HUD(Mat videoFeed, int sizex, int sizey) {
 
 	str2 << "Battery : " << ardrone.getBatteryPercentage();
 	putText(result, str2.str(), Point(10, 60), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 250, 0));
+
+	// Combine buffer with original image + opacity
+	double opacity = 0.2;
+	addWeighted(buffer, opacity, result, 1 - opacity, 0, result);
 
 	return result;
 }
