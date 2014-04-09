@@ -64,13 +64,13 @@ vector<vector<Point2f>> patternsCoordinates;
 
 // Variables
 int visiblePattern;
-int lastVisiblePattern;
+//int lastVisiblePattern;
 bool quitProgram;
 bool isDroneConnected;
 bool controlling;
 bool absoluteControl;
 double vx, vy, vz, vr;
-int lastVPStart, lastVPElapsed;
+//int lastVPStart, lastVPElapsed;
 
 
 

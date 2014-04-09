@@ -4,7 +4,7 @@
 #define MOVEMENT_SPEED 0.2 // define the drone movement speed
 #define ALTITUDE_SPEED 0.3 // define the drone altitude gain/loose speed
 #define YAW_SPEED 0.3 // define the drone yaw speed
-#define RESET_TIMER 1 // define a reset timer for autonomous control
+//#define RESET_TIMER 1 // define a reset timer for autonomous control
 #define SEEN_TIMER 0.1 // define a timer to consider pattern as "seen"
 #define WIDTH 640 // define window width
 #define HEIGHT 360 // define window height
@@ -49,21 +49,22 @@ char* filename31 = "..\\..\\src\\resource\\x.png";//id=31 -> x
 // --------------------------------------------------------------------------
 int main(int argc, char **argv) {
 
-	//// Initialize
-	//// If drone is not connected, initialise webcam
-	//if (!ardrone.open()) {
-	//	printf("Drone failed to connect.\n");
-	//	isDroneConnected = false;
-	//} else isDroneConnected = true;
+	// Initialize
+	// If drone is not connected, initialise webcam
+	if (!ardrone.open()) {
+		printf("Drone failed to connect.\n");
+		isDroneConnected = false;
+	}
+	else isDroneConnected = true;
 
-	// DEBUGGING
-	isDroneConnected = false;
+	//// DEBUGGING
+	//isDroneConnected = false;
 
 
 	quitProgram = false;
 	int patternCount = 0;
 	visiblePattern = 0;
-	lastVisiblePattern = 0;
+	//lastVisiblePattern = 0;
 	controlling = false;
 	absoluteControl = false;
 	vx = 0.0, vy = 0.0, vz = 0.0, vr = 0.0;
@@ -134,7 +135,7 @@ int main(int argc, char **argv) {
 		timers.push_back(timer);
 	}
 
-	
+
 	// Start main loop
 	while (1) {
 
@@ -185,7 +186,7 @@ int main(int argc, char **argv) {
 		// Augment the input frame (and print out the properties of pattern if you want)
 		if (detectedPattern.size()) {
 			for (unsigned int i = 0; i < detectedPattern.size(); i++) {
-				
+
 				//// Start current pattern seen timer
 				//int now = cvGetTickCount();
 				//int passedSinceSeen = ((now - timers[detectedPattern[i].id]) / (cvGetTickFrequency() * 1000)) / 1000;
@@ -218,14 +219,14 @@ int main(int argc, char **argv) {
 			visiblePattern = 0;
 		}
 
-		// Get elapsed time since last saw pattern
-		lastVPElapsed = cvGetTickCount();
-		int elapsedTime = ((lastVPElapsed - lastVPStart) / (cvGetTickFrequency() * 1000)) / 1000;
+		//// Get elapsed time since last saw pattern
+		//lastVPElapsed = cvGetTickCount();
+		//int elapsedTime = ((lastVPElapsed - lastVPStart) / (cvGetTickFrequency() * 1000)) / 1000;
 
-		// Check if reset timer limit passed and reset last visible pattern
-		if (elapsedTime < 300)
-			if (RESET_TIMER - elapsedTime < 0) lastVisiblePattern = 0;
-		
+		//// Check if reset timer limit passed and reset last visible pattern
+		//if (elapsedTime < 300)
+		//	if (RESET_TIMER - elapsedTime < 0) lastVisiblePattern = 0;
+
 
 
 		// Get key input
@@ -243,7 +244,8 @@ int main(int argc, char **argv) {
 		AutoAdjustPosition();
 
 		// Always go back to hovering if no user input, no pattern visible and too old last visible pattern (0)
-		if (!controlling && visiblePattern == 0 && lastVisiblePattern == 0) Hover();
+		if (absoluteControl && !controlling) Hover();
+		else if (!controlling && visiblePattern == 0/* && lastVisiblePattern == 0*/) Hover();
 
 
 		// Combine buffer with original image + opacity
@@ -379,7 +381,8 @@ void KeyControls(int key) {
 			RollLeft();
 			controlling = true;
 		}
-	} else controlling = false;
+	}
+	else controlling = false;
 
 
 	// Right arrow
@@ -389,7 +392,8 @@ void KeyControls(int key) {
 			RollRight();
 			controlling = true;
 		}
-	} else controlling = false;
+	}
+	else controlling = false;
 
 	// Up arrow
 	// Pitch forwards
@@ -562,12 +566,13 @@ void SetVisiblePattern(int patterID) {
 		}
 
 		// store last visible pattern
-		lastVisiblePattern = visiblePattern;
+		//lastVisiblePattern = visiblePattern;
 
 		// Start reset timer since last saw pattern
-		lastVPStart = cvGetTickCount();
+		//lastVPStart = cvGetTickCount();
 	}
 }
+
 
 // Autonomous drone control
 void AutoAdjustPosition() {
@@ -577,12 +582,13 @@ void AutoAdjustPosition() {
 		// Switch variable
 		int patternSwitch = 0;
 
-		// Check if there is no pattern visible, but there was one store previously
-		if (visiblePattern == 0 && lastVisiblePattern != 0) {
-			// If so, execute action of last pattern
-			patternSwitch = lastVisiblePattern;
-		// Else, execute current action
-		} else patternSwitch = visiblePattern;
+		//// Check if there is no pattern visible, but there was one store previously
+		//if (visiblePattern == 0 && lastVisiblePattern != 0) {
+		//	// If so, execute action of last pattern
+		//	patternSwitch = lastVisiblePattern;
+		//// Else, execute current action
+		//} else patternSwitch = visiblePattern;
+		patternSwitch = visiblePattern;
 
 		switch (patternSwitch) {
 
@@ -656,7 +662,7 @@ void AutoAdjustPosition() {
 			break;
 		}
 
-		cout << "last visible " << lastVisiblePattern << endl;
+		//cout << "last visible " << lastVisiblePattern << endl;
 	}
 }
 
