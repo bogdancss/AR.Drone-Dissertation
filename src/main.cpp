@@ -179,10 +179,6 @@ int main(int argc, char **argv) {
 		// Run the detector
 		myDetector.detect(imgMat, cameraMatrix, distortions, patternLibrary, detectedPattern);
 
-		// Some usefull info
-		//cout << "Battery: " << ardrone.getBatteryPercentage() << endl;
-		//cout << "altitude = " << ardrone.getAltitude() << endl;
-
 		// Augment the input frame (and print out the properties of pattern if you want)
 		if (detectedPattern.size()) {
 			for (unsigned int i = 0; i < detectedPattern.size(); i++) {
@@ -210,10 +206,10 @@ int main(int argc, char **argv) {
 				patternsCoordinates[detectedPattern[i].id][3] = ll;
 			}
 		} else {
-			for (int i = 0; i < patternCount; i++) {
-				// reset pattern timers
-				timers[i] = cvGetTickCount();
-			}
+			//for (int i = 0; i < patternCount; i++) {
+			//	// reset pattern timers
+			//	timers[i] = cvGetTickCount();
+			//}
 
 			// Reset visible pattern
 			visiblePattern = 0;
