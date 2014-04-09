@@ -609,8 +609,7 @@ void AutoAdjustPosition() {
 		case 1:
 		case 2:
 		case 3:
-		case 28:
-			// If sees pattern 1 or 17 do
+		case 30:
 			PitchBackwards();
 			RollRight();
 			break;
@@ -619,7 +618,6 @@ void AutoAdjustPosition() {
 		case 5:
 		case 6:
 		case 7:
-			// If sees pattern 2, 3, 4 or 18 do
 			PitchBackwards();
 			break;
 
@@ -627,7 +625,6 @@ void AutoAdjustPosition() {
 		case 9:
 		case 10:
 		case 11:
-			// If sees pattern 5 or 19 do
 			PitchBackwards();
 			RollLeft();
 			break;
@@ -635,7 +632,6 @@ void AutoAdjustPosition() {
 		case 12:
 		case 13:
 		case 14:
-			// If sees pattern 6, 7, 8 or 20 do
 			RollLeft();
 			break;
 
@@ -643,16 +639,14 @@ void AutoAdjustPosition() {
 		case 16:
 		case 17:
 		case 18:
-			// If sees pattern 9 or 21 do
 			PitchForwards();
 			RollLeft();
 			break;
 
 		case 19:
-			//case 20:
+		case 20:
 		case 21:
 		case 22:
-			// If sees pattern 10, 11, 12 or 22 do
 			PitchForwards();
 			break;
 
@@ -660,18 +654,17 @@ void AutoAdjustPosition() {
 		case 24:
 		case 25:
 		case 26:
-			// If sees pattern 13 or 23 do
 			PitchForwards();
 			RollRight();
 			break;
 
 		case 27:
-			// If sees pattern 14, 15, 16 or 24 do
+		case 28:
+		case 29:
 			RollRight();
 			break;
 
-		case 20:
-			// If sees pattern 25 do
+		case 31:
 			Hover();
 			break;
 		}
