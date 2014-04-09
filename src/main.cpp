@@ -255,6 +255,10 @@ int main(int argc, char **argv) {
 		imshow("AR.Drone", result);
 
 
+		// Give HighGUI time to process the draw requests
+		cvWaitKey(1);
+
+
 		// Clear pattern for next tick
 		detectedPattern.clear();
 	}
