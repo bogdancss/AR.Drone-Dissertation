@@ -119,14 +119,14 @@ int main(int argc, char **argv) {
 	// Initialise PatternDetector
 	PatternDetector myDetector(fixed_thresh, adapt_thresh, adapt_block_size, confidenceThreshold, norm_pattern_size, mode);
 
-	for (int i = 0; i < patternCount; i++) {
+	vector<Point2f> coordinates;
+	Point2f point;
+	coordinates.push_back(point);
+	coordinates.push_back(point);
+	coordinates.push_back(point);
+	coordinates.push_back(point);
+	for (int i = 0; i <= patternCount; i++) {
 		// Initialise each pattern coordinates
-		vector<Point2f> coordinates;
-		Point2f point;
-		coordinates.push_back(point);
-		coordinates.push_back(point);
-		coordinates.push_back(point);
-		coordinates.push_back(point);
 		patternsCoordinates.push_back(coordinates);
 
 		// Initialise each pattern timer
