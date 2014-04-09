@@ -366,10 +366,9 @@ void KeyControls(int key) {
 	else controlling = false;
 
 	// Game controls - need to be within bounds to opperate
-	// Left/right controls
-	// Left arrow
+	// Left arrow / a key
 	// Roll left
-	if (key == 0x250000) {
+	if (key == 0x250000 || key == 'a') {
 		if (IsWithinLeftBounds()) {
 			RollLeft();
 			controlling = true;
@@ -378,9 +377,9 @@ void KeyControls(int key) {
 	else controlling = false;
 
 
-	// Right arrow
+	// Right arrow / d key
 	// Roll right
-	if (key == 0x270000) {
+	if (key == 0x270000 || key == 'd') {
 		if (IsWithinRightBounds()) {
 			RollRight();
 			controlling = true;
@@ -388,9 +387,9 @@ void KeyControls(int key) {
 	}
 	else controlling = false;
 
-	// Up arrow
+	// Up arrow // w key
 	// Pitch forwards
-	if (key == 0x260000) {
+	if (key == 0x260000 || key == 'w') {
 		if (IsWithinUpperBounds()) {
 			PitchForwards();
 			controlling = true;
@@ -398,9 +397,9 @@ void KeyControls(int key) {
 	}
 	else controlling = false;
 
-	// Down arrow
+	// Down arrow / s key
 	// Pitch backwards
-	if (key == 0x280000) {
+	if (key == 0x280000 || key == 's') {
 		if (IsWithinLowerBounds()) {
 			PitchBackwards();
 			controlling = true;
@@ -413,39 +412,6 @@ void KeyControls(int key) {
 	if (key == 'o') {
 		if (absoluteControl) absoluteControl = false;
 		else absoluteControl = true;
-	}
-
-	// Emergency controls
-	// Available only in absoulte control mode
-	if (absoluteControl) {
-		// Left arrow | a key
-		// Roll left
-		if (key == 'a') {
-			RollLeft();
-			controlling = true;
-		}
-		else controlling = false;
-		// Right arrow | d key
-		// Roll right
-		if (key == 'd') {
-			RollRight();
-			controlling = true;
-		}
-		else controlling = false;
-		// w key
-		// Pitch forwards
-		if (key == 'w') {
-			PitchForwards();
-			controlling = true;
-		}
-		else controlling = false;
-		// s key
-		// Pitch backwards
-		if (key == 's') {
-			PitchBackwards();
-			controlling = true;
-		}
-		else controlling = false;
 	}
 }
 
@@ -590,8 +556,8 @@ void SetVisiblePattern(int patterID) {
 
 // Autonomous drone control
 void AutoAdjustPosition() {
-	// Only auto-correct if user is not controlling drone
-	if (!controlling) {
+	// Only auto-correct if user is not controlling drone and not in absolute control mode
+	if (!controlling && !absoluteControl) {
 
 		// Switch variable
 		int patternSwitch = 0;
@@ -703,21 +669,26 @@ bool IsWithinLeftBounds() {
 	// Get 20% of frame width
 	int width = WIDTH * 20 / 100;
 
-	if (patternsCoordinates[visiblePattern].size()) {
-		// Get upper right and lower right pattern corner coordinates
-		Point2f ur = patternsCoordinates[visiblePattern][1];
-		Point2f lr = patternsCoordinates[visiblePattern][2];
+	// Only check if not in absolute control mode
+	if (!absoluteControl) {
+		if (patternsCoordinates[visiblePattern].size()) {
+			// Get upper right and lower right pattern corner coordinates
+			Point2f ur = patternsCoordinates[visiblePattern][1];
+			Point2f lr = patternsCoordinates[visiblePattern][2];
 
-		// Left bound patterns
-		if (visiblePattern == 1 || visiblePattern == 25 || visiblePattern == 26 || visiblePattern == 27 || visiblePattern == 28 || visiblePattern == 29 || visiblePattern == 30)
-			// Return false if ur or lr pattern corner is in the right part of image
-			if (ur.x > width || lr.x > width) {
-				cout << "left bound!" << endl;
-				return false;
-			}
+			// Left bound patterns
+			if (visiblePattern == 1 || visiblePattern == 25 || visiblePattern == 26 || visiblePattern == 27 || visiblePattern == 28 || visiblePattern == 29 || visiblePattern == 30)
+				// Return false if ur or lr pattern corner is in the right part of image
+				if (ur.x > width || lr.x > width) {
+					cout << "left bound!" << endl;
+					return false;
+				}
+				else return true;
+
+				// If not patterns are detected, consider drone is within bounds.
 			else return true;
-
-			// If not patterns are detected, consider drone is within bounds.
+		}
+		// If not patterns are detected, consider drone is within bounds.
 		else return true;
 	}
 	// If not patterns are detected, consider drone is within bounds.
@@ -729,21 +700,26 @@ bool IsWithinRightBounds() {
 	// Get 80% of frame width
 	int width = WIDTH * 80 / 100;
 
-	if (patternsCoordinates[visiblePattern].size()) {
-		// Get upper left and lower left pattern corner coordinates
-		Point2f ul = patternsCoordinates[visiblePattern][0];
-		Point2f ll = patternsCoordinates[visiblePattern][3];
+	// Only check if not in absolute control mode
+	if (!absoluteControl) {
+		if (patternsCoordinates[visiblePattern].size()) {
+			// Get upper left and lower left pattern corner coordinates
+			Point2f ul = patternsCoordinates[visiblePattern][0];
+			Point2f ll = patternsCoordinates[visiblePattern][3];
 
-		// Right bound patterns
-		if (visiblePattern == 10 || visiblePattern == 11 || visiblePattern == 12 || visiblePattern == 13 || visiblePattern == 14 || visiblePattern == 15 || visiblePattern == 16)
-			// Return false if ul or ll pattern corner is in the left part of image
-			if (ul.x < width || ll.x < width) {
-				cout << "right bound!" << endl;
-				return false;
-			}
+			// Right bound patterns
+			if (visiblePattern == 10 || visiblePattern == 11 || visiblePattern == 12 || visiblePattern == 13 || visiblePattern == 14 || visiblePattern == 15 || visiblePattern == 16)
+				// Return false if ul or ll pattern corner is in the left part of image
+				if (ul.x < width || ll.x < width) {
+					cout << "right bound!" << endl;
+					return false;
+				}
+				else return true;
+
+				// If not patterns are detected, consider drone is within bounds.
 			else return true;
-
-			// If not patterns are detected, consider drone is within bounds.
+		}
+		// If not patterns are detected, consider drone is within bounds.
 		else return true;
 	}
 	// If not patterns are detected, consider drone is within bounds.
@@ -755,25 +731,30 @@ bool IsWithinLowerBounds() {
 	// Get 80% of frame height
 	int height = HEIGHT * 80 / 100;
 
-	if (patternsCoordinates[visiblePattern].size()) {
-		// Get upper left and upper right pattern corner coordinates
-		Point2f ul = patternsCoordinates[visiblePattern][0];
-		Point2f ur = patternsCoordinates[visiblePattern][1];
+	// Only check if not in absolute control mode
+	if (!absoluteControl) {
+		if (patternsCoordinates[visiblePattern].size()) {
+			// Get upper left and upper right pattern corner coordinates
+			Point2f ul = patternsCoordinates[visiblePattern][0];
+			Point2f ur = patternsCoordinates[visiblePattern][1];
 
-		// Lower bounds patterns
-		if (visiblePattern == 16 || visiblePattern == 17 || visiblePattern == 18 || visiblePattern == 19 || /*visiblePattern == 20 ||*/ visiblePattern == 21 || visiblePattern == 22 || visiblePattern == 23 || visiblePattern == 24 || visiblePattern == 25)
-			// Return false if ul or ur pattern corner is in the upper part of image
-			if (ul.y < height || ur.y < height) {
-				cout << "lower bound!" << endl;
-				return false;
-			}
+			// Lower bounds patterns
+			if (visiblePattern == 16 || visiblePattern == 17 || visiblePattern == 18 || visiblePattern == 19 || /*visiblePattern == 20 ||*/ visiblePattern == 21 || visiblePattern == 22 || visiblePattern == 23 || visiblePattern == 24 || visiblePattern == 25)
+				// Return false if ul or ur pattern corner is in the upper part of image
+				if (ul.y < height || ur.y < height) {
+					cout << "lower bound!" << endl;
+					return false;
+				}
+				else return true;
+
+				// If not patterns are detected, consider drone is within bounds.
 			else return true;
-
-			// If not patterns are detected, consider drone is within bounds.
-		else return true;
+		}
+		// If not patterns are detected, consider drone is within bounds.
+		else return !true;
 	}
 	// If not patterns are detected, consider drone is within bounds.
-	else return !true;
+	else return true;
 }
 
 // Check if coords of the pattern are within the upper edge bounds
@@ -781,21 +762,26 @@ bool IsWithinUpperBounds() {
 	// Get 20% of frame height
 	int height = HEIGHT * 20 / 100;
 
-	if (patternsCoordinates[visiblePattern].size()) {
-		// Get lower right and lower left pattern corner coordinates
-		Point2f lr = patternsCoordinates[visiblePattern][2];
-		Point2f ll = patternsCoordinates[visiblePattern][3];
+	// Only check if not in absolute control mode
+	if (!absoluteControl) {
+		if (patternsCoordinates[visiblePattern].size()) {
+			// Get lower right and lower left pattern corner coordinates
+			Point2f lr = patternsCoordinates[visiblePattern][2];
+			Point2f ll = patternsCoordinates[visiblePattern][3];
 
-		// Upper bounds patterns
-		if (visiblePattern == 1 || visiblePattern == 2 || visiblePattern == 3 || visiblePattern == 4 || visiblePattern == 5 || visiblePattern == 6 || visiblePattern == 7 || visiblePattern == 8 || visiblePattern == 9 || visiblePattern == 1)
-			// Return false if ll or lr pattern corner is in the lower part of image
-			if (ll.y > height || lr.y > height) {
-				cout << "upper bound!" << endl;
-				return false;
-			}
+			// Upper bounds patterns
+			if (visiblePattern == 1 || visiblePattern == 2 || visiblePattern == 3 || visiblePattern == 4 || visiblePattern == 5 || visiblePattern == 6 || visiblePattern == 7 || visiblePattern == 8 || visiblePattern == 9 || visiblePattern == 1)
+				// Return false if ll or lr pattern corner is in the lower part of image
+				if (ll.y > height || lr.y > height) {
+					cout << "upper bound!" << endl;
+					return false;
+				}
+				else return true;
+
+				// If not patterns are detected, consider drone is within bounds.
 			else return true;
-
-			// If not patterns are detected, consider drone is within bounds.
+		}
+		// If not patterns are detected, consider drone is within bounds.
 		else return true;
 	}
 	// If not patterns are detected, consider drone is within bounds.
