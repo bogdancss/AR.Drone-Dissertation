@@ -2,6 +2,7 @@
 
 #define PAT_SIZE 64 // equal to pattern_size variable (see below)
 #define MOVEMENT_SPEED 0.2 // define the drone movement speed
+#define ABSOLUTE_CONTROL_SPEED 0.5 // define drone movement speed for absolute control
 #define ALTITUDE_SPEED 0.3 // define the drone altitude gain/loose speed
 #define YAW_SPEED 0.3 // define the drone yaw speed
 //#define RESET_TIMER 1 // define a reset timer for autonomous control
@@ -51,16 +52,16 @@ char* filename33 = "..\\..\\src\\resource\\p.png";//id=33 -> p
 // --------------------------------------------------------------------------
 int main(int argc, char **argv) {
 
-	//// Initialize
-	//// If drone is not connected, initialise webcam
-	//if (!ardrone.open()) {
-	//	printf("Drone failed to connect.\n");
-	//	isDroneConnected = false;
-	//}
-	//else isDroneConnected = true;
+	// Initialize
+	// If drone is not connected, initialise webcam
+	if (!ardrone.open()) {
+		printf("Drone failed to connect.\n");
+		isDroneConnected = false;
+	}
+	else isDroneConnected = true;
 
-	// DEBUGGING
-	isDroneConnected = false;
+	//// DEBUGGING
+	//isDroneConnected = false;
 
 
 	quitProgram = false;
@@ -204,7 +205,6 @@ int main(int argc, char **argv) {
 				detectedPattern.at(i).draw(buffer, cameraMatrix, distortions);
 
 
-
 				// Get pattern corner and centre coordinates
 				Point2f ul, ur, lr, ll, centre;
 				detectedPattern.at(i).getCoordinates(ul, ur, lr, ll, centre, cameraMatrix, distortions);
@@ -283,22 +283,30 @@ int main(int argc, char **argv) {
 
 // Movement methods
 void PitchBackwards() {
-	vx = -MOVEMENT_SPEED;
+	if (absoluteControl)
+		vx = -ABSOLUTE_CONTROL_SPEED;
+	else vx = -MOVEMENT_SPEED;
 	cout << "pitch backwards" << endl;
 }
 
 void PitchForwards() {
-	vx = MOVEMENT_SPEED;
+	if (absoluteControl)
+		vx = ABSOLUTE_CONTROL_SPEED;
+	else vx = MOVEMENT_SPEED;
 	cout << "pitch forwards" << endl;
 }
 
 void RollLeft() {
-	vy = MOVEMENT_SPEED;
+	if (absoluteControl)
+		vy = ABSOLUTE_CONTROL_SPEED;
+	else vy = MOVEMENT_SPEED;
 	cout << "roll left" << endl;
 }
 
 void RollRight() {
-	vy = -MOVEMENT_SPEED;
+	if (absoluteControl)
+		vy = -ABSOLUTE_CONTROL_SPEED;
+	else vy = -MOVEMENT_SPEED;
 	cout << "roll right" << endl;
 }
 

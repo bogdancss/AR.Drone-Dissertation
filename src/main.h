@@ -26,6 +26,7 @@ CvCapture* webcamCapture;
 // Methods
 void OverlayImage(const Mat &background, const Mat &foreground, Mat &output, Point2i location);
 Mat HUD(Mat videoFeed, int sizex, int sizey);
+static void CheckGamePatterns(int sizex, int sizey, int patID);
 
 static void Stop();
 static int LoadPattern(const char*, vector<Mat>&, int&);
@@ -70,6 +71,8 @@ bool isDroneConnected;
 bool absoluteControl;
 double vx, vy, vz, vr;
 //int lastVPStart, lastVPElapsed;
+int patternTimer;
+
 
 
 
