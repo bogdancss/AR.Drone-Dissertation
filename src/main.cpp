@@ -41,6 +41,8 @@ char* filename28 = "..\\..\\src\\resource\\28.png";//id=28
 char* filename29 = "..\\..\\src\\resource\\29.png";//id=29
 char* filename30 = "..\\..\\src\\resource\\30.png";//id=30
 char* filename31 = "..\\..\\src\\resource\\x.png";//id=31 -> x
+char* filename32 = "..\\..\\src\\resource\\c.png";//id=32 -> c
+char* filename33 = "..\\..\\src\\resource\\p.png";//id=33 -> p
 
 // --------------------------------------------------------------------------
 // main(Number of arguments, Argument values)
@@ -101,6 +103,8 @@ int main(int argc, char **argv) {
 	LoadPattern(filename29, patternLibrary, patternCount);
 	LoadPattern(filename30, patternLibrary, patternCount);
 	LoadPattern(filename31, patternLibrary, patternCount);
+	LoadPattern(filename32, patternLibrary, patternCount);
+	LoadPattern(filename33, patternLibrary, patternCount);
 
 	cout << patternCount << " patterns are loaded." << endl;
 
@@ -151,7 +155,8 @@ int main(int argc, char **argv) {
 		if (isDroneConnected) {
 			// Get drone image
 			img = ardrone.getImage();
-		} else {
+		}
+		else {
 			// Capture webcam feed
 			webcamCapture = cvCaptureFromCAM(0);
 
@@ -209,7 +214,8 @@ int main(int argc, char **argv) {
 				patternsCoordinates[detectedPattern[i].id][2] = lr;
 				patternsCoordinates[detectedPattern[i].id][3] = ll;
 			}
-		} else {
+		}
+		else {
 			//for (int i = 0; i < patternCount; i++) {
 			//	// reset pattern timers
 			//	timers[i] = cvGetTickCount();
@@ -526,6 +532,14 @@ void SetVisiblePattern(int patterID) {
 	case 31:
 		//cout << "seing patter 31" << endl;
 		visiblePattern = 31;
+		break;
+	case 32:
+		//cout << "seing patter 32" << endl;
+		visiblePattern = 32;
+		break;
+	case 33:
+		//cout << "seing patter 33" << endl;
+		visiblePattern = 33;
 		break;
 	default:
 		break;
@@ -880,7 +894,7 @@ Mat HUD(Mat videoFeed, int sizex, int sizey) {
 
 
 	// Draw the crosshair
-	Point2f point(sizex/2, sizey/2);
+	Point2f point(sizex / 2, sizey / 2);
 	circle(buffer, point, 10, Scalar(255, 255, 0), -1);
 
 
@@ -906,5 +920,6 @@ static int DistanceBetween(int pat1, int pat2) {
 	if (patternsCoordinates[pat1].size() && patternsCoordinates[pat2].size()) {
 		// Get the distance between the upper left corners of the patterns
 		return norm(patternsCoordinates[pat1][0] - patternsCoordinates[pat2][0]);
-	} else return 0;
+	}
+	else return 0;
 }
