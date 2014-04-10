@@ -35,6 +35,9 @@ class Pattern
 
 		// returns the coordinates of the 4 corners of the pattern
 		void getCoordinates(Point2f& ul, Point2f& ur, Point2f& ll, Point2f& lr, Point2f& centre, const Mat& camMatrix, const Mat& distMatrix);
+
+		// returns the coordinates of the centre of the pattern
+		Point2f getCentreCoords(Point2f a, Point2f b);
 };
 }
 #endif
