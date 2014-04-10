@@ -967,13 +967,13 @@ static void CheckGamePatterns(int sizex, int sizey, int patID) {
 		cout << dist << endl;
 
 		// Check distance and drone altitude
-		if (dist < 150 && ardrone.getAltitude() < 0.7) {
+		if (dist < 200 && ardrone.getAltitude() < 0.7) {
 			// Start current pattern seen timer
 			int now = cvGetTickCount();
 			int passedSinceSeen = ((now - patternTimer) / (cvGetTickFrequency() * 1000)) / 1000;
 
 			// Check if pattern is within range for more than 2 seconds
-			if (passedSinceSeen > 2) {
+			if (passedSinceSeen > 1) {
 				switch (patID)
 				{
 				case 31:
