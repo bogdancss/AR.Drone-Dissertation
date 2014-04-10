@@ -182,31 +182,20 @@ int main(int argc, char **argv) {
 		if (detectedPattern.size()) {
 			for (unsigned int i = 0; i < detectedPattern.size(); i++) {
 
+				// Get pattern id
+				int id = detectedPattern[i].id;
+
 				//// Start current pattern seen timer
 				//int now = cvGetTickCount();
 				//int passedSinceSeen = ((now - timers[detectedPattern[i].id]) / (cvGetTickFrequency() * 1000)) / 1000;
 
 				//// Only set visible pattern if detected a pattern for more than 1 second 
 				//if (passedSinceSeen > SEEN_TIMER) SetVisiblePattern(detectedPattern[i].id);
-				SetVisiblePattern(detectedPattern[i].id);
+				SetVisiblePattern(id);
 
 
 				// Drawing
-				// If pattern 31 draw the platform as a cube
-				if (i == 31)
-					detectedPattern.at(i).draw(3, Scalar(0, 255, 255), buffer, cameraMatrix, distortions);
-
-				// If pattern 32 draw the people as spheres
-				else if (i == 32)
-					detectedPattern.at(i).draw(1, Scalar(0, 255, 255), buffer, cameraMatrix, distortions);
-
-				// If pattern 33 draw the crates as squares
-				else if (i == 33)
-					detectedPattern.at(i).draw(2, Scalar(0, 255, 255), buffer, cameraMatrix, distortions);
-
-				// for all other patterns draw spheres at pattern corners
-				else
-					detectedPattern.at(i).draw(0, Scalar(0, 255, 255), buffer, cameraMatrix, distortions);
+				detectedPattern.at(i).draw(buffer, cameraMatrix, distortions);
 
 
 

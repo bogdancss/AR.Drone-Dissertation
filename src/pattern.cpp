@@ -74,23 +74,8 @@ namespace ARma {
 		cvFindExtrinsicCameraParams2(&objectPts, &imagePts, &intrinsics, &distCoeff, &rot, &tra);
 	}
 
-	void Pattern::draw(int type, Scalar colour, Mat& frame, const Mat& camMatrix, const Mat& distMatrix)
+	void Pattern::draw(Mat& frame, const Mat& camMatrix, const Mat& distMatrix)
 	{
-
-		CvScalar color = cvScalar(255,255,255);
-		
-		switch (id){
-			case 1:
-				 color = cvScalar(255,0,255);
-				break;
-			case 2:
-				 color = cvScalar(255,255,0);
-				break;
-			case 3:
-				 color = cvScalar(0,255,255);
-				break;
-		}
-
 		//model 3D points: they must be projected to the image plane
 		Mat modelPts = (Mat_<float>(8,3) << 0, 0, 0, size, 0, 0, size, size, 0, 0, size, 0,
 			0, 0, -size, size, 0, -size, size, size, -size, 0, size, -size );
@@ -106,8 +91,26 @@ namespace ARma {
 
 
 
+		// If pattern 31 draw the platform as a cube
+		if (id == 31) {
+			// Colour - green
+			Scalar colour(0, 255, 0);
 
-		if (type == 1) {
+			// Draw lines between cube corners
+			int i;
+			for (i = 0; i<4; i++){
+				cv::line(frame, model2ImagePts.at(i % 4), model2ImagePts.at((i + 1) % 4), colour, 10);
+			}
+			for (i = 4; i<7; i++){
+				cv::line(frame, model2ImagePts.at(i % 8), model2ImagePts.at((i + 1) % 8), colour, 10);
+			}
+			cv::line(frame, model2ImagePts.at(7), model2ImagePts.at(4), colour, 10);
+			for (i = 0; i<4; i++){
+				cv::line(frame, model2ImagePts.at(i), model2ImagePts.at(i + 4), colour, 10);
+			}
+		}
+		// If pattern 32 draw the people as spheres
+		else if (id == 32) {
 			// Get coords for one side of pattern
 			int x1 = model2ImagePts.at(0).x;
 			int y1 = model2ImagePts.at(0).y;
@@ -124,35 +127,32 @@ namespace ARma {
 			// Get coords of middle of pattern
 			Point2f coord(x1 + (dist / 2), y1 + (dist / 2));
 
-
 			// Calculate distance between corners
 			int size = norm(model2ImagePts.at(0) - model2ImagePts.at(1));
 
+			// Colour - red
+			Scalar colour(0, 0, 255);
+
 			// Draw a circle at the middle of pattern
-			circle(frame, coord, size, colour, -1);
+			circle(frame, coord, size/1.5, colour, -1);
 		}
-		else if (type == 2) {
-			cv::line(frame, model2ImagePts.at(0), model2ImagePts.at(1), colour, 3);
-			cv::line(frame, model2ImagePts.at(1), model2ImagePts.at(2), colour, 3);
-			cv::line(frame, model2ImagePts.at(2), model2ImagePts.at(3), colour, 3);
-			cv::line(frame, model2ImagePts.at(3), model2ImagePts.at(0), colour, 3);
+		// If pattern 33 draw the crates as squares
+		else if (id == 33) {
+			// Colour - blue
+			Scalar colour(255, 0, 0);
+
+			// Draw lines between corners
+			cv::line(frame, model2ImagePts.at(0), model2ImagePts.at(1), colour, 20);
+			cv::line(frame, model2ImagePts.at(1), model2ImagePts.at(2), colour, 20);
+			cv::line(frame, model2ImagePts.at(2), model2ImagePts.at(3), colour, 20);
+			cv::line(frame, model2ImagePts.at(3), model2ImagePts.at(0), colour, 20);
 		}
-		else if (type == 3) {
-			//draw cube, or whatever
-			int i;
-			for (i =0; i<4; i++){
-				cv::line(frame, model2ImagePts.at(i%4), model2ImagePts.at((i+1)%4), color, 3);
-			}
-			for (i =4; i<7; i++){
-				cv::line(frame, model2ImagePts.at(i%8), model2ImagePts.at((i+1)%8), color, 3);
-			}
-			cv::line(frame, model2ImagePts.at(7), model2ImagePts.at(4), color, 3);
-			for (i =0; i<4; i++){
-				cv::line(frame, model2ImagePts.at(i), model2ImagePts.at(i+4), color, 3);
-			}
-		}
+		// For all other patterns draw circles at pattern corners
 		else {
-			// draw circles at pattern corners
+			// Colour - yellow
+			Scalar colour(0, 255, 255);
+
+			// Draw circles
 			circle(frame, model2ImagePts.at(0), 10, colour, -1);
 			circle(frame, model2ImagePts.at(1), 10, colour, -1);
 			circle(frame, model2ImagePts.at(2), 10, colour, -1);

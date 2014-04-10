@@ -25,11 +25,7 @@ class Pattern
 		void getExtrinsics(int patternSize, const Mat& cameraMatrix, const Mat& distortions);
 
 		//augments image
-		// 0 for corner circles
-		// 1 for circle
-		// 2 for square
-		// 3 for cube
-		void Pattern::draw(int type, Scalar colour, Mat& frame, const Mat& camMatrix, const Mat& distMatrix);
+		void Pattern::draw(Mat& frame, const Mat& camMatrix, const Mat& distMatrix);
 
 		//computes the rotation matrix from the rotation vector using Rodrigues
 		void Pattern::rotationMatrix(const Mat& rotation_vector, Mat& rotation_matrix);
