@@ -215,6 +215,11 @@ int main(int argc, char **argv) {
 				patternsCoordinates[detectedPattern[i].id][2] = lr;
 				patternsCoordinates[detectedPattern[i].id][3] = ll;
 				patternsCoordinates[detectedPattern[i].id][4] = centre;
+
+
+				if (isDroneConnected)
+					CheckGamePatterns(WIDTH, HEIGHT, id);
+				else CheckGamePatterns(WIDTH, WEBCAM_HEIGHT, id);
 			}
 		}
 		else {
@@ -936,4 +941,46 @@ static int DistanceBetween(int pat1, int pat2) {
 		return norm(patternsCoordinates[pat1][0] - patternsCoordinates[pat2][0]);
 	}
 	else return 0;
+}
+
+
+static void CheckGamePatterns(int sizex, int sizey, int patID) {
+
+	// Get crosshair coordinate (centre of screen)
+	Point2f crosshair(sizex / 2, sizey / 2);
+
+	if (patternsCoordinates[patID].size()) {
+		// Get distance from crosshair to pattern
+		int dist = norm(patternsCoordinates[patID][0] - crosshair);
+
+		cout << dist << endl;
+
+		// Check distance and drone altitude
+		if (dist < 100 && ardrone.getAltitude() < 0.7) {
+			// Start current pattern seen timer
+			int now = cvGetTickCount();
+			int passedSinceSeen = ((now - patternTimer) / (cvGetTickFrequency() * 1000)) / 1000;
+
+			// Check if pattern is within range for more than 2 seconds
+			if (passedSinceSeen > 2) {
+				switch (patID)
+				{
+				case 31:
+					cout << "!!!! PLATFORM" << endl;
+
+					break;
+				case 32:
+					cout << "!!!! PEOPLE" << endl;
+
+					break;
+				case 33:
+					cout << "!!!! CRATE" << endl;
+
+					break;
+				default:
+					break;
+				}
+			}
+		} else patternTimer = cvGetTickCount();
+	}
 }
