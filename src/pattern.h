@@ -34,7 +34,7 @@ class Pattern
 		void showPattern(void);
 
 		// returns the coordinates of the 4 corners of the pattern
-		void getCoordinates(Point2f& ul, Point2f& ur, Point2f& ll, Point2f& lr, const Mat& camMatrix, const Mat& distMatrix);
+		void getCoordinates(Point2f& ul, Point2f& ur, Point2f& ll, Point2f& lr, Point2f& centre, const Mat& camMatrix, const Mat& distMatrix);
 };
 }
 #endif

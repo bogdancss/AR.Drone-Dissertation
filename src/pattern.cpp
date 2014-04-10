@@ -163,7 +163,7 @@ namespace ARma {
 		model2ImagePts.clear();
 	}
 
-	void Pattern::getCoordinates(Point2f& ul, Point2f& ur, Point2f& lr, Point2f& ll, const Mat& camMatrix, const Mat& distMatrix) {
+	void Pattern::getCoordinates(Point2f& ul, Point2f& ur, Point2f& lr, Point2f& ll, Point2f& centre, const Mat& camMatrix, const Mat& distMatrix) {
 
 		//model 3D points: they must be projected to the image plane
 		Mat modelPts = (Mat_<float>(8, 3) << 0, 0, 0, size, 0, 0, size, size, 0, 0, size, 0,
@@ -177,6 +177,25 @@ namespace ARma {
 		(camera matrix, distortion matrix) from the camera 3D CS to its image plane
 		*/
 		projectPoints(modelPts, rotVec, transVec, camMatrix, distMatrix, model2ImagePts);
+
+		// Get coords for one side of pattern
+		int x1 = model2ImagePts.at(0).x;
+		int y1 = model2ImagePts.at(0).y;
+		int x2 = model2ImagePts.at(1).x;
+		int y2 = model2ImagePts.at(1).y;
+
+		// Create 2 points from coords
+		Point2f point1(x1, y1);
+		Point2f point2(x2, y2);
+
+		// calculate distance between corners
+		int dist = norm(point1 - point2);
+
+		// Get coords of middle of pattern
+		Point2f coord(x1 + (dist / 2), y1 + (dist / 2));
+
+		// return centre coordinate
+		centre = coord;
 
 		// return corner coordinates
 		ul = model2ImagePts.at(0);

@@ -129,6 +129,7 @@ int main(int argc, char **argv) {
 	coordinates.push_back(point);
 	coordinates.push_back(point);
 	coordinates.push_back(point);
+	coordinates.push_back(point);
 	for (int i = 0; i <= patternCount; i++) {
 		// Initialise each pattern coordinates
 		patternsCoordinates.push_back(coordinates);
@@ -204,15 +205,16 @@ int main(int argc, char **argv) {
 
 
 
-				// Get pattern corner coordinates
-				Point2f ul, ur, lr, ll;
-				detectedPattern.at(i).getCoordinates(ul, ur, lr, ll, cameraMatrix, distortions);
+				// Get pattern corner and centre coordinates
+				Point2f ul, ur, lr, ll, centre;
+				detectedPattern.at(i).getCoordinates(ul, ur, lr, ll, centre, cameraMatrix, distortions);
 
 				// Store coordinates
 				patternsCoordinates[detectedPattern[i].id][0] = ul;
 				patternsCoordinates[detectedPattern[i].id][1] = ur;
 				patternsCoordinates[detectedPattern[i].id][2] = lr;
 				patternsCoordinates[detectedPattern[i].id][3] = ll;
+				patternsCoordinates[detectedPattern[i].id][4] = centre;
 			}
 		}
 		else {
