@@ -911,12 +911,16 @@ Mat HUD(Mat videoFeed, int sizex, int sizey) {
 	// Display info on to HUD
 	ostringstream str; // string stream
 	ostringstream str2; // string stream
+	ostringstream str3; // string stream
 
 	str << "Absolute control : " << absoluteControl;
 	putText(result, str.str(), Point(10, 30), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 250, 0));
 
 	str2 << "Battery : " << ardrone.getBatteryPercentage();
 	putText(result, str2.str(), Point(10, 60), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 250, 0));
+
+	str3 << "Altitude : " << ardrone.getAltitude();
+	putText(result, str3.str(), Point(10, 90), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 250, 0));
 
 	// Combine buffer with original image + opacity
 	double opacity = 0.2;
