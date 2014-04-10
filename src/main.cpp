@@ -962,7 +962,7 @@ static void CheckGamePatterns(int sizex, int sizey, int patID) {
 
 	if (patternsCoordinates[patID].size()) {
 		// Get distance from crosshair to pattern
-		int dist = norm(patternsCoordinates[patID][0] - crosshair);
+		int dist = norm(patternsCoordinates[patID][4] - crosshair);
 
 		cout << dist << endl;
 
