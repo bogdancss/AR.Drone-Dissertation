@@ -44,10 +44,10 @@ bool IsWithinLowerBounds();
 static int DistanceBetween(int pat1, int pat2);
 
 // Movement methods
-static void PitchForwards();
-static void PitchBackwards();
-static void RollLeft();
-static void RollRight();
+static void PitchForwards(bool controlling);
+static void PitchBackwards(bool controlling);
+static void RollLeft(bool controlling);
+static void RollRight(bool controlling);
 static void YawCClockwise();
 static void YawClockwise();
 static void GainAltitude();

@@ -1,8 +1,9 @@
 #include "main.h"
 
 #define PAT_SIZE 64 // equal to pattern_size variable (see below)
-#define MOVEMENT_SPEED 0.2 // define the drone movement speed
-#define ABSOLUTE_CONTROL_SPEED 0.5 // define drone movement speed for absolute control
+#define MOVEMENT_SPEED 0.4 // define the drone self correction movement speed
+#define ABSOLUTE_CONTROL_SPEED 0.8 // define drone movement speed for absolute control
+#define CONTROL_MOVEMENT_SPEED 0.3 // define dronve movement speed for user control
 #define ALTITUDE_SPEED 0.3 // define the drone altitude gain/loose speed
 #define YAW_SPEED 0.3 // define the drone yaw speed
 //#define RESET_TIMER 1 // define a reset timer for autonomous control
@@ -248,9 +249,6 @@ int main(int argc, char **argv) {
 		// Providing key controls
 		KeyControls(key);
 
-		// Drone movement
-		ardrone.move3D(vx, vy, vz, vr);
-
 
 		// Autonomous drone control
 		KeepGoodAltitude();
@@ -259,6 +257,9 @@ int main(int argc, char **argv) {
 		// Always go back to hovering if no user input, no pattern visible and too old last visible pattern (0)
 		if (absoluteControl && key < 0) Hover();
 		else if (key < 0 && visiblePattern == 0/* && lastVisiblePattern == 0*/) Hover();
+
+		// Drone movement
+		ardrone.move3D(vx, vy, vz, vr);
 
 
 		// Combine buffer with original image + opacity
@@ -287,30 +288,38 @@ int main(int argc, char **argv) {
 
 
 // Movement methods
-void PitchBackwards() {
+void PitchBackwards(bool controlling) {
 	if (absoluteControl)
 		vx = -ABSOLUTE_CONTROL_SPEED;
+	else if (controlling)
+		vx = -CONTROL_MOVEMENT_SPEED;
 	else vx = -MOVEMENT_SPEED;
 	cout << "pitch backwards" << endl;
 }
 
-void PitchForwards() {
+void PitchForwards(bool controlling) {
 	if (absoluteControl)
 		vx = ABSOLUTE_CONTROL_SPEED;
+	else if (controlling)
+		vx = CONTROL_MOVEMENT_SPEED;
 	else vx = MOVEMENT_SPEED;
 	cout << "pitch forwards" << endl;
 }
 
-void RollLeft() {
+void RollLeft(bool controlling) {
 	if (absoluteControl)
 		vy = ABSOLUTE_CONTROL_SPEED;
+	else if (controlling)
+		vy = CONTROL_MOVEMENT_SPEED;
 	else vy = MOVEMENT_SPEED;
 	cout << "roll left" << endl;
 }
 
-void RollRight() {
+void RollRight(bool controlling) {
 	if (absoluteControl)
 		vy = -ABSOLUTE_CONTROL_SPEED;
+	else if (controlling)
+		vy = -CONTROL_MOVEMENT_SPEED;
 	else vy = -MOVEMENT_SPEED;
 	cout << "roll right" << endl;
 }
@@ -393,25 +402,27 @@ void KeyControls(int key) {
 	// Roll left
 	if (key == 0x250000 || key == 'a')
 		if (IsWithinLeftBounds())
-			RollLeft();
+			RollLeft(true);
+		else RollRight(false);
 
 	// Right arrow / d key
 	// Roll right
 	if (key == 0x270000 || key == 'd')
 		if (IsWithinRightBounds())
-			RollRight();
+			RollRight(true);
+		else RollLeft(false);
 
 	// Up arrow // w key
 	// Pitch forwards
 	if (key == 0x260000 || key == 'w')
 		if (IsWithinUpperBounds())
-			PitchForwards();
+			PitchForwards(true);
 
 	// Down arrow / s key
 	// Pitch backwards
 	if (key == 0x280000 || key == 's')
 		if (IsWithinLowerBounds())
-			PitchBackwards();
+			PitchBackwards(true);
 
 	// Toggle absolute control
 	// o key
@@ -590,58 +601,58 @@ void AutoAdjustPosition(int key) {
 		case 2:
 		case 3:
 		case 30:
-			PitchBackwards();
-			RollRight();
+			PitchBackwards(false);
+			RollRight(false);
 			break;
 
 		case 4:
 		case 5:
 		case 6:
 		case 7:
-			PitchBackwards();
+			PitchBackwards(false);
 			break;
 
 		case 8:
 		case 9:
 		case 10:
 		case 11:
-			PitchBackwards();
-			RollLeft();
+			PitchBackwards(false);
+			RollLeft(false);
 			break;
 
 		case 12:
 		case 13:
 		case 14:
-			RollLeft();
+			RollLeft(false);
 			break;
 
 		case 15:
 		case 16:
 		case 17:
 		case 18:
-			PitchForwards();
-			RollLeft();
+			PitchForwards(false);
+			RollLeft(false);
 			break;
 
 		case 19:
 		case 20:
 		case 21:
 		case 22:
-			PitchForwards();
+			PitchForwards(false);
 			break;
 
 		case 23:
 		case 24:
 		case 25:
 		case 26:
-			PitchForwards();
-			RollRight();
+			PitchForwards(false);
+			RollRight(false);
 			break;
 
 		case 27:
 		case 28:
 		case 29:
-			RollRight();
+			RollRight(false);
 			break;
 
 		case 31:
@@ -956,7 +967,7 @@ static void CheckGamePatterns(int sizex, int sizey, int patID) {
 		cout << dist << endl;
 
 		// Check distance and drone altitude
-		if (dist < 100 && ardrone.getAltitude() < 0.7) {
+		if (dist < 150 && ardrone.getAltitude() < 0.7) {
 			// Start current pattern seen timer
 			int now = cvGetTickCount();
 			int passedSinceSeen = ((now - patternTimer) / (cvGetTickFrequency() * 1000)) / 1000;
