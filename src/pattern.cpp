@@ -111,7 +111,10 @@ namespace ARma {
 
 			// Get centre coords
 			Point2f centreCoord = getCentreCoords(model2ImagePts.at(0), model2ImagePts.at(1));
-
+			// Calculate distance between corners
+			int size = norm(model2ImagePts.at(0) - model2ImagePts.at(1));
+			// Draw a circle to indicate the pickup are
+			circle(frame, centreCoord, size * 1.5, colour, 5);
 		}
 		// If pattern 32 draw the people as spheres
 		else if (id == 32) {
@@ -126,6 +129,8 @@ namespace ARma {
 
 			// Draw a circle at the middle of pattern
 			circle(frame, centreCoord, size / 1.5, colour, -1);
+			// Draw a circle to indicate the pickup are
+			circle(frame, centreCoord, size * 1.5, colour, 5);
 		}
 		// If pattern 33 draw the crates as squares
 		else if (id == 33) {
@@ -140,7 +145,10 @@ namespace ARma {
 				
 			// Get centre coords
 			Point2f centreCoord = getCentreCoords(model2ImagePts.at(0), model2ImagePts.at(1));
-
+			// Calculate distance between corners
+			int size = norm(model2ImagePts.at(0) - model2ImagePts.at(1));
+			// Draw a circle to indicate the pickup are
+			circle(frame, centreCoord, size * 1.5, colour, 5);
 		}
 		// For all other patterns draw circles at pattern corners
 		else {

@@ -53,16 +53,16 @@ char* filename33 = "..\\..\\src\\resource\\p.png";//id=33 -> p
 // --------------------------------------------------------------------------
 int main(int argc, char **argv) {
 
-	// Initialize
-	// If drone is not connected, initialise webcam
-	if (!ardrone.open()) {
-		printf("Drone failed to connect.\n");
-		isDroneConnected = false;
-	}
-	else isDroneConnected = true;
+	//// Initialize
+	//// If drone is not connected, initialise webcam
+	//if (!ardrone.open()) {
+	//	printf("Drone failed to connect.\n");
+	//	isDroneConnected = false;
+	//}
+	//else isDroneConnected = true;
 
-	//// DEBUGGING
-	//isDroneConnected = false;
+	// DEBUGGING
+	isDroneConnected = false;
 
 
 	quitProgram = false;
@@ -263,7 +263,7 @@ int main(int argc, char **argv) {
 
 
 		// Combine buffer with original image + opacity
-		double opacity = 0.2;
+		double opacity = 0.4;
 		addWeighted(buffer, opacity, result, 1 - opacity, 0, result);
 
 
