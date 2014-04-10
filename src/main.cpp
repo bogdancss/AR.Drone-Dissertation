@@ -12,39 +12,17 @@
 #define HEIGHT 360 // define window height
 #define WEBCAM_HEIGHT 480 // define webcam window height
 
-char* filename1 = "..\\..\\src\\resource\\1.png";//id=1
-char* filename2 = "..\\..\\src\\resource\\2.png";//id=2
-char* filename3 = "..\\..\\src\\resource\\3.png";//id=3
-char* filename4 = "..\\..\\src\\resource\\4.png";//id=4
-char* filename5 = "..\\..\\src\\resource\\5.png";//id=5
-char* filename6 = "..\\..\\src\\resource\\6.png";//id=6
-char* filename7 = "..\\..\\src\\resource\\7.png";//id=7
-char* filename8 = "..\\..\\src\\resource\\8.png";//id=8
-char* filename9 = "..\\..\\src\\resource\\9.png";//id=9
-char* filename10 = "..\\..\\src\\resource\\10.png";//id=10
-char* filename11 = "..\\..\\src\\resource\\11.png";//id=11
-char* filename12 = "..\\..\\src\\resource\\12.png";//id=12
-char* filename13 = "..\\..\\src\\resource\\13.png";//id=13
-char* filename14 = "..\\..\\src\\resource\\14.png";//id=14
-char* filename15 = "..\\..\\src\\resource\\15.png";//id=15
-char* filename16 = "..\\..\\src\\resource\\16.png";//id=16
-char* filename17 = "..\\..\\src\\resource\\17.png";//id=17
-char* filename18 = "..\\..\\src\\resource\\18.png";//id=18
-char* filename19 = "..\\..\\src\\resource\\19.png";//id=19
-char* filename20 = "..\\..\\src\\resource\\20.png";//id=20
-char* filename21 = "..\\..\\src\\resource\\21.png";//id=21
-char* filename22 = "..\\..\\src\\resource\\22.png";//id=22
-char* filename23 = "..\\..\\src\\resource\\23.png";//id=23
-char* filename24 = "..\\..\\src\\resource\\24.png";//id=24
-char* filename25 = "..\\..\\src\\resource\\25.png";//id=25
-char* filename26 = "..\\..\\src\\resource\\26.png";//id=26
-char* filename27 = "..\\..\\src\\resource\\27.png";//id=27
-char* filename28 = "..\\..\\src\\resource\\28.png";//id=28
-char* filename29 = "..\\..\\src\\resource\\29.png";//id=29
-char* filename30 = "..\\..\\src\\resource\\30.png";//id=30
-char* filename31 = "..\\..\\src\\resource\\x.png";//id=31 -> x
-char* filename32 = "..\\..\\src\\resource\\c.png";//id=32 -> c
-char* filename33 = "..\\..\\src\\resource\\p.png";//id=33 -> p
+char* filename1 = "..\\..\\src\\resource\\x.png";//id=1
+char* filename2 = "..\\..\\src\\resource\\c.png";//id=2
+char* filename3 = "..\\..\\src\\resource\\p.png";//id=3
+char* filename4 = "..\\..\\src\\resource\\ul.png";//id=4
+char* filename5 = "..\\..\\src\\resource\\u.png";//id=5
+char* filename6 = "..\\..\\src\\resource\\ur.png";//id=6
+char* filename7 = "..\\..\\src\\resource\\r.png";//id=7
+char* filename8 = "..\\..\\src\\resource\\lr.png";//id=8
+char* filename9 = "..\\..\\src\\resource\\d.png";//id=9
+char* filename10 = "..\\..\\src\\resource\\ll.png";//id=10
+char* filename11 = "..\\..\\src\\resource\\l.png";//id=11
 
 // --------------------------------------------------------------------------
 // main(Number of arguments, Argument values)
@@ -85,28 +63,6 @@ int main(int argc, char **argv) {
 	LoadPattern(filename9, patternLibrary, patternCount);
 	LoadPattern(filename10, patternLibrary, patternCount);
 	LoadPattern(filename11, patternLibrary, patternCount);
-	LoadPattern(filename12, patternLibrary, patternCount);
-	LoadPattern(filename13, patternLibrary, patternCount);
-	LoadPattern(filename14, patternLibrary, patternCount);
-	LoadPattern(filename15, patternLibrary, patternCount);
-	LoadPattern(filename16, patternLibrary, patternCount);
-	LoadPattern(filename17, patternLibrary, patternCount);
-	LoadPattern(filename18, patternLibrary, patternCount);
-	LoadPattern(filename19, patternLibrary, patternCount);
-	LoadPattern(filename20, patternLibrary, patternCount);
-	LoadPattern(filename21, patternLibrary, patternCount);
-	LoadPattern(filename22, patternLibrary, patternCount);
-	LoadPattern(filename23, patternLibrary, patternCount);
-	LoadPattern(filename24, patternLibrary, patternCount);
-	LoadPattern(filename25, patternLibrary, patternCount);
-	LoadPattern(filename26, patternLibrary, patternCount);
-	LoadPattern(filename27, patternLibrary, patternCount);
-	LoadPattern(filename28, patternLibrary, patternCount);
-	LoadPattern(filename29, patternLibrary, patternCount);
-	LoadPattern(filename30, patternLibrary, patternCount);
-	LoadPattern(filename31, patternLibrary, patternCount);
-	LoadPattern(filename32, patternLibrary, patternCount);
-	LoadPattern(filename33, patternLibrary, patternCount);
 
 	cout << patternCount << " patterns are loaded." << endl;
 
@@ -479,94 +435,6 @@ void SetVisiblePattern(int patterID) {
 		//cout << "seing patter 11" << endl;
 		visiblePattern = 11;
 		break;
-	case 12:
-		//cout << "seing patter 12" << endl;
-		visiblePattern = 12;
-		break;
-	case 13:
-		//cout << "seing patter 13" << endl;
-		visiblePattern = 13;
-		break;
-	case 14:
-		//cout << "seing patter 14" << endl;
-		visiblePattern = 14;
-		break;
-	case 15:
-		//cout << "seing patter 15" << endl;
-		visiblePattern = 15;
-		break;
-	case 16:
-		//cout << "seing patter 16" << endl;
-		visiblePattern = 16;
-		break;
-	case 17:
-		//cout << "seing patter 17" << endl;
-		visiblePattern = 17;
-		break;
-	case 18:
-		//cout << "seing patter 18" << endl;
-		visiblePattern = 18;
-		break;
-	case 19:
-		//cout << "seing patter 19" << endl;
-		visiblePattern = 19;
-		break;
-	case 20:
-		//cout << "seing patter 20" << endl;
-		visiblePattern = 20;
-		break;
-	case 21:
-		//cout << "seing patter 21" << endl;
-		visiblePattern = 21;
-		break;
-	case 22:
-		//cout << "seing patter 22" << endl;
-		visiblePattern = 22;
-		break;
-	case 23:
-		//cout << "seing patter 23" << endl;
-		visiblePattern = 23;
-		break;
-	case 24:
-		//cout << "seing patter 24" << endl;
-		visiblePattern = 24;
-		break;
-	case 25:
-		//cout << "seing patter 25" << endl;
-		visiblePattern = 25;
-		break;
-	case 26:
-		//cout << "seing patter 26" << endl;
-		visiblePattern = 26;
-		break;
-	case 27:
-		//cout << "seing patter 27" << endl;
-		visiblePattern = 27;
-		break;
-	case 28:
-		//cout << "seing patter 28" << endl;
-		visiblePattern = 28;
-		break;
-	case 29:
-		//cout << "seing patter 29" << endl;
-		visiblePattern = 29;
-		break;
-	case 30:
-		//cout << "seing patter 30" << endl;
-		visiblePattern = 30;
-		break;
-	case 31:
-		//cout << "seing patter 31" << endl;
-		visiblePattern = 31;
-		break;
-	case 32:
-		//cout << "seing patter 32" << endl;
-		visiblePattern = 32;
-		break;
-	case 33:
-		//cout << "seing patter 33" << endl;
-		visiblePattern = 33;
-		break;
 	default:
 		break;
 	}
@@ -597,65 +465,45 @@ void AutoAdjustPosition(int key) {
 
 		switch (patternSwitch) {
 
-		case 1:
-		case 2:
-		case 3:
-		case 30:
+		case 4:
 			PitchBackwards(false);
 			RollRight(false);
 			break;
 
-		case 4:
 		case 5:
-		case 6:
-		case 7:
 			PitchBackwards(false);
+			break;
+
+		case 6:
+			PitchBackwards(false);
+			RollLeft(false);
+			break;
+
+		case 7:
+			RollLeft(false);
 			break;
 
 		case 8:
+			PitchForwards(false);
+			RollLeft(false);
+			break;
+
 		case 9:
+			PitchForwards(false);
+			break;
+
 		case 10:
+			PitchForwards(false);
+			RollRight(false);
+			break;
+
 		case 11:
-			PitchBackwards(false);
-			RollLeft(false);
-			break;
-
-		case 12:
-		case 13:
-		case 14:
-			RollLeft(false);
-			break;
-
-		case 15:
-		case 16:
-		case 17:
-		case 18:
-			PitchForwards(false);
-			RollLeft(false);
-			break;
-
-		case 19:
-		case 20:
-		case 21:
-		case 22:
-			PitchForwards(false);
-			break;
-
-		case 23:
-		case 24:
-		case 25:
-		case 26:
-			PitchForwards(false);
 			RollRight(false);
 			break;
 
-		case 27:
-		case 28:
-		case 29:
-			RollRight(false);
-			break;
-
-		case 31:
+		case 1:
+		case 2:
+		case 3:
 			Hover();
 			break;
 		}
@@ -702,7 +550,7 @@ bool IsWithinLeftBounds() {
 			Point2f lr = patternsCoordinates[visiblePattern][2];
 
 			// Left bound patterns
-			if (visiblePattern == 1 || visiblePattern == 25 || visiblePattern == 26 || visiblePattern == 27 || visiblePattern == 28 || visiblePattern == 29 || visiblePattern == 30)
+			if (visiblePattern == 4 || visiblePattern == 10 || visiblePattern == 11)
 				// Return false if ur or lr pattern corner is in the right part of image
 				if (ur.x > width || lr.x > width) {
 					cout << "left bound!" << endl;
@@ -733,7 +581,7 @@ bool IsWithinRightBounds() {
 			Point2f ll = patternsCoordinates[visiblePattern][3];
 
 			// Right bound patterns
-			if (visiblePattern == 10 || visiblePattern == 11 || visiblePattern == 12 || visiblePattern == 13 || visiblePattern == 14 || visiblePattern == 15 || visiblePattern == 16)
+			if (visiblePattern == 6 || visiblePattern == 7 || visiblePattern == 8)
 				// Return false if ul or ll pattern corner is in the left part of image
 				if (ul.x < width || ll.x < width) {
 					cout << "right bound!" << endl;
@@ -764,7 +612,7 @@ bool IsWithinLowerBounds() {
 			Point2f ur = patternsCoordinates[visiblePattern][1];
 
 			// Lower bounds patterns
-			if (visiblePattern == 16 || visiblePattern == 17 || visiblePattern == 18 || visiblePattern == 19 || /*visiblePattern == 20 ||*/ visiblePattern == 21 || visiblePattern == 22 || visiblePattern == 23 || visiblePattern == 24 || visiblePattern == 25)
+			if (visiblePattern == 8 || visiblePattern == 9 || visiblePattern == 10)
 				// Return false if ul or ur pattern corner is in the upper part of image
 				if (ul.y < height || ur.y < height) {
 					cout << "lower bound!" << endl;
@@ -795,7 +643,7 @@ bool IsWithinUpperBounds() {
 			Point2f ll = patternsCoordinates[visiblePattern][3];
 
 			// Upper bounds patterns
-			if (visiblePattern == 1 || visiblePattern == 2 || visiblePattern == 3 || visiblePattern == 4 || visiblePattern == 5 || visiblePattern == 6 || visiblePattern == 7 || visiblePattern == 8 || visiblePattern == 9 || visiblePattern == 1)
+			if (visiblePattern == 4 || visiblePattern == 5 || visiblePattern == 6)
 				// Return false if ll or lr pattern corner is in the lower part of image
 				if (ll.y > height || lr.y > height) {
 					cout << "upper bound!" << endl;

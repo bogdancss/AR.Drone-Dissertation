@@ -91,8 +91,8 @@ namespace ARma {
 
 
 
-		// If pattern 31 draw the platform as a cube
-		if (id == 31) {
+		// If pattern 1 draw the platform as a cube
+		if (id == 1) {
 			// Colour - green
 			Scalar colour(0, 255, 0);
 
@@ -116,8 +116,8 @@ namespace ARma {
 			// Draw a circle to indicate the pickup are
 			circle(frame, centreCoord, size * 1.5, colour, 5);
 		}
-		// If pattern 32 draw the people as spheres
-		else if (id == 32) {
+		// If pattern 2 draw the people as spheres
+		else if (id == 2) {
 			// Get centre coords
 			Point2f centreCoord = getCentreCoords(model2ImagePts.at(0), model2ImagePts.at(1));
 
@@ -132,8 +132,8 @@ namespace ARma {
 			// Draw a circle to indicate the pickup are
 			circle(frame, centreCoord, size * 1.5, colour, 5);
 		}
-		// If pattern 33 draw the crates as squares
-		else if (id == 33) {
+		// If pattern 3 draw the crates as squares
+		else if (id == 3) {
 			// Colour - blue
 			Scalar colour(255, 0, 0);
 
