@@ -41,6 +41,8 @@ char* filename28 = "..\\..\\src\\resource\\28.png";//id=28
 char* filename29 = "..\\..\\src\\resource\\29.png";//id=29
 char* filename30 = "..\\..\\src\\resource\\30.png";//id=30
 char* filename31 = "..\\..\\src\\resource\\x.png";//id=31 -> x
+char* filename32 = "..\\..\\src\\resource\\c.png";//id=32 -> c
+char* filename33 = "..\\..\\src\\resource\\p.png";//id=33 -> p
 
 // --------------------------------------------------------------------------
 // main(Number of arguments, Argument values)
@@ -101,6 +103,8 @@ int main(int argc, char **argv) {
 	LoadPattern(filename29, patternLibrary, patternCount);
 	LoadPattern(filename30, patternLibrary, patternCount);
 	LoadPattern(filename31, patternLibrary, patternCount);
+	LoadPattern(filename32, patternLibrary, patternCount);
+	LoadPattern(filename33, patternLibrary, patternCount);
 
 	cout << patternCount << " patterns are loaded." << endl;
 
@@ -526,6 +530,14 @@ void SetVisiblePattern(int patterID) {
 	case 31:
 		//cout << "seing patter 31" << endl;
 		visiblePattern = 31;
+		break;
+	case 32:
+		//cout << "seing patter 32" << endl;
+		visiblePattern = 32;
+		break;
+	case 33:
+		//cout << "seing patter 33" << endl;
+		visiblePattern = 33;
 		break;
 	default:
 		break;
