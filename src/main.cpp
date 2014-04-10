@@ -1,11 +1,11 @@
 #include "main.h"
 
 #define PAT_SIZE 64 // equal to pattern_size variable (see below)
-#define MOVEMENT_SPEED 0.4 // define the drone self correction movement speed
+#define MOVEMENT_SPEED 0.3 // define the drone self correction movement speed
 #define ABSOLUTE_CONTROL_SPEED 0.8 // define drone movement speed for absolute control
-#define CONTROL_MOVEMENT_SPEED 0.3 // define dronve movement speed for user control
+#define CONTROL_MOVEMENT_SPEED 0.2 // define dronve movement speed for user control
 #define ALTITUDE_SPEED 0.3 // define the drone altitude gain/loose speed
-#define YAW_SPEED 0.3 // define the drone yaw speed
+#define YAW_SPEED 0.5 // define the drone yaw speed
 //#define RESET_TIMER 1 // define a reset timer for autonomous control
 #define SEEN_TIMER 0.1 // define a timer to consider pattern as "seen"
 #define WIDTH 640 // define window width
