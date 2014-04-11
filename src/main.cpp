@@ -11,10 +11,11 @@
 #define WIDTH 640 // define window width
 #define HEIGHT 360 // define window height
 #define WEBCAM_HEIGHT 480 // define webcam window height
+#define TIME_LIMIT 120 // define game time limit
 
 char* filename1 = "..\\..\\src\\resource\\x.png";//id=1
-char* filename2 = "..\\..\\src\\resource\\c.png";//id=2
-char* filename3 = "..\\..\\src\\resource\\p.png";//id=3
+char* filename2 = "..\\..\\src\\resource\\p.png";//id=2
+char* filename3 = "..\\..\\src\\resource\\c.png";//id=3
 char* filename4 = "..\\..\\src\\resource\\ul.png";//id=4
 char* filename5 = "..\\..\\src\\resource\\u.png";//id=5
 char* filename6 = "..\\..\\src\\resource\\ur.png";//id=6
@@ -31,16 +32,16 @@ char* filename11 = "..\\..\\src\\resource\\l.png";//id=11
 // --------------------------------------------------------------------------
 int main(int argc, char **argv) {
 
-	//// Initialize
-	//// If drone is not connected, initialise webcam
-	//if (!ardrone.open()) {
-	//	printf("Drone failed to connect.\n");
-	//	isDroneConnected = false;
-	//}
-	//else isDroneConnected = true;
+	// Initialize
+	// If drone is not connected, initialise webcam
+	if (!ardrone.open()) {
+		printf("Drone failed to connect.\n");
+		isDroneConnected = false;
+	}
+	else isDroneConnected = true;
 
-	// DEBUGGING
-	isDroneConnected = false;
+	//// DEBUGGING
+	//isDroneConnected = false;
 
 
 	quitProgram = false;
@@ -49,6 +50,11 @@ int main(int argc, char **argv) {
 	//lastVisiblePattern = 0;
 	absoluteControl = false;
 	vx = 0.0, vy = 0.0, vz = 0.0, vr = 0.0;
+	points = 0, pSaved = 0, cSaved = 0;
+	peoplePicked = false, cratePicked = false;
+	gameTimeStart = cvGetTickCount();
+	gameTimeLeft = 0;
+	gameOn = false;
 
 
 	// Loading patterns
@@ -92,9 +98,9 @@ int main(int argc, char **argv) {
 		// Initialise each pattern coordinates
 		patternsCoordinates.push_back(coordinates);
 
-		// Initialise each pattern timer
-		int timer;
-		timers.push_back(timer);
+		//// Initialise each pattern timer
+		//int timer;
+		//timers.push_back(timer);
 	}
 
 
@@ -167,11 +173,11 @@ int main(int argc, char **argv) {
 				detectedPattern.at(i).getCoordinates(ul, ur, lr, ll, centre, cameraMatrix, distortions);
 
 				// Store coordinates
-				patternsCoordinates[detectedPattern[i].id][0] = ul;
-				patternsCoordinates[detectedPattern[i].id][1] = ur;
-				patternsCoordinates[detectedPattern[i].id][2] = lr;
-				patternsCoordinates[detectedPattern[i].id][3] = ll;
-				patternsCoordinates[detectedPattern[i].id][4] = centre;
+				patternsCoordinates[id][0] = ul;
+				patternsCoordinates[id][1] = ur;
+				patternsCoordinates[id][2] = lr;
+				patternsCoordinates[id][3] = ll;
+				patternsCoordinates[id][4] = centre;
 
 
 				if (isDroneConnected)
@@ -216,6 +222,14 @@ int main(int argc, char **argv) {
 
 		// Drone movement
 		ardrone.move3D(vx, vy, vz, vr);
+
+
+		// Check game over
+		if (gameTimeLeft < 0) {
+			gameOn = false;
+			peoplePicked = false;
+			cratePicked = false;
+		}
 
 
 		// Combine buffer with original image + opacity
@@ -310,6 +324,21 @@ void KeyControls(int key) {
 	// Quit if ESC key
 	if (key == 0x1b) quitProgram = true;
 
+	// Start/Stop the game
+	// p key
+	if (key == 'p') {
+		if (gameOn) gameOn = false;
+		else {
+			gameOn = true;
+			// reset points
+			points = 0;
+			// reset timer
+			gameTimeStart = cvGetTickCount();
+			// reset crate/people pickup
+			cratePicked = false;
+			peoplePicked = false;
+		}
+	}
 
 	// Change camera - C key
 	static int mode = 0;
@@ -317,6 +346,7 @@ void KeyControls(int key) {
 
 	// Take off / Landing - SPACE key
 	if (key == ' ') {
+		ardrone.setFlatTrim();
 		if (ardrone.onGround()) ardrone.takeoff();
 		else                    ardrone.landing();
 	}
@@ -361,31 +391,31 @@ void KeyControls(int key) {
 			RollLeft(true);
 		else RollRight(false);
 
-	// Right arrow / d key
-	// Roll right
-	if (key == 0x270000 || key == 'd')
-		if (IsWithinRightBounds())
-			RollRight(true);
-		else RollLeft(false);
+		// Right arrow / d key
+		// Roll right
+		if (key == 0x270000 || key == 'd')
+			if (IsWithinRightBounds())
+				RollRight(true);
+			else RollLeft(false);
 
-	// Up arrow // w key
-	// Pitch forwards
-	if (key == 0x260000 || key == 'w')
-		if (IsWithinUpperBounds())
-			PitchForwards(true);
+			// Up arrow // w key
+			// Pitch forwards
+			if (key == 0x260000 || key == 'w')
+				if (IsWithinUpperBounds())
+					PitchForwards(true);
 
-	// Down arrow / s key
-	// Pitch backwards
-	if (key == 0x280000 || key == 's')
-		if (IsWithinLowerBounds())
-			PitchBackwards(true);
+			// Down arrow / s key
+			// Pitch backwards
+			if (key == 0x280000 || key == 's')
+				if (IsWithinLowerBounds())
+					PitchBackwards(true);
 
-	// Toggle absolute control
-	// o key
-	if (key == 'o') {
-		if (absoluteControl) absoluteControl = false;
-		else absoluteControl = true;
-	}
+			// Toggle absolute control
+			// o key
+			if (key == 'o') {
+				if (absoluteControl) absoluteControl = false;
+				else absoluteControl = true;
+			}
 }
 
 // Sets the state of the visible pattern
@@ -748,7 +778,17 @@ void OverlayImage(const Mat &background, const Mat &foreground, Mat &output, Poi
 
 Mat HUD(Mat videoFeed, int sizex, int sizey) {
 	// Read HUD image
-	Mat image = imread("..\\..\\src\\resource\\hud.png", -1);
+	Mat image;
+	if (gameOn && !peoplePicked && !cratePicked)
+		image = imread("..\\..\\src\\resource\\hudg.png", -1);
+	else if (gameOn && !peoplePicked && cratePicked)
+		image = imread("..\\..\\src\\resource\\hudc.png", -1);
+	else if (gameOn && peoplePicked && !cratePicked)
+		image = imread("..\\..\\src\\resource\\hudp.png", -1);
+	else if (gameOn && peoplePicked && cratePicked)
+		image = imread("..\\..\\src\\resource\\hudpc.png", -1);
+	else
+		image = imread("..\\..\\src\\resource\\hud.png", -1);
 
 	// Create a buffer of the image
 	Mat buffer;
@@ -776,15 +816,38 @@ Mat HUD(Mat videoFeed, int sizex, int sizey) {
 	ostringstream str; // string stream
 	ostringstream str2; // string stream
 	ostringstream str3; // string stream
+	ostringstream str4; // string stream
+	ostringstream str5; // string stream
 
+	// Absolute control flag
 	str << "Absolute control : " << absoluteControl;
 	putText(result, str.str(), Point(10, 90), CV_FONT_HERSHEY_PLAIN, 1.2, CV_RGB(0, 250, 0));
 
+	// Battery
 	str2 << ardrone.getBatteryPercentage();
 	putText(result, str2.str(), Point(180, 33), CV_FONT_HERSHEY_PLAIN, 2, CV_RGB(0, 250, 0), 2);
 
+	// Altitude
 	str3 << ardrone.getAltitude();
 	putText(result, str3.str(), Point(440, 33), CV_FONT_HERSHEY_PLAIN, 2, CV_RGB(0, 250, 0), 2);
+
+	// Show game info when game starts
+	if (gameOn) {
+		// Points
+		str4 << points;
+		putText(result, str4.str(), Point(WIDTH / 2.1, 45), CV_FONT_HERSHEY_PLAIN, 1, CV_RGB(0, 250, 0), 2);
+
+		// Time
+		int now = cvGetTickCount();
+		int passedSinceStart = ((now - gameTimeStart) / (cvGetTickFrequency() * 1000)) / 1000;
+		gameTimeLeft = TIME_LIMIT - passedSinceStart;
+		str5 << gameTimeLeft;
+		if (isDroneConnected)
+			putText(result, str5.str(), Point(WIDTH / 2.3, HEIGHT - 25), CV_FONT_HERSHEY_PLAIN, 2, CV_RGB(0, 250, 0), 2);
+		else
+			putText(result, str5.str(), Point(WIDTH / 2.2, WEBCAM_HEIGHT - 20), CV_FONT_HERSHEY_PLAIN, 2, CV_RGB(0, 250, 0), 2);
+	}
+
 
 	// Combine buffer with original image + opacity
 	double opacity = 0.2;
@@ -812,34 +875,47 @@ static void CheckGamePatterns(int sizex, int sizey, int patID) {
 		// Get distance from crosshair to pattern
 		int dist = norm(patternsCoordinates[patID][4] - crosshair);
 
-		cout << dist << endl;
+		//cout << dist << endl;
 
 		// Check distance and drone altitude
 		if (dist < 200 && ardrone.getAltitude() < 0.7) {
 			// Start current pattern seen timer
 			int now = cvGetTickCount();
 			int passedSinceSeen = ((now - patternTimer) / (cvGetTickFrequency() * 1000)) / 1000;
-
+			cout << passedSinceSeen << endl;
 			// Check if pattern is within range for more than 2 seconds
-			if (passedSinceSeen > 1) {
+			if (true) {
+			//if (passedSinceSeen > 1) {
 				switch (patID)
 				{
-				case 31:
+				case 1:
 					cout << "!!!! PLATFORM" << endl;
-
+					if (peoplePicked) {
+						points += 1000;
+						peoplePicked = false;
+					}
+					if (cratePicked) {
+						points += 100;
+						cratePicked = false;
+					}
 					break;
-				case 32:
-					cout << "!!!! PEOPLE" << endl;
-
+				case 2:
+					if (gameOn) {
+						cout << "!!!! PEOPLE" << endl;
+						peoplePicked = true;
+					}
 					break;
-				case 33:
-					cout << "!!!! CRATE" << endl;
-
+				case 3:
+					if (gameOn) {
+						cout << "!!!! CRATE" << endl;
+						cratePicked = true;
+					}
 					break;
 				default:
 					break;
 				}
 			}
-		} else patternTimer = cvGetTickCount();
+		}
+		else patternTimer = cvGetTickCount();
 	}
 }

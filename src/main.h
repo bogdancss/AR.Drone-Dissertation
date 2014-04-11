@@ -72,8 +72,14 @@ bool absoluteControl;
 double vx, vy, vz, vr;
 //int lastVPStart, lastVPElapsed;
 int patternTimer;
-
-
+int points;
+int pSaved;
+int cSaved;
+bool peoplePicked;
+bool cratePicked;
+int gameTimeStart;
+int gameTimeLeft;
+bool gameOn;
 
 
 

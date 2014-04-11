@@ -1,3 +1,11 @@
+Dissertation Project
+
+- CV Drone & ARma library integration
+- Simple Sea Rescue inspired game
+
+
+
+
 -----------------------------------------------------------------
  CV Drone (= OpenCV + AR.Drone)
  Copyright (C) 2013 puku0x
