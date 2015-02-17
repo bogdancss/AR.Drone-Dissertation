@@ -1,8 +1,35 @@
 Dissertation Project
 
-- CV Drone & ARma library integration
-- Simple Sea Rescue inspired game
 
+
+Repo used for my City Univesity dissertation project: 
+
+"Autonomous/user drone control with augmented reality implementation"
+
+
+I developed a sea rescue inspired game with gameplay executed using 
+a Parrot AR.Drone 2.0 drone (Parrot, 2014) and the use of OpenCV 
+(OpenCV, 2014), an augmented reality open source library.
+
+The outcome of the project is a user and/or autonomous drone control 
+system with an augmented reality sea rescue inspired game implementation. 
+
+The user controls the drone movement forwards and backwards (pitch control), 
+left and right (roll control) and altitude. The autonomous drone control 
+handles the boundaries, marked on the ground with patterns. The drone’s 
+vertical camera visualises the patterns, analyses the coordinates of the 
+pattern in relation to the camera view and reacts in accordance with the 
+information so that if the user issues a command to roll left and the drone 
+is over the left boundary, it cancels the user’s command and issues an 
+autonomous command to roll right back to the centre of the play area. 
+In the same manner, the drone also analyses the altitude by reading the 
+ultrasound emitter sensor’s data.
+
+The game implementation is a very basic game inspired by sea rescue missions. 
+It involves the user to hover under a certain altitude over a certain patter, 
+representing a person or a crate that is casted away, to pick him/it up, then 
+repeat the same procedure over the centre maker representing a platform to 
+drop the saved person/crate, accumulating points in the process.
 
 
 
